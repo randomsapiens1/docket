@@ -11,6 +11,7 @@ export function Header() {
             alt="docket logo" 
             width={32} 
             height={32} 
+            priority
             className="w-8 h-8 object-contain"
           />
           <span className="font-bold text-2xl sm:text-3xl tracking-tighter text-foreground">docket</span>

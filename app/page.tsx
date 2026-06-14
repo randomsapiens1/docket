@@ -1,10 +1,12 @@
+import dynamic from 'next/dynamic'
 import { Header } from '@/components/landing/header'
 import { PhaseBanner } from '@/components/landing/phase-banner'
 import { Hero } from '@/components/landing/hero'
-import { ServiceDirectory } from '@/components/landing/service-directory'
-import { TrustSection } from '@/components/landing/trust-section'
-import { CTA } from '@/components/landing/cta'
-import { Footer } from '@/components/landing/footer'
+
+const ServiceDirectory = dynamic(() => import('@/components/landing/service-directory').then(mod => mod.ServiceDirectory))
+const TrustSection = dynamic(() => import('@/components/landing/trust-section').then(mod => mod.TrustSection))
+const CTA = dynamic(() => import('@/components/landing/cta').then(mod => mod.CTA))
+const Footer = dynamic(() => import('@/components/landing/footer').then(mod => mod.Footer))
 
 export default function Page() {
   return (

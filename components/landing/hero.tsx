@@ -39,11 +39,12 @@ export function Hero() {
           <div className="w-full lg:w-[60%] flex justify-center lg:justify-end lg:-mt-48">
             <div className="relative w-full max-w-[950px] lg:max-w-none">
               <Image
-                src="/Docket - Hero.png"
+                src="/docket-hero.webp"
                 alt="Docket Hero Illustration"
                 width={1400}
                 height={1000}
                 priority
+                sizes="(max-width: 768px) 100vw, 60vw"
                 className="w-full h-auto object-contain max-h-[650px] lg:max-h-[850px] drop-shadow-2xl translate-x-4"
               />
             </div>
