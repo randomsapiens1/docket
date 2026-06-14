@@ -10,24 +10,11 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'docket.bd | Simplify Bangladesh Government Bureaucracy',
+  title: 'docket | Simplify Bangladesh Government Bureaucracy',
   description: 'Verified, step-by-step guidance for official processes in Bangladesh. From company registration to land transfers.',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/Docket-logo.png',
+    apple: '/Docket-logo.png',
   },
 }
 
