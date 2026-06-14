@@ -9,7 +9,7 @@ const serviceCategories = {
       title: "Business",
       description: "Register your company, file returns, stay compliant.",
       items: [
-        { name: "Incorporate a private company", status: "Live", href: "#" },
+        { name: "Incorporate a private company", status: "Live", href: "/services/incorporate-a-private-company" },
         { name: "File annual returns", status: "Soon", href: "#" },
         { name: "Change a director", status: "Soon", href: "#" },
       ]
@@ -57,7 +57,7 @@ const serviceCategories = {
       title: "ব্যবসা",
       description: "আপনার কোম্পানি নিবন্ধন করুন, রিটার্ন জমা দিন, নিয়ম মেনে চলুন।",
       items: [
-        { name: "প্রাইভেট কোম্পানি ইনকরপোরেশন", status: "Live", href: "#" },
+        { name: "প্রাইভেট কোম্পানি ইনকরপোরেশন", status: "Live", href: "/services/incorporate-a-private-company" },
         { name: "বার্ষিক রিটার্ন দাখিল", status: "Soon", href: "#" },
         { name: "পরিচালক পরিবর্তন", status: "Soon", href: "#" },
       ]

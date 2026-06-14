@@ -15,7 +15,7 @@ export function PhaseBanner() {
   if (!isVisible) return null
 
   return (
-    <div className="fixed bottom-6 right-6 z-[100] max-w-sm bg-white border-2 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] p-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="fixed bottom-6 right-6 z-[100] max-w-sm bg-white border-2 border-black p-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <button 
         onClick={() => setIsVisible(false)}
         className="absolute top-2 right-2 p-1 hover:bg-gray-100 transition-colors"

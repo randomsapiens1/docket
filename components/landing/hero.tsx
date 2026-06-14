@@ -42,7 +42,7 @@ export function Hero() {
           <div className="w-full lg:w-[40%] text-left">
             <div className="relative max-w-lg group">
               <label htmlFor="search-services" className="sr-only">{placeholder}</label>
-              <div className="flex shadow-[0_8px_0_0_rgba(0,0,0,0.05)]">
+              <div className="flex">
                 <input
                   type="text"
                   id="search-services"
@@ -68,7 +68,7 @@ export function Hero() {
                 height={1000}
                 priority
                 sizes="(max-width: 768px) 100vw, 60vw"
-                className="w-full h-auto object-contain max-h-[650px] lg:max-h-[850px] drop-shadow-2xl translate-x-4"
+                className="w-full h-auto object-contain max-h-[650px] lg:max-h-[850px] translate-x-4"
               />
             </div>
           </div>

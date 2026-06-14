@@ -47,7 +47,7 @@ export function ServicesGrid() {
           {services.map((service, index) => (
             <div 
               key={index}
-              className="group relative p-6 border-2 border-black bg-white hover:bg-gray-50 transition-all cursor-pointer shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] flex flex-col"
+              className="group relative p-6 border-2 border-black bg-white hover:bg-gray-50 transition-all cursor-pointer flex flex-col"
             >
               <div className="flex items-start justify-between mb-3">
                 <service.icon className="w-8 h-8 text-[#ff0000]" />
