@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
-import { CheckCircle2, Circle, Clock, CreditCard, FileText, Globe, Landmark, Layout, Search, ArrowLeft } from 'lucide-react'
+import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
@@ -30,13 +30,13 @@ const content = {
     steps: [
       {
         title: "Name Clearance",
-        desc: "Apply for name clearance on the RJSC portal. The name must be unique and not similar to any existing company.",
+        desc: "Apply for name clearance on the RJSC portal. Note: Clearance is valid for 30 days and must be unique.",
         action: "Check Availability",
         link: "https://app.roc.gov.bd/"
       },
       {
         title: "Prepare Documents",
-        desc: "Draft the Memorandum of Association (MoA) and Articles of Association (AoA). Prepare Director forms (Form IX, XII).",
+        desc: "Draft the MoA and AoA. For foreign shareholders, you MUST open a temporary bank account and get an Encashment Certificate before final submission.",
         action: "View Templates",
         link: "#"
       },
@@ -62,7 +62,14 @@ const content = {
     ctaTitle: "Ready to start?",
     ctaDesc: "Jump directly to the official RJSC portal to begin your application.",
     ctaButton: "Go to RJSC Portal",
-    back: "Back to Directory"
+    back: "Back to Directory",
+    postTitle: "Post-Registration Compliance",
+    postSteps: [
+      { name: "Trade License", desc: "Mandatory from local government to start operations." },
+      { name: "Tax Registration (e-TIN)", desc: "Required for the company immediately after incorporation." },
+      { name: "VAT Registration (BIN)", desc: "Required for commercial transactions and invoicing." },
+      { name: "Bank Account", desc: "Regularize your temporary account to an operational one." }
+    ]
   },
   bn: {
     title: "প্রাইভেট কোম্পানি ইনকরপোরেশন",
@@ -85,13 +92,13 @@ const content = {
     steps: [
       {
         title: "নামের ছাড়পত্র (Name Clearance)",
-        desc: "RJSC পোর্টালে নামের ছাড়পত্রের জন্য আবেদন করুন। নামটি অবশ্যই অনন্য হতে হবে এবং অন্য কোনো কোম্পানির সাথে মিল থাকা চলবে না।",
+        desc: "RJSC পোর্টালে নামের ছাড়পত্রের জন্য আবেদন করুন। মনে রাখবেন: ছাড়পত্র ৩০ দিন পর্যন্ত কার্যকর থাকে।",
         action: "নাম যাচাই করুন",
         link: "https://app.roc.gov.bd/"
       },
       {
         title: "নথিপত্র প্রস্তুতকরণ",
-        desc: "মেমোরেন্ডাম অফ অ্যাসোসিয়েশন (MoA) এবং আর্টিক্যালস অফ অ্যাসোসিয়েশন (AoA) ড্রাফট করুন। পরিচালক ফর্ম (Form IX, XII) প্রস্তুত করুন।",
+        desc: "MoA এবং AoA ড্রাফট করুন। বিদেশী বিনিয়োগকারীদের ক্ষেত্রে সাবমিশনের আগে একটি সাময়িক ব্যাংক অ্যাকাউন্ট খুলে 'এনক্যাশমেন্ট সার্টিফিকেট' সংগ্রহ করা বাধ্যতামূলক।",
         action: "টেমপ্লেট দেখুন",
         link: "#"
       },
@@ -117,7 +124,14 @@ const content = {
     ctaTitle: "আপনি কি প্রস্তুত?",
     ctaDesc: "আপনার আবেদন শুরু করতে সরাসরি অফিসিয়াল RJSC পোর্টালে যান।",
     ctaButton: "RJSC পোর্টালে যান",
-    back: "ডিরেক্টরিতে ফিরে যান"
+    back: "ডিরেক্টরিতে ফিরে যান",
+    postTitle: "রেজিস্ট্রেশন পরবর্তী আনুষ্ঠানিকতা",
+    postSteps: [
+      { name: "ট্রেড লাইসেন্স", desc: "ব্যবসা শুরু করতে স্থানীয় সরকার থেকে ট্রেড লাইসেন্স সংগ্রহ করা বাধ্যতামূলক।" },
+      { name: "ই-টিন (e-TIN)", desc: "নিবন্ধনের পরপরই কোম্পানির নামে ই-টিন গ্রহণ করতে হবে।" },
+      { name: "ভ্যাট রেজিস্ট্রেশন (BIN)", desc: "বাণিজ্যিক লেনদেন এবং ইনভয়েস তৈরির জন্য ভ্যাট নিবন্ধন প্রয়োজনীয়।" },
+      { name: "ব্যাংক অ্যাকাউন্ট", desc: "আপনার সাময়িক ব্যাংক অ্যাকাউন্টটিকে একটি পূর্ণাঙ্গ অ্যাকাউন্টে রূপান্তর করুন।" }
+    ]
   }
 }
 
@@ -205,6 +219,18 @@ export default function ServiceDetailPage() {
                         </a>
                       )}
                     </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Post-Registration Compliance */}
+            <div className="bg-white border-2 border-black p-8 space-y-6">
+              <h2 className="text-2xl font-black text-black">{s.postTitle}</h2>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {s.postSteps.map((step, i) => (
+                  <div key={i} className="p-4 bg-gray-50 border-l-4 border-[#ff0000] space-y-1">
+                    <h4 className="font-bold text-black">{step.name}</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">{step.desc}</p>
                   </div>
                 ))}
               </div>
