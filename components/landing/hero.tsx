@@ -32,12 +32,12 @@ export function Hero() {
           <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold tracking-tight text-pretty text-foreground leading-[1.2]">
             {title}
           </h1>
-          <p className="text-xl sm:text-2xl text-muted-foreground text-pretty max-w-xl leading-relaxed">
+          <p className="text-base sm:text-xl text-muted-foreground text-pretty max-w-xl leading-relaxed">
             {description}
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-end justify-between gap-8 lg:gap-8">
+        <div className="flex flex-col lg:flex-row items-end justify-between gap-2 lg:gap-8">
           {/* Left Column: Search */}
           <div className="w-full lg:w-[40%] text-left">
             <div className="relative max-w-lg group">
@@ -60,7 +60,7 @@ export function Hero() {
 
           {/* Right Column: Image (Pulled up to overlap text, but bottom-aligned with search) */}
           <div className="w-full lg:w-[60%] flex justify-center lg:justify-end lg:-mt-48">
-            <div className="relative w-full max-w-[950px] lg:max-w-none">
+            <div className="relative w-full max-w-[480px] mx-auto lg:max-w-none">
               <Image
                 src="/docket-hero.webp"
                 alt="Docket Hero Illustration"
@@ -68,7 +68,7 @@ export function Hero() {
                 height={1000}
                 priority
                 sizes="(max-width: 768px) 100vw, 60vw"
-                className="w-full h-auto object-contain max-h-[650px] lg:max-h-[850px] translate-x-4"
+                className="w-full h-auto object-contain max-h-[400px] sm:max-h-[500px] lg:max-h-[850px] lg:translate-x-4"
               />
             </div>
           </div>

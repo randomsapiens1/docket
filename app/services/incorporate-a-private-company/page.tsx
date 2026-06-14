@@ -160,9 +160,9 @@ export default function ServiceDetailPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="grid lg:grid-cols-3 gap-8">
-          
+
           {/* Main Content */}
-          <div className="lg:col-cols-2 space-y-8 lg:col-span-2">
+          <div className="order-last lg:order-first space-y-8 lg:col-span-2">
             {/* Hero Card */}
             <div className="bg-white border-2 border-black p-8 space-y-6">
               <div className="space-y-2">
@@ -238,9 +238,9 @@ export default function ServiceDetailPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-8">
+          <div className="order-first lg:order-last space-y-8">
             {/* Checklist Card */}
-            <div className="bg-white border-2 border-black p-6 space-y-6 sticky top-24">
+            <div className="bg-white border-2 border-black p-6 space-y-6 lg:sticky lg:top-24">
               <div className="space-y-2">
                 <h2 className="text-xl font-black flex items-center gap-2">
                   <FileText className="w-5 h-5" />

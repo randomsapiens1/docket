@@ -123,7 +123,7 @@ export function ServiceDirectory() {
   return (
     <section className="pt-8 pb-16 px-4 sm:px-6 lg:px-8 bg-gray-50 border-t border-border">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-extrabold mb-16 text-foreground">{heading}</h2>
+        <h2 className="text-3xl sm:text-4xl font-extrabold mb-8 sm:mb-16 text-foreground">{heading}</h2>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
           {categories.map((category, idx) => (
