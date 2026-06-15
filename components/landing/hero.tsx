@@ -78,7 +78,7 @@ export function Hero() {
                 {tools.calculator}
               </Link>
               <Link 
-                href="/services/incorporate-a-private-company#templates"
+                href="/resources/templates"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-black font-bold text-sm hover:bg-gray-50 transition-colors"
               >
                 <FileText className="w-4 h-4 text-[#ff0000]" />

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
-import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, Calculator } from 'lucide-react'
+import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, Calculator, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
@@ -38,10 +38,16 @@ const content = {
     stepsTitle: "Step-by-Step Pathway",
     steps: [
       {
+        title: "Search Entity Name",
+        desc: "Before applying, use the 'Search Entity Names' tool on the RJSC portal to ensure your proposed name isn't already in use.",
+        action: "Check Availability",
+        link: "https://app.roc.gov.bd/rjsc-portal/search-entity-name.html"
+      },
+      {
         title: "Name Clearance Certificate",
-        desc: "Apply to RJSC for name clearance. It's a pre-requisite for registration. Valid for 30 days.",
+        desc: "Go to 'Pre-Registration Activities' and select 'Apply for Name Clearance'. This is a pre-requisite valid for 30 days.",
         action: "Apply Online",
-        link: "https://www.roc.gov.bd/"
+        link: "https://app.roc.gov.bd/"
       },
       {
         title: "Pay Stamp Duty",
@@ -51,9 +57,9 @@ const content = {
       },
       {
         title: "Registration at RJSC",
-        desc: "Submit MoA, AoA, and required forms (I, VI, IX, X, XII) online. Pay registration fees at the bank.",
+        desc: "Under 'Registration', select 'Apply for Registration'. Upload your MoA, AoA, and required forms (I, VI, IX, X, XII).",
         action: "Submit Application",
-        link: "https://www.roc.gov.bd/"
+        link: "https://app.roc.gov.bd/"
       },
       {
         title: "Make a Company Seal",
@@ -139,10 +145,16 @@ const content = {
     stepsTitle: "ধাপে ধাপে নির্দেশিকা",
     steps: [
       {
+        title: "কোম্পানির নাম অনুসন্ধান",
+        desc: "আবেদন করার আগে, আপনার প্রস্তাবিত নামটি আগে থেকেই ব্যবহার করা হচ্ছে কিনা তা নিশ্চিত করতে RJSC পোর্টালের 'Search Entity Names' টুলটি ব্যবহার করুন।",
+        action: "উপলব্ধতা যাচাই করুন",
+        link: "https://app.roc.gov.bd/rjsc-portal/search-entity-name.html"
+      },
+      {
         title: "নামের ছাড়পত্র (Name Clearance)",
-        desc: "RJSC থেকে নামের ছাড়পত্র নিন। এটি নিবন্ধনের পূর্বশর্ত। ছাড়পত্র ৩০ দিন পর্যন্ত কার্যকর থাকে।",
+        desc: "RJSC পোর্টালে 'Pre-Registration Activities' থেকে 'Apply for Name Clearance' সিলেক্ট করুন। এটি নিবন্ধনের পূর্বশর্ত এবং ৩০ দিন পর্যন্ত কার্যকর থাকে।",
         action: "অনলাইন আবেদন",
-        link: "https://www.roc.gov.bd/"
+        link: "https://app.roc.gov.bd/"
       },
       {
         title: "স্ট্যাম্প ডিউটি প্রদান",
@@ -152,9 +164,9 @@ const content = {
       },
       {
         title: "RJSC-তে নিবন্ধন",
-        desc: "MoA, AoA এবং প্রয়োজনীয় ফর্মসমূহ (I, VI, IX, X, XII) অনলাইনে জমা দিন। ব্যাংকে রেজিস্ট্রেশন ফি প্রদান করুন।",
+        desc: "'Registration' বিভাগ থেকে 'Apply for Registration' সিলেক্ট করুন। আপনার MoA, AoA এবং প্রয়োজনীয় ফর্মসমূহ (I, VI, IX, X, XII) আপলোড করুন।",
         action: "আবেদন জমা দিন",
-        link: "https://www.roc.gov.bd/"
+        link: "https://app.roc.gov.bd/"
       },
       {
         title: "কোম্পানির সিল তৈরি",
@@ -335,8 +347,21 @@ export default function ServiceDetailPage() {
               </div>
             </div>
 
-            {/* Template Library */}
-            <TemplateLibrary />
+            {/* Template Library Preview */}
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-black text-black">
+                  {language === 'en' ? 'Essential Templates' : 'প্রয়োজনীয় টেমপ্লেট'}
+                </h2>
+                <Link href="/resources/templates" className="text-sm font-bold text-[#ff0000] hover:underline flex items-center gap-1">
+                  {language === 'en' ? 'View Full Library' : 'সম্পূর্ণ লাইব্রেরি দেখুন'}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+              <div className="bg-white border-2 border-black p-8">
+                <TemplateLibrary />
+              </div>
+            </div>
           </div>
 
           {/* Sidebar */}
