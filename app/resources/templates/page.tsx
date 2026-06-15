@@ -1,14 +1,17 @@
 'use client'
 
+import { useState } from 'react'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { TemplateLibrary } from '@/components/resources/template-library'
 import { useLanguage } from '@/lib/language-context'
 import { ArrowLeft, Search, Filter } from 'lucide-react'
 import Link from 'next/link'
+import { templates } from '@/lib/templates'
 
 export default function TemplatesPage() {
   const { language } = useLanguage()
+  const [query, setQuery] = useState('')
   
   const t = {
     en: {
@@ -26,6 +29,12 @@ export default function TemplatesPage() {
       all: "সকল রিসোর্স"
     }
   }[language]
+
+  const filteredTemplates = templates[language].filter(item => 
+    item.name.toLowerCase().includes(query.toLowerCase()) ||
+    item.category.toLowerCase().includes(query.toLowerCase()) ||
+    item.desc.toLowerCase().includes(query.toLowerCase())
+  )
 
   return (
     <main className="min-h-screen bg-[#f3f2f1] pt-16">
@@ -56,6 +65,8 @@ export default function TemplatesPage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input 
                 type="text" 
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
                 placeholder={t.searchPlaceholder}
                 className="w-full h-14 pl-12 pr-4 bg-gray-50 border-2 border-black font-bold focus:bg-white outline-none rounded-none"
               />
@@ -69,7 +80,7 @@ export default function TemplatesPage() {
 
         {/* Library */}
         <div className="bg-white border-2 border-black p-8 sm:p-12">
-          <TemplateLibrary />
+          <TemplateLibrary items={filteredTemplates} />
         </div>
 
         {/* Help Banner */}

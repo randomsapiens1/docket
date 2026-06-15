@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 import { TemplateLibrary } from '@/components/resources/template-library'
+import { templates } from '@/lib/templates'
 
 const content = {
   en: {
@@ -359,7 +360,7 @@ export default function ServiceDetailPage() {
                 </Link>
               </div>
               <div className="bg-white border-2 border-black p-8">
-                <TemplateLibrary />
+                <TemplateLibrary items={templates[language]} />
               </div>
             </div>
           </div>

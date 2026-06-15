@@ -100,6 +100,10 @@ export function FeeCalculator() {
     }
   }[language]
 
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat(language === 'en' ? 'en-US' : 'bn-BD').format(amount)
+  }
+
   return (
     <div className="bg-white border-[3px] border-black p-6 sm:p-8 space-y-8">
       <div className="flex items-start justify-between border-b-2 border-gray-100 pb-6">
@@ -161,21 +165,21 @@ export function FeeCalculator() {
           <div className="space-y-4">
             <div className="flex justify-between items-center text-sm">
               <span className="font-bold text-gray-600">{t.stamp}</span>
-              <span className="font-black">৳ {fees.stamp.toLocaleString()}</span>
+              <span className="font-black">৳ {formatCurrency(fees.stamp)}</span>
             </div>
             <div className="flex justify-between items-center text-sm">
               <span className="font-bold text-gray-600">{t.reg}</span>
-              <span className="font-black">৳ {fees.registration.toLocaleString()}</span>
+              <span className="font-black">৳ {formatCurrency(fees.registration)}</span>
             </div>
             <div className="flex justify-between items-center text-sm">
               <span className="font-bold text-gray-600">{t.filing}</span>
-              <span className="font-black">৳ {fees.filing.toLocaleString()}</span>
+              <span className="font-black">৳ {formatCurrency(fees.filing)}</span>
             </div>
             
             <div className="pt-4 border-t-4 border-black">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-black">{t.total}</span>
-                <span className="text-2xl font-black text-[#ff0000]">৳ {fees.total.toLocaleString()}</span>
+                <span className="text-2xl font-black text-[#ff0000]">৳ {formatCurrency(fees.total)}</span>
               </div>
             </div>
           </div>

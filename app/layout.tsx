@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { LanguageProvider } from '@/lib/language-context'
@@ -34,7 +33,6 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <LanguageProvider>
           {children}
-          {/* {process.env.NODE_ENV === 'production' && <Analytics />} */}
         </LanguageProvider>
       </body>
     </html>
