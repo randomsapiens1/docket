@@ -1,6 +1,6 @@
 'use client'
 
-import { Search, Calculator } from 'lucide-react'
+import { Search, Calculator, FileText } from 'lucide-react'
 import Image from "next/image"
 import { useLanguage } from '@/lib/language-context'
 import Link from 'next/link'
@@ -16,7 +16,8 @@ export function Hero() {
       searchAlt: "Search",
       tools: {
         title: "Quick Tools:",
-        calculator: "Fee Calculator"
+        calculator: "Fee Calculator",
+        templates: "Templates"
       }
     },
     bn: {
@@ -26,7 +27,8 @@ export function Hero() {
       searchAlt: "খুঁজুন",
       tools: {
         title: "কুইক টুলস:",
-        calculator: "ফি ক্যালকুলেটর"
+        calculator: "ফি ক্যালকুলেটর",
+        templates: "টেমপ্লেট"
       }
     }
   }
@@ -66,7 +68,7 @@ export function Hero() {
             </div>
 
             {/* Quick Tools */}
-            <div className="mt-6 flex items-center gap-4">
+            <div className="mt-6 flex flex-wrap items-center gap-4">
               <span className="text-sm font-bold text-gray-500 uppercase">{tools.title}</span>
               <Link 
                 href="/calculators/fee-calculator"
@@ -74,6 +76,13 @@ export function Hero() {
               >
                 <Calculator className="w-4 h-4 text-[#ff0000]" />
                 {tools.calculator}
+              </Link>
+              <Link 
+                href="/services/incorporate-a-private-company#templates"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-black font-bold text-sm hover:bg-gray-50 transition-colors"
+              >
+                <FileText className="w-4 h-4 text-[#ff0000]" />
+                {tools.templates}
               </Link>
             </div>
           </div>

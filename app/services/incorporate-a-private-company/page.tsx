@@ -8,13 +8,15 @@ import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
+import { TemplateLibrary } from '@/components/resources/template-library'
+
 const content = {
   en: {
     title: "Business Setup & Company Registration",
     dept: "Registrar of Joint Stock Companies & Firms (RJSC)",
     stats: [
-      { label: "Estimated Time", value: "15-45 Days", icon: Clock },
-      { label: "Government Fee", value: "Starts from ৳10,000", icon: CreditCard },
+      { label: "Estimated Time", value: "20-30 Days", icon: Clock },
+      { label: "Government Fee", value: "Starts from ৳11,000", icon: CreditCard },
       { label: "Complexity", value: "High", icon: LayoutIcon }
     ],
     prepTitle: "Preparation Checklist",
@@ -26,6 +28,7 @@ const content = {
       "TIN Certificate of all Directors",
       "Registered Office Address & Lease Agreement",
       "Draft Memorandum & Articles of Association (MoA/AoA)",
+      "Encashment Certificate (for foreign shareholders)",
       "Form I: Declaration on Registration of Company",
       "Form VI: Notice of Registered Office Situation",
       "Form IX: Consent of Director to Act",
@@ -36,7 +39,7 @@ const content = {
     steps: [
       {
         title: "Name Clearance Certificate",
-        desc: "Apply to RJSC for name clearance. It's a pre-requisite for registration. Valid for 180 days.",
+        desc: "Apply to RJSC for name clearance. It's a pre-requisite for registration. Valid for 30 days.",
         action: "Apply Online",
         link: "https://www.roc.gov.bd/"
       },
@@ -60,7 +63,7 @@ const content = {
       },
       {
         title: "Open a Bank Account",
-        desc: "Open a corporate bank account in the company's name. Required for VAT registration.",
+        desc: "Open a corporate bank account. Note: Foreign-owned companies must open a temporary 'Capital Remittance' account before registration.",
         action: "Bank List",
         link: "#"
       },
@@ -83,16 +86,24 @@ const content = {
         link: "https://www.vat.gov.bd/"
       },
       {
-        title: "Registration with BOI",
-        desc: "Mandatory for foreign investors to access various licenses and incentives in Bangladesh.",
-        action: "BOI Website",
-        link: "http://www.boi.gov.bd/"
+        title: "BIDA Registration",
+        desc: "Mandatory for industrial enterprises and foreign investors to access various licenses and incentives.",
+        action: "BIDA Website",
+        link: "https://bida.gov.bd/"
       }
     ],
     ctaTitle: "Ready to start?",
     ctaDesc: "Jump directly to the official RJSC portal to begin your application.",
     ctaButton: "Go to RJSC Portal",
     back: "Back to Directory",
+    extraTitle: "Additional Formalities & Licenses",
+    extraSteps: [
+      { name: "Directors Tax", desc: "Personal TIN registration is required for all foreign directors." },
+      { name: "Bank Regularization", desc: "Regularizing bank accounts and setting up online banking portals." },
+      { name: "Chamber Membership", desc: "Membership in a Chamber of Commerce (e.g., DCCI, FBCCI) is required for certain permits." },
+      { name: "IRC & ERC", desc: "Import and Export Registration Certificates are mandatory for trading businesses." },
+      { name: "Industrial Clearances", desc: "Fire Certificate, Factory Registration (DIFE), and Environmental Clearance for industrial projects." }
+    ],
     postTitle: "Ongoing Compliance",
     postSteps: [
       { name: "Annual Returns", desc: "Submit annual summary of share capital and list of shareholders to RJSC." },
@@ -105,8 +116,8 @@ const content = {
     title: "ব্যবসায়িক সেটআপ এবং কোম্পানি নিবন্ধন",
     dept: "যৌথ মূলধন কোম্পানি ও ফার্মসমূহের পরিদপ্তর (RJSC)",
     stats: [
-      { label: "আনুমানিক সময়", value: "১৫-৪৫ দিন", icon: Clock },
-      { label: "সরকারি ফি", value: "৳১০,০০০ থেকে শুরু", icon: CreditCard },
+      { label: "আনুমানিক সময়", value: "২০-৩০ দিন", icon: Clock },
+      { label: "সরকারি ফি", value: "৳১১,০০০ থেকে শুরু", icon: CreditCard },
       { label: "জটিলতা", value: "উচ্চ", icon: LayoutIcon }
     ],
     prepTitle: "প্রস্তুতিমূলক চেকলিস্ট",
@@ -118,6 +129,7 @@ const content = {
       "সকল পরিচালকের টিন (TIN) সার্টিফিকেট",
       "নিবন্ধিত অফিসের ঠিকানা ও ভাড়ার চুক্তিপত্র",
       "খসড়া মেমোরেন্ডাম ও আর্টিকেলস অফ অ্যাসোসিয়েশন (MoA/AoA)",
+      "এনক্যাশমেন্ট সার্টিফিকেট (বিদেশী শেয়ারহোল্ডারদের জন্য)",
       "ফর্ম I: কোম্পানি নিবন্ধনের ঘোষণা",
       "ফর্ম VI: নিবন্ধিত অফিসের অবস্থানের নোটিশ",
       "ফর্ম IX: পরিচালক হিসেবে কাজ করার সম্মতি",
@@ -128,7 +140,7 @@ const content = {
     steps: [
       {
         title: "নামের ছাড়পত্র (Name Clearance)",
-        desc: "RJSC থেকে নামের ছাড়পত্র নিন। এটি নিবন্ধনের পূর্বশর্ত। ছাড়পত্র ১৮০ দিন পর্যন্ত কার্যকর থাকে।",
+        desc: "RJSC থেকে নামের ছাড়পত্র নিন। এটি নিবন্ধনের পূর্বশর্ত। ছাড়পত্র ৩০ দিন পর্যন্ত কার্যকর থাকে।",
         action: "অনলাইন আবেদন",
         link: "https://www.roc.gov.bd/"
       },
@@ -152,7 +164,7 @@ const content = {
       },
       {
         title: "ব্যাংক অ্যাকাউন্ট খোলা",
-        desc: "কোম্পানির নামে একটি কর্পোরেট ব্যাংক অ্যাকাউন্ট খুলুন। ভ্যাট নিবন্ধনের জন্য এটি প্রয়োজন।",
+        desc: "কোম্পানির নামে একটি ব্যাংক অ্যাকাউন্ট খুলুন। দ্রষ্টব্য: বিদেশী মালিকানাধীন কোম্পানির ক্ষেত্রে নিবন্ধনের আগে একটি সাময়িক 'মূলধন রেমিট্যান্স' অ্যাকাউন্ট খুলতে হয়।",
         action: "ব্যাংক তালিকা",
         link: "#"
       },
@@ -175,16 +187,24 @@ const content = {
         link: "https://www.vat.gov.bd/"
       },
       {
-        title: "বিওআই (BOI) নিবন্ধন",
-        desc: "বিদেশী বিনিয়োগকারীদের জন্য বিভিন্ন লাইসেন্স ও সুবিধা পেতে বিওআই-তে নিবন্ধন বাধ্যতামূলক।",
-        action: "বিওআই ওয়েবসাইট",
-        link: "http://www.boi.gov.bd/"
+        title: "বিডা (BIDA) নিবন্ধন",
+        desc: "শিল্প প্রতিষ্ঠান এবং বিদেশী বিনিয়োগকারীদের জন্য বিভিন্ন লাইসেন্স ও সুবিধা পেতে বিডা-তে নিবন্ধন বাধ্যতামূলক।",
+        action: "বিডা ওয়েবসাইট",
+        link: "https://bida.gov.bd/"
       }
     ],
     ctaTitle: "আপনি কি প্রস্তুত?",
     ctaDesc: "আপনার আবেদন শুরু করতে সরাসরি অফিসিয়াল RJSC পোর্টালে যান।",
     ctaButton: "RJSC পোর্টালে যান",
     back: "ডিরেক্টরিতে ফিরে যান",
+    extraTitle: "অতিরিক্ত আনুষ্ঠানিকতা ও লাইসেন্স",
+    extraSteps: [
+      { name: "পরিচালকদের ট্যাক্স", desc: "সকল বিদেশী পরিচালকদের জন্য ব্যক্তিগত টিন (TIN) নিবন্ধন আবশ্যক।" },
+      { name: "ব্যাংক নিয়মিতকরণ", desc: "ব্যাংক অ্যাকাউন্ট নিয়মিতকরণ এবং অনলাইন ব্যাংকিং পোর্টাল সেটআপ করা।" },
+      { name: "চেম্বার মেম্বারশিপ", desc: "নির্দিষ্ট পারমিটের জন্য চেম্বার অফ কমার্স (যেমন: DCCI, FBCCI) মেম্বারশিপ প্রয়োজন।" },
+      { name: "IRC ও ERC", desc: "ট্রেডিং ব্যবসার জন্য আমদানি ও রপ্তানি নিবন্ধন সনদ (IRC ও ERC) বাধ্যতামূলক।" },
+      { name: "শিল্প সংক্রান্ত ছাড়পত্র", desc: "শিল্প প্রকল্পের জন্য ফায়ার সার্টিফিকেট, ফ্যাক্টরি রেজিস্ট্রেশন এবং পরিবেশগত ছাড়পত্র।" }
+    ],
     postTitle: "চলমান কমপ্লায়েন্স",
     postSteps: [
       { name: "বার্ষিক রিটার্ন", desc: "শেয়ার মূলধনের সারাংশ এবং শেয়ারহোল্ডারদের তালিকা প্রতি বছর RJSC-তে জমা দিন।" },
@@ -296,6 +316,27 @@ export default function ServiceDetailPage() {
                 ))}
               </div>
             </div>
+
+            {/* Additional Formalities */}
+            <div className="bg-white border-2 border-black p-8 space-y-6">
+              <h2 className="text-2xl font-black text-black">{s.extraTitle}</h2>
+              <div className="space-y-4">
+                {s.extraSteps.map((step, i) => (
+                  <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-2 border-gray-100 hover:border-black transition-colors gap-4">
+                    <div>
+                      <h4 className="font-black text-black">{step.name}</h4>
+                      <p className="text-sm text-gray-600">{step.desc}</p>
+                    </div>
+                    <div className="text-[10px] font-bold uppercase bg-black text-white px-2 py-1 self-start sm:self-center">
+                      Mandatory
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Template Library */}
+            <TemplateLibrary />
           </div>
 
           {/* Sidebar */}

@@ -1,9 +1,8 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useLanguage } from '@/lib/language-context'
-import { Calculator, Info, ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Calculator, Info } from 'lucide-react'
 
 type CompanyType = 'private' | 'public' | 'foreign' | 'trade' | 'society' | 'partnership'
 
@@ -12,9 +11,8 @@ export function FeeCalculator() {
   const [type, setType] = useState<CompanyType>('private')
   const [capital, setCapital] = useState<number>(1000000)
   const [members, setMembers] = useState<number>(20)
-  const [fees, setFees] = useState({ stamp: 0, registration: 0, filing: 0, total: 0 })
 
-  const calculateFees = () => {
+  const fees = useMemo(() => {
     let stamp = 0
     let registration = 0
     let filing = 0
@@ -56,11 +54,7 @@ export function FeeCalculator() {
       filing = 500
     }
 
-    setFees({ stamp, registration, filing, total: stamp + registration + filing })
-  }
-
-  useEffect(() => {
-    calculateFees()
+    return { stamp, registration, filing, total: stamp + registration + filing }
   }, [type, capital, members])
 
   const t = {
