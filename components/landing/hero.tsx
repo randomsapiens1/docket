@@ -1,8 +1,9 @@
 'use client'
 
-import { Search } from 'lucide-react'
+import { Search, Calculator } from 'lucide-react'
 import Image from "next/image"
 import { useLanguage } from '@/lib/language-context'
+import Link from 'next/link'
 
 export function Hero() {
   const { language } = useLanguage()
@@ -12,17 +13,25 @@ export function Hero() {
       title: "Government paperwork made easy",
       description: "Get verified, step-by-step guidance for official processes in Bangladesh. From company registration to land transfers.",
       placeholder: "Search for a service...",
-      searchAlt: "Search"
+      searchAlt: "Search",
+      tools: {
+        title: "Quick Tools:",
+        calculator: "Fee Calculator"
+      }
     },
     bn: {
       title: "সরকারি কাগজপত্র এখন আরো সহজ",
       description: "বাংলাদেশের অফিসিয়াল প্রক্রিয়াসমূহের জন্য যাচাইকৃত ও ধাপে ধাপে নির্দেশিকা পান। কোম্পানি রেজিস্ট্রেশন থেকে শুরু করে ভূমি স্থানান্তর পর্যন্ত।",
       placeholder: "সেবাটি খুঁজুন...",
-      searchAlt: "খুঁজুন"
+      searchAlt: "খুঁজুন",
+      tools: {
+        title: "কুইক টুলস:",
+        calculator: "ফি ক্যালকুলেটর"
+      }
     }
   }
 
-  const { title, description, placeholder, searchAlt } = content[language]
+  const { title, description, placeholder, searchAlt, tools } = content[language]
 
   return (
     <section className="pt-20 pb-20 px-4 sm:px-6 lg:px-8 bg-background overflow-hidden">
@@ -47,13 +56,25 @@ export function Hero() {
                   type="text"
                   id="search-services"
                   placeholder={placeholder}
-                  className="flex-1 px-5 py-4 text-xl font-medium text-black bg-white border-[3px] border-r-0 border-black focus:outline-none focus:ring-4 focus:ring-yellow-400 w-full"
+                  className="flex-1 px-5 py-4 text-xl font-medium text-black bg-white border-[3px] border-r-0 border-black focus:outline-none focus:ring-4 focus:yellow-400 w-full"
                 />
                 <button className="bg-primary hover:bg-primary/90 text-white px-7 py-4 flex items-center justify-center border-[3px] border-black focus:outline-none focus:ring-4 focus:ring-yellow-400 shrink-0">
                   <Search className="w-7 h-7" />
                   <span className="sr-only">{searchAlt}</span>
                 </button>
               </div>
+            </div>
+
+            {/* Quick Tools */}
+            <div className="mt-6 flex items-center gap-4">
+              <span className="text-sm font-bold text-gray-500 uppercase">{tools.title}</span>
+              <Link 
+                href="/calculators/fee-calculator"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-black font-bold text-sm hover:bg-gray-50 transition-colors"
+              >
+                <Calculator className="w-4 h-4 text-[#ff0000]" />
+                {tools.calculator}
+              </Link>
             </div>
           </div>
 ...

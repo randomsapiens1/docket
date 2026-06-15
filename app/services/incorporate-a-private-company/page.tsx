@@ -4,136 +4,197 @@ import { useState } from 'react'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
-import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout, ArrowLeft } from 'lucide-react'
+import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, Calculator } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 const content = {
   en: {
-    title: "Incorporate a Private Company",
+    title: "Business Setup & Company Registration",
     dept: "Registrar of Joint Stock Companies & Firms (RJSC)",
     stats: [
-      { label: "Estimated Time", value: "3-7 Days", icon: Clock },
-      { label: "Government Fee", value: "Starts from ৳5,000", icon: CreditCard },
-      { label: "Complexity", value: "Medium", icon: Layout }
+      { label: "Estimated Time", value: "15-45 Days", icon: Clock },
+      { label: "Government Fee", value: "Starts from ৳10,000", icon: CreditCard },
+      { label: "Complexity", value: "High", icon: LayoutIcon }
     ],
     prepTitle: "Preparation Checklist",
-    prepDesc: "Gather these documents before you start the online process.",
+    prepDesc: "Gather these documents and forms before you start the registration process.",
     docs: [
-      "NID / Passport of all Directors",
+      "Proposed Company Name (for Clearance)",
+      "NID / Passport of all Directors & Shareholders",
       "Passport sized photo of all Directors",
-      "Proposed Company Name",
-      "Registered Office Address details",
-      "TIN Certificate of all Directors"
+      "TIN Certificate of all Directors",
+      "Registered Office Address & Lease Agreement",
+      "Draft Memorandum & Articles of Association (MoA/AoA)",
+      "Form I: Declaration on Registration of Company",
+      "Form VI: Notice of Registered Office Situation",
+      "Form IX: Consent of Director to Act",
+      "Form X: List of Persons Consenting to be Directors",
+      "Form XII: Particulars of Directors & Managers"
     ],
     stepsTitle: "Step-by-Step Pathway",
     steps: [
       {
-        title: "Name Clearance",
-        desc: "Apply for name clearance on the RJSC portal. Note: Clearance is valid for 30 days and must be unique.",
-        action: "Check Availability",
-        link: "https://app.roc.gov.bd/"
+        title: "Name Clearance Certificate",
+        desc: "Apply to RJSC for name clearance. It's a pre-requisite for registration. Valid for 180 days.",
+        action: "Apply Online",
+        link: "https://www.roc.gov.bd/"
       },
       {
-        title: "Prepare Documents",
-        desc: "Draft the MoA and AoA. For foreign shareholders, you MUST open a temporary bank account and get an Encashment Certificate before final submission.",
-        action: "View Templates",
+        title: "Pay Stamp Duty",
+        desc: "Pay stamp duty at a designated bank (e.g., BRAC Bank). Fees depend on authorized share capital.",
+        action: "Calculate Stamp Duty",
+        link: "/calculators/fee-calculator"
+      },
+      {
+        title: "Registration at RJSC",
+        desc: "Submit MoA, AoA, and required forms (I, VI, IX, X, XII) online. Pay registration fees at the bank.",
+        action: "Submit Application",
+        link: "https://www.roc.gov.bd/"
+      },
+      {
+        title: "Make a Company Seal",
+        desc: "Once incorporated, procure an official company seal from any seal-making shop.",
+        action: "Requirements",
         link: "#"
       },
       {
-        title: "Online Application",
-        desc: "Upload all signed documents to the RJSC portal and fill out the digital application forms.",
-        action: "Go to Portal",
-        link: "https://app.roc.gov.bd/"
-      },
-      {
-        title: "Pay Fees",
-        desc: "Generate the payment slip and pay the registration fees at any scheduled bank or via the online payment gateway.",
-        action: "Fee Calculator",
+        title: "Open a Bank Account",
+        desc: "Open a corporate bank account in the company's name. Required for VAT registration.",
+        action: "Bank List",
         link: "#"
       },
       {
-        title: "Collect Certificate",
-        desc: "Once RJSC verifies the documents, you will receive a digital Certificate of Incorporation via email.",
-        action: "Check Status",
-        link: "https://app.roc.gov.bd/"
+        title: "Obtain a Trade License",
+        desc: "Apply to the respective City Corporation or Municipal Corporation for a trade license.",
+        action: "Check Jurisdiction",
+        link: "#"
+      },
+      {
+        title: "TIN Certificate",
+        desc: "Register with the National Board of Revenue (NBR) to receive the company's Tax Identification Number.",
+        action: "NBR Portal",
+        link: "https://secure.incometax.gov.bd/"
+      },
+      {
+        title: "VAT Registration",
+        desc: "Apply for a Business Identification Number (BIN) via the Customs, Excise, and VAT Commission.",
+        action: "VAT Portal",
+        link: "https://www.vat.gov.bd/"
+      },
+      {
+        title: "Registration with BOI",
+        desc: "Mandatory for foreign investors to access various licenses and incentives in Bangladesh.",
+        action: "BOI Website",
+        link: "http://www.boi.gov.bd/"
       }
     ],
     ctaTitle: "Ready to start?",
     ctaDesc: "Jump directly to the official RJSC portal to begin your application.",
     ctaButton: "Go to RJSC Portal",
     back: "Back to Directory",
-    postTitle: "Post-Registration Compliance",
+    postTitle: "Ongoing Compliance",
     postSteps: [
-      { name: "Trade License", desc: "Mandatory from local government to start operations." },
-      { name: "Tax Registration (e-TIN)", desc: "Required for the company immediately after incorporation." },
-      { name: "VAT Registration (BIN)", desc: "Required for commercial transactions and invoicing." },
-      { name: "Bank Account", desc: "Regularize your temporary account to an operational one." }
+      { name: "Annual Returns", desc: "Submit annual summary of share capital and list of shareholders to RJSC." },
+      { name: "Tax Filings", desc: "Ensure monthly VAT returns and annual income tax filings are completed." },
+      { name: "License Renewal", desc: "Trade licenses must be renewed annually before June 30th." },
+      { name: "Audit Reports", desc: "Maintain audited financial statements as per the Companies Act 1994." }
     ]
   },
   bn: {
-    title: "প্রাইভেট কোম্পানি ইনকরপোরেশন",
+    title: "ব্যবসায়িক সেটআপ এবং কোম্পানি নিবন্ধন",
     dept: "যৌথ মূলধন কোম্পানি ও ফার্মসমূহের পরিদপ্তর (RJSC)",
     stats: [
-      { label: "আনুমানিক সময়", value: "৩-৭ দিন", icon: Clock },
-      { label: "সরকারি ফি", value: "৳৫,০০০ থেকে শুরু", icon: CreditCard },
-      { label: "জটিলতা", value: "মাঝারি", icon: Layout }
+      { label: "আনুমানিক সময়", value: "১৫-৪৫ দিন", icon: Clock },
+      { label: "সরকারি ফি", value: "৳১০,০০০ থেকে শুরু", icon: CreditCard },
+      { label: "জটিলতা", value: "উচ্চ", icon: LayoutIcon }
     ],
     prepTitle: "প্রস্তুতিমূলক চেকলিস্ট",
-    prepDesc: "অনলাইন প্রক্রিয়া শুরু করার আগে এই নথিগুলো সংগ্রহ করুন।",
+    prepDesc: "নিবন্ধন প্রক্রিয়া শুরু করার আগে এই নথি এবং ফর্মগুলো সংগ্রহ করুন।",
     docs: [
-      "সকল পরিচালকের এনআইডি / পাসপোর্ট",
+      "প্রস্তাবিত কোম্পানির নাম (ছাড়পত্রের জন্য)",
+      "সকল পরিচালক ও শেয়ারহোল্ডারদের এনআইডি / পাসপোর্ট",
       "সকল পরিচালকের পাসপোর্ট সাইজ ছবি",
-      "প্রস্তাবিত কোম্পানির নাম",
-      "নিবন্ধিত অফিসের ঠিকানা",
-      "সকল পরিচালকের টিন (TIN) সার্টিফিকেট"
+      "সকল পরিচালকের টিন (TIN) সার্টিফিকেট",
+      "নিবন্ধিত অফিসের ঠিকানা ও ভাড়ার চুক্তিপত্র",
+      "খসড়া মেমোরেন্ডাম ও আর্টিকেলস অফ অ্যাসোসিয়েশন (MoA/AoA)",
+      "ফর্ম I: কোম্পানি নিবন্ধনের ঘোষণা",
+      "ফর্ম VI: নিবন্ধিত অফিসের অবস্থানের নোটিশ",
+      "ফর্ম IX: পরিচালক হিসেবে কাজ করার সম্মতি",
+      "ফর্ম X: পরিচালক হতে ইচ্ছুক ব্যক্তিদের তালিকা",
+      "ফর্ম XII: পরিচালক ও ব্যবস্থাপকদের বিবরণ"
     ],
     stepsTitle: "ধাপে ধাপে নির্দেশিকা",
     steps: [
       {
         title: "নামের ছাড়পত্র (Name Clearance)",
-        desc: "RJSC পোর্টালে নামের ছাড়পত্রের জন্য আবেদন করুন। মনে রাখবেন: ছাড়পত্র ৩০ দিন পর্যন্ত কার্যকর থাকে।",
-        action: "নাম যাচাই করুন",
-        link: "https://app.roc.gov.bd/"
+        desc: "RJSC থেকে নামের ছাড়পত্র নিন। এটি নিবন্ধনের পূর্বশর্ত। ছাড়পত্র ১৮০ দিন পর্যন্ত কার্যকর থাকে।",
+        action: "অনলাইন আবেদন",
+        link: "https://www.roc.gov.bd/"
       },
       {
-        title: "নথিপত্র প্রস্তুতকরণ",
-        desc: "MoA এবং AoA ড্রাফট করুন। বিদেশী বিনিয়োগকারীদের ক্ষেত্রে সাবমিশনের আগে একটি সাময়িক ব্যাংক অ্যাকাউন্ট খুলে 'এনক্যাশমেন্ট সার্টিফিকেট' সংগ্রহ করা বাধ্যতামূলক।",
-        action: "টেমপ্লেট দেখুন",
+        title: "স্ট্যাম্প ডিউটি প্রদান",
+        desc: "নির্ধারিত ব্যাংকে (যেমন: ব্র্যাক ব্যাংক) স্ট্যাম্প ডিউটি জমা দিন। ফি অনুমোদিত মূলধনের ওপর নির্ভর করে।",
+        action: "ফি ক্যালকুলেট করুন",
+        link: "/calculators/fee-calculator"
+      },
+      {
+        title: "RJSC-তে নিবন্ধন",
+        desc: "MoA, AoA এবং প্রয়োজনীয় ফর্মসমূহ (I, VI, IX, X, XII) অনলাইনে জমা দিন। ব্যাংকে রেজিস্ট্রেশন ফি প্রদান করুন।",
+        action: "আবেদন জমা দিন",
+        link: "https://www.roc.gov.bd/"
+      },
+      {
+        title: "কোম্পানির সিল তৈরি",
+        desc: "নিবন্ধন সম্পন্ন হলে যেকোনো সিল তৈরির দোকান থেকে কোম্পানির দাপ্তরিক সিল তৈরি করে নিন।",
+        action: "প্রয়োজনীয়তা",
         link: "#"
       },
       {
-        title: "অনলাইন আবেদন",
-        desc: "সকল স্বাক্ষরিত নথি RJSC পোর্টালে আপলোড করুন এবং ডিজিটাল আবেদন ফর্ম পূরণ করুন।",
-        action: "পোর্টালে যান",
-        link: "https://app.roc.gov.bd/"
-      },
-      {
-        title: "ফি প্রদান",
-        desc: "পেমেন্ট স্লিপ তৈরি করুন এবং যেকোনো তফসিলি ব্যাংক বা অনলাইন পেমেন্ট গেটওয়ের মাধ্যমে রেজিস্ট্রেশন ফি প্রদান করুন।",
-        action: "ফি ক্যালকুলেটর",
+        title: "ব্যাংক অ্যাকাউন্ট খোলা",
+        desc: "কোম্পানির নামে একটি কর্পোরেট ব্যাংক অ্যাকাউন্ট খুলুন। ভ্যাট নিবন্ধনের জন্য এটি প্রয়োজন।",
+        action: "ব্যাংক তালিকা",
         link: "#"
       },
       {
-        title: "সার্টিফিকেট সংগ্রহ",
-        desc: "RJSC নথিগুলো যাচাই করলে আপনি ইমেলের মাধ্যমে একটি ডিজিটাল 'Certificate of Incorporation' পাবেন।",
-        action: "অবস্থা যাচাই করুন",
-        link: "https://app.roc.gov.bd/"
+        title: "ট্রেড লাইসেন্স সংগ্রহ",
+        desc: "সংশ্লিষ্ট সিটি কর্পোরেশন বা পৌরসভা থেকে ট্রেড লাইসেন্সের জন্য আবেদন করুন।",
+        action: "এলাকা যাচাই করুন",
+        link: "#"
+      },
+      {
+        title: "টিন (TIN) সার্টিফিকেট",
+        desc: "কোম্পানির ট্যাক্স আইডেন্টিফিকেশন নম্বর পেতে এনবিআর (NBR)-এ নিবন্ধন করুন।",
+        action: "এনবিআর পোর্টাল",
+        link: "https://secure.incometax.gov.bd/"
+      },
+      {
+        title: "ভ্যাট (VAT) নিবন্ধন",
+        desc: "কাস্টমস, এক্সাইজ ও ভ্যাট কমিশনের মাধ্যমে বিজনেস আইডেন্টিফিকেশন নম্বর (BIN) সংগ্রহ করুন।",
+        action: "ভ্যাট পোর্টাল",
+        link: "https://www.vat.gov.bd/"
+      },
+      {
+        title: "বিওআই (BOI) নিবন্ধন",
+        desc: "বিদেশী বিনিয়োগকারীদের জন্য বিভিন্ন লাইসেন্স ও সুবিধা পেতে বিওআই-তে নিবন্ধন বাধ্যতামূলক।",
+        action: "বিওআই ওয়েবসাইট",
+        link: "http://www.boi.gov.bd/"
       }
     ],
     ctaTitle: "আপনি কি প্রস্তুত?",
     ctaDesc: "আপনার আবেদন শুরু করতে সরাসরি অফিসিয়াল RJSC পোর্টালে যান।",
     ctaButton: "RJSC পোর্টালে যান",
     back: "ডিরেক্টরিতে ফিরে যান",
-    postTitle: "রেজিস্ট্রেশন পরবর্তী আনুষ্ঠানিকতা",
+    postTitle: "চলমান কমপ্লায়েন্স",
     postSteps: [
-      { name: "ট্রেড লাইসেন্স", desc: "ব্যবসা শুরু করতে স্থানীয় সরকার থেকে ট্রেড লাইসেন্স সংগ্রহ করা বাধ্যতামূলক।" },
-      { name: "ই-টিন (e-TIN)", desc: "নিবন্ধনের পরপরই কোম্পানির নামে ই-টিন গ্রহণ করতে হবে।" },
-      { name: "ভ্যাট রেজিস্ট্রেশন (BIN)", desc: "বাণিজ্যিক লেনদেন এবং ইনভয়েস তৈরির জন্য ভ্যাট নিবন্ধন প্রয়োজনীয়।" },
-      { name: "ব্যাংক অ্যাকাউন্ট", desc: "আপনার সাময়িক ব্যাংক অ্যাকাউন্টটিকে একটি পূর্ণাঙ্গ অ্যাকাউন্টে রূপান্তর করুন।" }
+      { name: "বার্ষিক রিটার্ন", desc: "শেয়ার মূলধনের সারাংশ এবং শেয়ারহোল্ডারদের তালিকা প্রতি বছর RJSC-তে জমা দিন।" },
+      { name: "ট্যাক্স ফাইলিং", desc: "মাসিক ভ্যাট রিটার্ন এবং বার্ষিক আয়কর রিটার্ন জমা নিশ্চিত করুন।" },
+      { name: "লাইসেন্স নবায়ন", desc: "ট্রেড লাইসেন্স প্রতি বছর ৩০ জুনের আগে নবায়ন করতে হবে।" },
+      { name: "অডিট রিপোর্ট", desc: "কোম্পানি আইন ১৯৯৪ অনুযায়ী অডিট করা আর্থিক বিবরণী সংরক্ষণ করুন।" }
     ]
   }
 }
+
 
 export default function ServiceDetailPage() {
   const { language } = useLanguage()
@@ -288,7 +349,7 @@ export default function ServiceDetailPage() {
               </div>
 
               {/* CTA Section */}
-              <div className="pt-2">
+              <div className="pt-2 space-y-4">
                 <a 
                   href="https://app.roc.gov.bd/" 
                   target="_blank" 
@@ -299,6 +360,12 @@ export default function ServiceDetailPage() {
                     {s.ctaButton}
                   </Button>
                 </a>
+                <Link href="/calculators/fee-calculator" className="block">
+                  <Button className="w-full bg-white hover:bg-gray-50 text-black font-bold h-12 rounded-none border-2 border-black border-b-4 active:border-b-2 active:translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                    <Calculator className="w-4 h-4 text-[#ff0000]" />
+                    {language === 'en' ? 'Calculate Fees' : 'ফি ক্যালকুলেট করুন'}
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
-import { Button as ButtonPrimitive } from '@base-ui/react/button'
-import { cva, type VariantProps } from 'class-variance-authority'
+'use client'
 
+import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
@@ -20,8 +20,7 @@ const buttonVariants = cva(
         link: 'text-accent underline underline-offset-4 hover:text-accent/80',
       },
       size: {
-        default:
-          'h-12 min-w-[140px] gap-2 px-6',
+        default: 'h-12 min-w-[140px] gap-2 px-6',
         xs: "h-8 gap-1 px-3 text-sm",
         sm: "h-10 gap-1.5 px-4 text-sm",
         lg: 'h-14 gap-2.5 px-8 text-lg',
@@ -38,15 +37,16 @@ const buttonVariants = cva(
   },
 )
 
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {}
+
 function Button({
   className,
-  variant = 'default',
-  size = 'default',
+  variant,
+  size,
   ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+}: ButtonProps) {
   return (
-    <ButtonPrimitive
-      data-slot="button"
+    <button
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />

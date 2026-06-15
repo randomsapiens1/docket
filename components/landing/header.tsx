@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useLanguage } from "@/lib/language-context"
+import Link from 'next/link'
 
 export function Header() {
   const { language, setLanguage } = useLanguage()
@@ -25,7 +26,7 @@ export function Header() {
   return (
     <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <div className="flex items-center gap-3 group cursor-pointer -ml-1">
+        <Link href="/" className="flex items-center gap-3 group cursor-pointer -ml-1">
           <Image
             src="/Docket-logo.png"
             alt="docket logo"
@@ -35,7 +36,7 @@ export function Header() {
             className="w-8 h-8 object-contain"
           />
           <span className="font-bold text-2xl sm:text-3xl tracking-tighter text-foreground">docket</span>
-        </div>
+        </Link>
 
         <nav className="hidden md:flex gap-8 items-center">
           {items.map((item) => (
