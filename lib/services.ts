@@ -42,7 +42,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       title: "Tax",
       description: "TIN, income tax, VAT.",
       items: [
-        { name: "Register for TIN", status: "Soon", href: "#", keywords: ["tin", "tax", "nbr", "registration"] },
+        { name: "Register for TIN", status: "Live", href: "/services/register-for-tin", keywords: ["tin", "tax", "nbr", "registration"] },
       ]
     },
     {
@@ -90,7 +90,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       title: "কর",
       description: "টিন (TIN), আয়কর, ভ্যাট।",
       items: [
-        { name: "টিন (TIN) রেজিস্ট্রেশন", status: "Soon", href: "#", keywords: ["টিন", "কর", "এনবিআর", "নিবন্ধন"] },
+        { name: "টিন (TIN) রেজিস্ট্রেশন", status: "Live", href: "/services/register-for-tin", keywords: ["টিন", "কর", "এনবিআর", "নিবন্ধন"] },
       ]
     },
     {
