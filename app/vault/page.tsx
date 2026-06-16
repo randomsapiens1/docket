@@ -17,6 +17,7 @@ import {
   FileBadge
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { User } from '@supabase/supabase-js'
 
 interface Document {
   id: string
@@ -41,12 +42,12 @@ export default function VaultPage() {
   const [documents, setDocuments] = useState<Document[]>([])
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [selectedType, setSelectedType] = useState('NID')
   const supabase = createClient()
   const router = useRouter()
 
-  const fetchDocuments = useCallback(async (userId: string) => {
+  const fetchDocuments = useCallback(async () => {
     const { data, error } = await supabase
       .from('documents')
       .select('*')
@@ -67,7 +68,7 @@ export default function VaultPage() {
         router.push('/auth')
       } else {
         setUser(session.user)
-        fetchDocuments(session.user.id)
+        fetchDocuments()
       }
     }
     checkUser()
@@ -139,7 +140,7 @@ export default function VaultPage() {
       // 2. Delete from DB
       await supabase.from('documents').delete().eq('id', doc.id)
       
-      fetchDocuments(user.id)
+      fetchDocuments()
     } catch (err) {
       if (err instanceof Error) {
         alert(err.message)
