@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
-import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, ArrowRight, Smartphone, ShieldCheck } from 'lucide-react'
+import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, Smartphone, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { createClient } from '@/lib/supabase'
 
 const content = {
   en: {
@@ -20,14 +21,15 @@ const content = {
     prepTitle: "Requirements",
     prepDesc: "Ensure you have these details ready before starting your online application.",
     docs: [
-      "Valid NID Number (for Individuals)",
-      "Passport Number (for Foreigners)",
-      "Active Bangladeshi Mobile Number",
-      "Correct Permanent & Present Address",
-      "Company Incorporation Number (for Businesses)",
-      "Partnership Registration Number (for Firms)",
-      "NID of Managing Director (for Company TIN)"
+      { label: "Valid NID Number (for Individuals)", docType: "NID" },
+      { label: "Passport Number (for Foreigners)", docType: "PASSPORT" },
+      { label: "Active Bangladeshi Mobile Number", docType: null },
+      { label: "Correct Permanent & Present Address", docType: null },
+      { label: "Company Incorporation Number (for Businesses)", docType: null },
+      { label: "Partnership Registration Number (for Firms)", docType: null },
+      { label: "NID of Managing Director (for Company TIN)", docType: "NID" }
     ],
+    foundInVault: "Found in Vault",
     stepsTitle: "Registration Pathway",
     steps: [
       {
@@ -98,14 +100,15 @@ const content = {
     prepTitle: "প্রয়োজনীয় তথ্য ও নথিপত্র",
     prepDesc: "অনলাইন আবেদন শুরু করার আগে এই তথ্যগুলো সাথে রাখুন।",
     docs: [
-      "সঠিক এনআইডি (NID) নম্বর (ব্যক্তিগত ক্ষেত্রে)",
-      "পাসপোর্ট নম্বর (বিদেশীদের ক্ষেত্রে)",
-      "সক্রিয় বাংলাদেশী মোবাইল নম্বর",
-      "সঠিক স্থায়ী ও বর্তমান ঠিকানা",
-      "কোম্পানি ইনকরপোরেশন নম্বর (ব্যবসার ক্ষেত্রে)",
-      "পার্টনারশিপ রেজিস্ট্রেশন নম্বর (ফার্মের ক্ষেত্রে)",
-      "ব্যবস্থাপনা পরিচালকের এনআইডি (কোম্পানি টিনের ক্ষেত্রে)"
+      { label: "সঠিক এনআইডি (NID) নম্বর (ব্যক্তিগত ক্ষেত্রে)", docType: "NID" },
+      { label: "পাসপোর্ট নম্বর (বিদেশীদের ক্ষেত্রে)", docType: "PASSPORT" },
+      { label: "সক্রিয় বাংলাদেশী মোবাইল নম্বর", docType: null },
+      { label: "সঠিক স্থায়ী ও বর্তমান ঠিকানা", docType: null },
+      { label: "কোম্পানি ইনকরপোরেশন নম্বর (ব্যবসার ক্ষেত্রে)", docType: null },
+      { label: "পার্টনারশিপ রেজিস্ট্রেশন নম্বর (ফার্মের ক্ষেত্রে)", docType: null },
+      { label: "ব্যবস্থাপনা পরিচালকের এনআইডি (কোম্পানি টিনের ক্ষেত্রে)", docType: "NID" }
     ],
+    foundInVault: "ভল্টে পাওয়া গেছে",
     stepsTitle: "নিবন্ধন প্রক্রিয়া",
     steps: [
       {
@@ -171,6 +174,41 @@ export default function TINRegistrationPage() {
   const { language } = useLanguage()
   const s = content[language]
   const [checkedDocs, setCheckedDocs] = useState<number[]>([])
+  const [vaultDocs, setVaultDocs] = useState<string[]>([])
+  const supabase = createClient()
+
+  useEffect(() => {
+    const fetchVault = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        const { data } = await supabase
+          .from('documents')
+          .select('doc_type')
+        if (data) {
+          setVaultDocs(data.map(d => d.doc_type))
+        }
+      }
+    }
+    fetchVault()
+  }, [supabase])
+
+  // Auto-check docs found in vault
+  useEffect(() => {
+    const vaultIndices = s.docs
+      .map((doc, idx) => (doc.docType && vaultDocs.includes(doc.docType) ? idx : -1))
+      .filter(idx => idx !== -1)
+
+    if (vaultIndices.length > 0) {
+      setTimeout(() => {
+        setCheckedDocs(prev => {
+          const hasNew = vaultIndices.some(idx => !prev.includes(idx))
+          if (!hasNew) return prev
+          const combined = Array.from(new Set([...prev, ...vaultIndices]))
+          return combined
+        })
+      }, 0)
+    }
+  }, [vaultDocs, s.docs])
 
   const toggleDoc = (index: number) => {
     setCheckedDocs(prev => 
@@ -305,24 +343,37 @@ export default function TINRegistrationPage() {
               </div>
 
               <div className="space-y-3">
-                {s.docs.map((doc, i) => (
-                  <button 
-                    key={i} 
-                    onClick={() => toggleDoc(i)}
-                    className="flex items-start gap-3 w-full text-left group"
-                  >
-                    <div className="mt-0.5 shrink-0">
-                      {checkedDocs.includes(i) ? (
-                        <CheckCircle2 className="w-5 h-5 text-green-600" />
-                      ) : (
-                        <Circle className="w-5 h-5 text-gray-300 group-hover:text-black" />
+                {s.docs.map((doc, i) => {
+                  const isInVault = doc.docType && vaultDocs.includes(doc.docType)
+                  return (
+                    <div key={i} className="flex flex-col gap-1">
+                      <button 
+                        key={i} 
+                        onClick={() => toggleDoc(i)}
+                        className="flex items-start gap-3 w-full text-left group"
+                      >
+                        <div className="mt-0.5 shrink-0">
+                          {checkedDocs.includes(i) ? (
+                            <CheckCircle2 className="w-5 h-5 text-green-600" />
+                          ) : (
+                            <Circle className="w-5 h-5 text-gray-300 group-hover:text-black" />
+                          )}
+                        </div>
+                        <span className={`text-sm font-medium ${checkedDocs.includes(i) ? 'text-gray-400 line-through' : 'text-black'}`}>
+                          {doc.label}
+                        </span>
+                      </button>
+                      {isInVault && (
+                        <div className="ml-8 flex items-center gap-1.5">
+                          <ShieldCheck className="w-3 h-3 text-green-600" />
+                          <span className="text-[10px] font-black uppercase text-green-600">
+                            {s.foundInVault}
+                          </span>
+                        </div>
                       )}
                     </div>
-                    <span className={`text-sm font-medium ${checkedDocs.includes(i) ? 'text-gray-400 line-through' : 'text-black'}`}>
-                      {doc}
-                    </span>
-                  </button>
-                ))}
+                  )
+                })}
               </div>
 
               <div className="pt-4 border-t border-gray-100">

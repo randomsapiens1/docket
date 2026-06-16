@@ -142,9 +142,6 @@ export function BusinessMatchmaker() {
 
   return (
     <div className="bg-white border-[3px] border-black p-6 sm:p-10 space-y-8 min-h-[450px] flex flex-col justify-center relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-yellow-400 rounded-full opacity-10" />
-      
       <div className="relative z-10 space-y-8">
         {step !== 'result' ? (
           <>
@@ -197,22 +194,22 @@ export function BusinessMatchmaker() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link 
                 href={result.href}
-                className="flex-1 sm:flex-none px-8 py-4 bg-[#ff0000] text-white font-black text-lg border-[3px] border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all flex items-center justify-center gap-2"
+                className="flex-1 sm:flex-none px-6 py-2 bg-[#ff0000] text-white font-bold text-sm rounded-md border-2 border-black hover:bg-[#d90000] transition-colors flex items-center justify-center gap-2"
               >
                 {result.action}
-                <ArrowRight className="w-6 h-6" />
+                <ArrowRight className="w-4 h-4" />
               </Link>
               <button
                 onClick={() => {
                   setStep('owners')
                   setAnswers({ owners: null, goal: null, liability: null })
                 }}
-                className="px-8 py-4 bg-white text-black font-black text-lg border-[3px] border-black flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors"
+                className="px-6 py-2 bg-white text-black font-bold text-sm rounded-md border-2 border-black hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
               >
-                <RotateCcw className="w-5 h-5" />
+                <RotateCcw className="w-4 h-4" />
                 {t.restart}
               </button>
             </div>

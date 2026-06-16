@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
-import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, Calculator, ArrowRight } from 'lucide-react'
+import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, Calculator, ArrowRight, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { createClient } from '@/lib/supabase'
 
 import { TemplateLibrary } from '@/components/resources/template-library'
 import { templates } from '@/lib/templates'
@@ -23,19 +24,20 @@ const content = {
     prepTitle: "Preparation Checklist",
     prepDesc: "Gather these documents and forms before you start the registration process.",
     docs: [
-      "Proposed Company Name (for Clearance)",
-      "NID / Passport of all Directors & Shareholders",
-      "Passport sized photo of all Directors",
-      "TIN Certificate of all Directors",
-      "Registered Office Address & Lease Agreement",
-      "Draft Memorandum & Articles of Association (MoA/AoA)",
-      "Encashment Certificate (for foreign shareholders)",
-      "Form I: Declaration on Registration of Company",
-      "Form VI: Notice of Registered Office Situation",
-      "Form IX: Consent of Director to Act",
-      "Form X: List of Persons Consenting to be Directors",
-      "Form XII: Particulars of Directors & Managers"
+      { label: "Proposed Company Name (for Clearance)", docType: null },
+      { label: "NID / Passport of all Directors & Shareholders", docType: "NID" },
+      { label: "Passport sized photo of all Directors", docType: "PHOTO" },
+      { label: "TIN Certificate of all Directors", docType: "TIN" },
+      { label: "Registered Office Address & Lease Agreement", docType: "LEASE_AGREEMENT" },
+      { label: "Draft Memorandum & Articles of Association (MoA/AoA)", docType: "MOA" },
+      { label: "Encashment Certificate (for foreign shareholders)", docType: null },
+      { label: "Form I: Declaration on Registration of Company", docType: null },
+      { label: "Form VI: Notice of Registered Office Situation", docType: null },
+      { label: "Form IX: Consent of Director to Act", docType: null },
+      { label: "Form X: List of Persons Consenting to be Directors", docType: null },
+      { label: "Form XII: Particulars of Directors & Managers", docType: null }
     ],
+    foundInVault: "Found in Vault",
     stepsTitle: "Step-by-Step Pathway",
     steps: [
       {
@@ -130,19 +132,20 @@ const content = {
     prepTitle: "প্রস্তুতিমূলক চেকলিস্ট",
     prepDesc: "নিবন্ধন প্রক্রিয়া শুরু করার আগে এই নথি এবং ফর্মগুলো সংগ্রহ করুন।",
     docs: [
-      "প্রস্তাবিত কোম্পানির নাম (ছাড়পত্রের জন্য)",
-      "সকল পরিচালক ও শেয়ারহোল্ডারদের এনআইডি / পাসপোর্ট",
-      "সকল পরিচালকের পাসপোর্ট সাইজ ছবি",
-      "সকল পরিচালকের টিন (TIN) সার্টিফিকেট",
-      "নিবন্ধিত অফিসের ঠিকানা ও ভাড়ার চুক্তিপত্র",
-      "খসড়া মেমোরেন্ডাম ও আর্টিকেলস অফ অ্যাসোসিয়েশন (MoA/AoA)",
-      "এনক্যাশমেন্ট সার্টিফিকেট (বিদেশী শেয়ারহোল্ডারদের জন্য)",
-      "ফর্ম I: কোম্পানি নিবন্ধনের ঘোষণা",
-      "ফর্ম VI: নিবন্ধিত অফিসের অবস্থানের নোটিশ",
-      "ফর্ম IX: পরিচালক হিসেবে কাজ করার সম্মতি",
-      "ফর্ম X: পরিচালক হতে ইচ্ছুক ব্যক্তিদের তালিকা",
-      "ফর্ম XII: পরিচালক ও ব্যবস্থাপকদের বিবরণ"
+      { label: "প্রস্তাবিত কোম্পানির নাম (ছাড়পত্রের জন্য)", docType: null },
+      { label: "সকল পরিচালক ও শেয়ারহোল্ডারদের এনআইডি / পাসপোর্ট", docType: "NID" },
+      { label: "সকল পরিচালকের পাসপোর্ট সাইজ ছবি", docType: "PHOTO" },
+      { label: "সকল পরিচালকের টিন (TIN) সার্টিফিকেট", docType: "TIN" },
+      { label: "নিবন্ধিত অফিসের ঠিকানা ও ভাড়ার চুক্তিপত্র", docType: "LEASE_AGREEMENT" },
+      { label: "খসড়া মেমোরেন্ডাম ও আর্টিকেলস অফ অ্যাসোসিয়েশন (MoA/AoA)", docType: "MOA" },
+      { label: "এনক্যাশমেন্ট সার্টিফিকেট (বিদেশী শেয়ারহোল্ডারদের জন্য)", docType: null },
+      { label: "ফর্ম I: কোম্পানি নিবন্ধনের ঘোষণা", docType: null },
+      { label: "ফর্ম VI: নিবন্ধিত অফিসের অবস্থানের নোটিশ", docType: null },
+      { label: "ফর্ম IX: পরিচালক হিসেবে কাজ করার সম্মতি", docType: null },
+      { label: "ফর্ম X: পরিচালক হতে ইচ্ছুক ব্যক্তিদের তালিকা", docType: null },
+      { label: "ফর্ম XII: পরিচালক ও ব্যবস্থাপকদের বিবরণ", docType: null }
     ],
+    foundInVault: "ভল্টে পাওয়া গেছে",
     stepsTitle: "ধাপে ধাপে নির্দেশিকা",
     steps: [
       {
@@ -233,6 +236,41 @@ export default function ServiceDetailPage() {
   const { language } = useLanguage()
   const s = content[language]
   const [checkedDocs, setCheckedDocs] = useState<number[]>([])
+  const [vaultDocs, setVaultDocs] = useState<string[]>([])
+  const supabase = createClient()
+
+  useEffect(() => {
+    const fetchVault = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        const { data } = await supabase
+          .from('documents')
+          .select('doc_type')
+        if (data) {
+          setVaultDocs(data.map(d => d.doc_type))
+        }
+      }
+    }
+    fetchVault()
+  }, [supabase])
+
+  // Auto-check docs found in vault
+  useEffect(() => {
+    const vaultIndices = s.docs
+      .map((doc, idx) => (doc.docType && vaultDocs.includes(doc.docType) ? idx : -1))
+      .filter(idx => idx !== -1)
+
+    if (vaultIndices.length > 0) {
+      setTimeout(() => {
+        setCheckedDocs(prev => {
+          const hasNew = vaultIndices.some(idx => !prev.includes(idx))
+          if (!hasNew) return prev
+          const combined = Array.from(new Set([...prev, ...vaultIndices]))
+          return combined
+        })
+      }, 0)
+    }
+  }, [vaultDocs, s.docs])
 
   const toggleDoc = (index: number) => {
     setCheckedDocs(prev => 
@@ -380,24 +418,37 @@ export default function ServiceDetailPage() {
               </div>
 
               <div className="space-y-3">
-                {s.docs.map((doc, i) => (
-                  <button 
-                    key={i} 
-                    onClick={() => toggleDoc(i)}
-                    className="flex items-start gap-3 w-full text-left group"
-                  >
-                    <div className="mt-0.5 shrink-0">
-                      {checkedDocs.includes(i) ? (
-                        <CheckCircle2 className="w-5 h-5 text-green-600" />
-                      ) : (
-                        <Circle className="w-5 h-5 text-gray-300 group-hover:text-black" />
+                {s.docs.map((doc, i) => {
+                  const isInVault = doc.docType && vaultDocs.includes(doc.docType)
+                  return (
+                    <div key={i} className="flex flex-col gap-1">
+                      <button 
+                        key={i} 
+                        onClick={() => toggleDoc(i)}
+                        className="flex items-start gap-3 w-full text-left group"
+                      >
+                        <div className="mt-0.5 shrink-0">
+                          {checkedDocs.includes(i) ? (
+                            <CheckCircle2 className="w-5 h-5 text-green-600" />
+                          ) : (
+                            <Circle className="w-5 h-5 text-gray-300 group-hover:text-black" />
+                          )}
+                        </div>
+                        <span className={`text-sm font-medium ${checkedDocs.includes(i) ? 'text-gray-400 line-through' : 'text-black'}`}>
+                          {doc.label}
+                        </span>
+                      </button>
+                      {isInVault && (
+                        <div className="ml-8 flex items-center gap-1.5">
+                          <ShieldCheck className="w-3 h-3 text-green-600" />
+                          <span className="text-[10px] font-black uppercase text-green-600">
+                            {s.foundInVault}
+                          </span>
+                        </div>
                       )}
                     </div>
-                    <span className={`text-sm font-medium ${checkedDocs.includes(i) ? 'text-gray-400 line-through' : 'text-black'}`}>
-                      {doc}
-                    </span>
-                  </button>
-                ))}
+                  )
+                })}
               </div>
 
               <div className="pt-4 border-t border-gray-100">

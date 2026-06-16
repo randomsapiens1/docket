@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Search, Calculator, FileText, ArrowRight, Zap } from 'lucide-react'
+import { Search, Calculator, FileText, ArrowRight } from 'lucide-react'
 import Image from "next/image"
 import { useLanguage } from '@/lib/language-context'
 import Link from 'next/link'
@@ -23,8 +23,7 @@ export function Hero() {
       tools: {
         title: "Quick Tools:",
         calculator: "Fee Calculator",
-        templates: "Templates",
-        matchmaker: "Matchmaker"
+        templates: "Templates"
       }
     },
     bn: {
@@ -36,8 +35,7 @@ export function Hero() {
       tools: {
         title: "কুইক টুলস:",
         calculator: "ফি ক্যালকুলেটর",
-        templates: "টেমপ্লেট",
-        matchmaker: "ম্যাচমেকার"
+        templates: "টেমপ্লেট"
       }
     }
   }
@@ -68,8 +66,8 @@ export function Hero() {
   }, [])
 
   return (
-    <section className="pt-20 pb-20 px-4 sm:px-6 lg:px-8 bg-background overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <section className="pt-24 pb-24 sm:pt-32 sm:pb-40 lg:pt-48 lg:pb-60 min-h-[85vh] flex items-center px-4 sm:px-6 lg:px-8 bg-background relative z-20">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Title Row - 60% width on desktop */}
         <div className="w-full lg:w-[60%] mb-8 relative z-10 space-y-6">
           <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold tracking-tight text-pretty text-foreground leading-[1.2]">
@@ -82,7 +80,7 @@ export function Hero() {
 
         <div className="flex flex-col lg:flex-row items-end justify-between gap-2 lg:gap-8">
           {/* Left Column: Search */}
-          <div className="w-full lg:w-[45%] text-left relative z-20">
+          <div className="w-full lg:w-[45%] text-left relative z-40">
             <div className="relative max-w-lg group" ref={resultsRef}>
               <label htmlFor="search-services" className="sr-only">{placeholder}</label>
               <div className="flex">
@@ -96,10 +94,10 @@ export function Hero() {
                   }}
                   onFocus={() => setShowResults(true)}
                   placeholder={placeholder}
-                  className="flex-1 px-5 py-4 text-xl font-medium text-black bg-white border-[3px] border-r-0 border-black focus:outline-none focus:ring-4 focus:ring-yellow-400 w-full"
+                  className="flex-1 px-5 py-4 text-xl font-medium text-black bg-white border-[3px] border-r-0 border-black focus:outline-none focus:ring-4 focus:ring-[#ff0000]/20 w-full"
                   autoComplete="off"
                 />
-                <button className="bg-primary hover:bg-primary/90 text-white px-7 py-4 flex items-center justify-center border-[3px] border-black focus:outline-none focus:ring-4 focus:ring-yellow-400 shrink-0">
+                <button className="bg-primary hover:bg-primary/90 text-white px-7 py-4 flex items-center justify-center border-[3px] border-black focus:outline-none focus:ring-4 focus:ring-[#ff0000]/20 shrink-0">
                   <Search className="w-7 h-7" />
                   <span className="sr-only">{searchAlt}</span>
                 </button>
@@ -107,7 +105,7 @@ export function Hero() {
 
               {/* Search Results Dropdown */}
               {showResults && (
-                <div className="absolute top-full left-0 right-0 bg-white border-[3px] border-black mt-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-h-[400px] overflow-y-auto">
+                <div className="absolute top-full left-0 right-0 bg-white border-[3px] border-black mt-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-h-[400px] overflow-y-auto z-50">
                   {query.trim() === '' && filteredServices.length > 0 && (
                     <div className="px-4 py-3 bg-gray-50 border-b-2 border-gray-100">
                       <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
@@ -168,16 +166,6 @@ export function Hero() {
                 <FileText className="w-4 h-4 text-[#ff0000]" />
                 {tools.templates}
               </Link>
-              <button 
-                onClick={() => {
-                  const el = document.getElementById('matchmaker-section');
-                  el?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-black font-bold text-sm hover:bg-gray-50 transition-colors"
-              >
-                <Zap className="w-4 h-4 text-[#ff0000]" />
-                {tools.matchmaker}
-              </button>
             </div>
           </div>
 ...
