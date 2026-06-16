@@ -77,10 +77,25 @@ export default function VaultPage() {
     const file = e.target.files?.[0]
     if (!file || !user) return
 
+    // Security Check: Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File size exceeds 5MB limit.')
+      return
+    }
+
+    // Security Check: Validate file type
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png']
+    if (!allowedTypes.includes(file.type)) {
+      alert('Invalid file type. Only PDF, JPG, and PNG are allowed.')
+      return
+    }
+
     setUploading(true)
     try {
       const fileExt = file.name.split('.').pop()
-      const fileName = `${Math.random()}.${fileExt}`
+      // Security Check: Sanitize file extension
+      const safeExt = fileExt?.toLowerCase().match(/^[a-z0-9]+$/) ? fileExt : 'bin'
+      const fileName = `${crypto.randomUUID()}.${safeExt}`
       const filePath = `${user.id}/${fileName}`
 
       // 1. Upload to Storage
@@ -103,7 +118,7 @@ export default function VaultPage() {
 
       if (dbError) throw dbError
 
-      fetchDocuments(user.id)
+      fetchDocuments()
     } catch (err) {
       if (err instanceof Error) {
         alert(err.message)
