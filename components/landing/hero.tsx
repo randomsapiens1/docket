@@ -66,24 +66,24 @@ export function Hero() {
   }, [])
 
   return (
-    <section className="pt-24 pb-24 sm:pt-32 sm:pb-40 lg:pt-48 lg:pb-60 min-h-[85vh] flex items-center px-4 sm:px-6 lg:px-8 bg-background relative z-20">
+    <section className="pt-8 pb-16 sm:pt-32 sm:pb-40 lg:pt-48 lg:pb-60 min-h-[70vh] sm:min-h-[85vh] flex items-center px-4 sm:px-6 lg:px-8 bg-background relative z-20">
       <div className="max-w-7xl mx-auto w-full">
         {/* Title Row - 60% width on desktop */}
-        <div className="w-full lg:w-[60%] mb-8 relative z-10 space-y-6">
-          <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold tracking-tight text-pretty text-foreground leading-[1.2]">
+        <div className="w-full lg:w-[60%] mb-2 sm:mb-8 relative z-10 space-y-4 sm:space-y-6">
+          <h1 className="text-4xl sm:text-4xl lg:text-[42px] font-extrabold tracking-tight text-pretty text-foreground leading-[1.1] sm:leading-[1.2]">
             {title}
           </h1>
-          <p className="text-base sm:text-xl text-muted-foreground text-pretty max-w-xl leading-relaxed">
+          <p className="text-sm sm:text-xl text-muted-foreground text-pretty max-w-xl leading-relaxed">
             {description}
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-end justify-between gap-2 lg:gap-8">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-2 lg:gap-8">
           {/* Left Column: Search */}
-          <div className="w-full lg:w-[45%] text-left relative z-40">
+          <div className="w-full lg:w-[45%] text-left relative z-40 order-last lg:order-first">
             <div className="relative max-w-lg group" ref={resultsRef}>
               <label htmlFor="search-services" className="sr-only">{placeholder}</label>
-              <div className="flex">
+              <div className="flex shadow-[6px_6px_0_0_rgba(0,0,0,1)] sm:shadow-none">
                 <input
                   type="text"
                   id="search-services"
@@ -94,11 +94,11 @@ export function Hero() {
                   }}
                   onFocus={() => setShowResults(true)}
                   placeholder={placeholder}
-                  className="flex-1 px-5 py-4 text-xl font-medium text-black bg-white border-[3px] border-r-0 border-black focus:outline-none focus:ring-4 focus:ring-[#ff0000]/20 w-full"
+                  className="flex-1 px-4 py-3 sm:px-5 sm:py-4 text-lg sm:text-xl font-medium text-black bg-white border-[3px] border-r-0 border-black focus:outline-none focus:ring-4 focus:ring-[#ff0000]/20 w-full"
                   autoComplete="off"
                 />
-                <button className="bg-primary hover:bg-primary/90 text-white px-7 py-4 flex items-center justify-center border-[3px] border-black focus:outline-none focus:ring-4 focus:ring-[#ff0000]/20 shrink-0">
-                  <Search className="w-7 h-7" />
+                <button className="bg-primary hover:bg-primary/90 text-white px-5 sm:px-7 py-3 sm:py-4 flex items-center justify-center border-[3px] border-black focus:outline-none focus:ring-4 focus:ring-[#ff0000]/20 shrink-0">
+                  <Search className="w-6 h-6 sm:w-7 sm:h-7" />
                   <span className="sr-only">{searchAlt}</span>
                 </button>
               </div>
@@ -170,9 +170,9 @@ export function Hero() {
           </div>
 ...
 
-          {/* Right Column: Image (Pulled up to overlap text, but bottom-aligned with search) */}
-          <div className="w-full lg:w-[60%] flex justify-center lg:justify-end lg:-mt-48">
-            <div className="relative w-full max-w-[480px] mx-auto lg:max-w-none">
+          {/* Right Column: Image */}
+          <div className="w-full lg:w-[60%] flex justify-center lg:justify-end lg:-mt-48 -mt-6 mb-6 lg:mb-0">
+            <div className="relative w-full max-w-[340px] sm:max-w-[480px] mx-auto lg:max-w-none">
               <Image
                 src="/docket-hero.webp"
                 alt="Docket Hero Illustration"
@@ -180,7 +180,7 @@ export function Hero() {
                 height={1000}
                 priority
                 sizes="(max-width: 768px) 100vw, 60vw"
-                className="w-full h-auto object-contain max-h-[400px] sm:max-h-[500px] lg:max-h-[850px] lg:translate-x-4"
+                className="w-full h-auto object-contain max-h-[320px] sm:max-h-[500px] lg:max-h-[850px] lg:translate-x-4"
               />
             </div>
           </div>

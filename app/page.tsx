@@ -2,6 +2,7 @@ import { Header } from '@/components/landing/header'
 import { PhaseBanner } from '@/components/landing/phase-banner'
 import { Hero } from '@/components/landing/hero'
 import { TaskTabs } from '@/components/landing/task-tabs'
+import { Features } from '@/components/landing/features'
 import { TrustSection } from '@/components/landing/trust-section'
 import { CTA } from '@/components/landing/cta'
 import { Footer } from '@/components/landing/footer'
@@ -15,6 +16,7 @@ export default function Page() {
       <PhaseBanner />
       <Hero />
       <TaskTabs />
+      <Features />
       <TrustSection />
       <CTA />
       <Footer />

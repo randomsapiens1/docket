@@ -56,22 +56,22 @@ export function TaskTabs() {
   }[language]
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-border relative z-10">
-      <div className="max-w-7xl mx-auto space-y-12">
+    <section className="py-16 sm:py-20 px-2 sm:px-6 lg:px-8 bg-white border-t border-border relative z-10">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         <div className="text-center space-y-4">
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground px-4">
             {t.heading}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             {t.subheading}
           </p>
         </div>
 
         {/* Windows Tab Style Container */}
-        <div className="bg-white border-[4px] border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] flex flex-col min-h-[500px]">
+        <div className="bg-white border-[3px] sm:border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] flex flex-col min-h-[400px] sm:min-h-[500px]">
           
-          {/* Tab Bar */}
-          <div className="flex flex-wrap border-b-[4px] border-black bg-gray-100">
+          {/* Tab Bar - Scrollable on mobile */}
+          <div className="flex overflow-x-auto no-scrollbar border-b-[3px] sm:border-b-[4px] border-black bg-gray-100 snap-x snap-mandatory">
             {categories.map((cat, idx) => {
               const Icon = ICON_MAP[cat.title] || Plus
               const isActive = activeTab === idx
@@ -81,13 +81,13 @@ export function TaskTabs() {
                   key={idx}
                   onClick={() => setActiveTab(idx)}
                   className={cn(
-                    "flex-1 min-w-[150px] sm:min-w-0 px-6 py-4 flex items-center justify-center gap-3 font-bold text-sm uppercase tracking-tight transition-all border-r-[4px] border-black last:border-r-0",
+                    "flex-none snap-start min-w-[140px] sm:flex-1 px-5 py-3.5 sm:px-6 sm:py-4 flex items-center justify-center gap-2 sm:gap-3 font-bold text-xs uppercase tracking-tight transition-all border-r-[3px] sm:border-r-[4px] border-black last:border-r-0",
                     isActive 
                       ? "bg-white text-black translate-y-[0px]" 
                       : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
                   )}
                 >
-                  <Icon className={cn("w-5 h-5", isActive ? "text-[#ff0000]" : "text-gray-400")} />
+                  <Icon className={cn("w-4 h-4 sm:w-5 sm:h-5", isActive ? "text-[#ff0000]" : "text-gray-400")} />
                   {cat.title}
                 </button>
               )
@@ -95,49 +95,49 @@ export function TaskTabs() {
           </div>
 
           {/* Content Area */}
-          <div className="flex-1 p-8 sm:p-12 animate-in fade-in slide-in-from-left-4 duration-300">
-            <div className="grid lg:grid-cols-2 gap-12 h-full">
+          <div className="flex-1 p-4 sm:p-12 animate-in fade-in slide-in-from-left-4 duration-300">
+            <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 h-full">
               
               {/* Info Column */}
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8">
                 <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ff0000] text-white border-2 border-black font-bold uppercase text-[10px] tracking-widest">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ff0000] text-white border-2 border-black font-bold uppercase text-[9px] sm:text-[10px] tracking-widest">
                     {categories[activeTab].title}
                   </div>
-                  <h3 className="text-3xl sm:text-4xl font-extrabold text-foreground leading-tight">
+                  <h3 className="text-2xl sm:text-4xl font-extrabold text-foreground leading-tight">
                     {categories[activeTab].description}
                   </h3>
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-1.5 bg-[#ff0000]" />
-                    <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Services in this Pathway</span>
+                    <div className="w-6 h-1.5 bg-[#ff0000]" />
+                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-muted-foreground">Services in this Pathway</span>
                   </div>
-                  <ul className="space-y-4">
+                  <ul className="space-y-3 sm:space-y-4">
                     {categories[activeTab].items.map((item, i) => (
                       <li key={i} className="group">
                         <a 
                           href={item.href}
                           className={cn(
-                            "flex items-center justify-between p-4 border-2 border-black transition-all",
+                            "flex items-center justify-between p-3 sm:p-4 border-2 border-black transition-all",
                             item.status === 'Live' 
-                              ? "bg-white hover:bg-gray-50 hover:translate-x-2" 
+                              ? "bg-white hover:bg-gray-50 sm:hover:translate-x-2 shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:shadow-none sm:shadow-none" 
                               : "bg-gray-50 opacity-50 pointer-events-none"
                           )}
                         >
                           <div className="flex items-center gap-3">
                             <div className={cn("w-2 h-2 rounded-full", item.status === 'Live' ? "bg-green-500" : "bg-gray-300")} />
-                            <span className="font-bold text-lg">{item.name}</span>
+                            <span className="font-bold text-base sm:text-lg">{item.name}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <span className={cn(
-                              "text-[10px] font-black uppercase px-2 py-0.5 border-2 border-black",
+                              "text-[9px] sm:text-[10px] font-black uppercase px-2 py-0.5 border-2 border-black",
                               item.status === 'Live' ? "bg-black text-white" : "bg-white text-gray-400 border-gray-200"
                             )}>
                               {item.status === 'Live' ? t.live : t.soon}
                             </span>
-                            {item.status === 'Live' && <ArrowRight className="w-5 h-5 text-[#ff0000]" />}
+                            {item.status === 'Live' && <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#ff0000]" />}
                           </div>
                         </a>
                       </li>

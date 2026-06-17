@@ -141,7 +141,7 @@ export function BusinessMatchmaker() {
   const result = getResult()
 
   return (
-    <div className="bg-white border-[3px] border-black p-6 sm:p-10 space-y-8 min-h-[450px] flex flex-col justify-center relative overflow-hidden">
+    <div className="bg-white border-[3px] border-black p-4 sm:p-10 space-y-8 min-h-[450px] flex flex-col justify-center relative overflow-hidden">
       <div className="relative z-10 space-y-8">
         {step !== 'result' ? (
           <>
