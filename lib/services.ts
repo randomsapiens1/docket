@@ -26,7 +26,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       title: "Land & Property",
       description: "Transfer ownership, verify records, pay land tax.",
       items: [
-        { name: "Land mutation (namjari)", status: "Soon", href: "#", keywords: ["land", "mutation", "namjari", "property", "transfer"] },
+        { name: "Land mutation (namjari)", status: "Live", href: "/services/land-mutation", keywords: ["land", "mutation", "namjari", "property", "transfer"] },
         { name: "Get a khatian", status: "Soon", href: "#", keywords: ["khatian", "porcha", "land", "records"] },
       ]
     },
@@ -74,7 +74,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       title: "ভূমি ও সম্পত্তি",
       description: "মালিকানা পরিবর্তন করুন, রেকর্ড যাচাই করুন, ভূমি উন্নয়ন কর পরিশোধ করুন।",
       items: [
-        { name: "নামজারি (মিউটেশন)", status: "Soon", href: "#", keywords: ["ভূমি", "নামজারি", "মিউটেশন", "সম্পত্তি", "স্থানান্তর"] },
+        { name: "নামজারি (মিউটেশন)", status: "Live", href: "/services/land-mutation", keywords: ["ভূমি", "নামজারি", "মিউটেশন", "সম্পত্তি", "স্থানান্তর"] },
         { name: "খতিয়ান সংগ্রহ", status: "Soon", href: "#", keywords: ["খতিয়ান", "পর্চা", "ভূমি", "রেকর্ড"] },
       ]
     },
