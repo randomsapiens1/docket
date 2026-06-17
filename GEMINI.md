@@ -15,6 +15,10 @@
 - **Images**: Use `.webp` for large illustrations. Filenames must be lowercase and hyphenated (e.g., `docket-hero.webp`).
 - **Icons**: Use `lucide-react`. Ensure `next.config.mjs` has `experimental.optimizePackageImports` enabled for tree-shaking.
 
+## Vercel & Deployment
+- **Supabase Initialization**: Always handle missing environment variables in `createClient` and `createServerClient` to prevent build-time failures. Use fallbacks for `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` during the build process, as Vercel's build workers may not have these variables available even if they are configured in the dashboard.
+- **Environment Variables**: Use `.trim()` when reading Supabase credentials to prevent accidental whitespace issues.
+
 ## Metadata & Branding
 - **Title Format**: Browser tab titles should follow `Docket | [Tagline]`.
 - **Favicons**: Use the original `Docket-logo.png` for all site icons and metadata.
