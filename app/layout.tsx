@@ -18,8 +18,8 @@ export const metadata: Metadata = {
   title: 'Docket | Government made easy',
   description: 'Verified, step-by-step guidance for official processes in Bangladesh. From company registration to land transfers.',
   icons: {
-    icon: '/Docket-logo.png',
-    apple: '/Docket-logo.png',
+    icon: '/docket-logo.png',
+    apple: '/docket-logo.png',
   },
 }
 

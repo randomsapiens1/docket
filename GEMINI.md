@@ -21,4 +21,4 @@
 
 ## Metadata & Branding
 - **Title Format**: Browser tab titles should follow `Docket | [Tagline]`.
-- **Favicons**: Use the original `Docket-logo.png` for all site icons and metadata.
+- **Favicons**: Use the original `docket-logo.png` for all site icons and metadata.

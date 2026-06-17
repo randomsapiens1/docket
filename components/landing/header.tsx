@@ -66,7 +66,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         <Link href="/" className="flex items-center gap-3 group cursor-pointer -ml-1">
           <Image
-            src="/Docket-logo.png"
+            src="/docket-logo.png"
             alt="docket logo"
             width={32}
             height={32}
@@ -138,7 +138,7 @@ export function Header() {
       {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 z-[60] md:hidden transition-all duration-300 ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
         <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
-        <div className={`absolute top-0 right-0 h-full w-[85%] max-w-[320px] bg-white border-l-[4px] border-black p-8 shadow-[-12px_0_0_0_rgba(0,0,0,1)] flex flex-col transition-transform duration-300 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className={`absolute top-0 right-0 h-full w-[85%] max-w-[320px] bg-white border-l-[4px] border-black p-8 flex flex-col transition-transform duration-300 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="flex justify-between items-center mb-10">
             <span className="font-black text-2xl tracking-tighter">docket</span>
             <button onClick={() => setIsMenuOpen(false)} className="p-2 border-2 border-black">
@@ -164,7 +164,7 @@ export function Header() {
             {user ? (
               <>
                 <Link href="/vault" className="block" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="outline" className="w-full h-14 font-black border-[3px] border-black rounded-none shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all flex items-center justify-center gap-2">
+                  <Button variant="outline" className="w-full h-14 font-black border-[3px] border-black rounded-none transition-all flex items-center justify-center gap-2">
                     <UserIcon className="w-5 h-5" />
                     {language === 'en' ? 'My Vault' : 'আমার ভল্ট'}
                   </Button>
@@ -179,7 +179,7 @@ export function Header() {
               </>
             ) : (
               <Link href="/auth" className="block" onClick={() => setIsMenuOpen(false)}>
-                <Button className="w-full h-14 bg-black text-white font-black rounded-none border-[3px] border-black shadow-[4px_4px_0_0_rgba(255,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 transition-all flex items-center justify-center gap-2">
+                <Button className="w-full h-14 bg-black text-white font-black rounded-none border-[3px] border-black transition-all flex items-center justify-center gap-2">
                   <LogIn className="w-5 h-5" />
                   {language === 'en' ? 'Sign in' : 'সাইন ইন'}
                 </Button>

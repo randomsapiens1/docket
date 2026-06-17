@@ -10,7 +10,7 @@ export function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <Image 
-                src="/Docket-logo.png" 
+                src="/docket-logo.png" 
                 alt="docket logo" 
                 width={24} 
                 height={24} 
