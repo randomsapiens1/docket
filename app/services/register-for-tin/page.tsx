@@ -170,6 +170,8 @@ const content = {
   }
 }
 
+export const dynamic = 'force-dynamic'
+
 export default function TINRegistrationPage() {
   const { language } = useLanguage()
   const s = content[language]

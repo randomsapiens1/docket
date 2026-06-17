@@ -37,6 +37,8 @@ const DOC_TYPES = [
   { value: 'PHOTO', label: 'Passport Photo' }
 ]
 
+export const dynamic = 'force-dynamic'
+
 export default function VaultPage() {
   const { language } = useLanguage()
   const [documents, setDocuments] = useState<Document[]>([])

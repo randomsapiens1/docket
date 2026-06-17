@@ -9,6 +9,8 @@ import { ArrowLeft, Search, Filter } from 'lucide-react'
 import Link from 'next/link'
 import { templates } from '@/lib/templates'
 
+export const dynamic = 'force-dynamic'
+
 export default function TemplatesPage() {
   const { language } = useLanguage()
   const [query, setQuery] = useState('')

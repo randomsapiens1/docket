@@ -10,6 +10,8 @@ import { useLanguage } from '@/lib/language-context'
 import { ShieldCheck, ArrowRight, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 export default function AuthPage() {
   const { language } = useLanguage()
   const [email, setEmail] = useState('')

@@ -4,6 +4,8 @@ import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { FeeCalculator } from '@/components/calculators/fee-calculator'
 
+export const dynamic = 'force-dynamic'
+
 export default function CalculatorPage() {
   return (
     <main className="min-h-screen bg-[#f3f2f1] pt-16">
