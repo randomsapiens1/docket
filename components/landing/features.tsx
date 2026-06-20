@@ -14,7 +14,7 @@ export function Features() {
         </div>
 
         <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
-          <div className="p-6 sm:p-8 border-[3px] border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] space-y-4">
+          <div className="p-6 sm:p-8 border-[3px] border-black bg-white space-y-4">
             <div className="w-12 h-12 bg-[#ff0000] flex items-center justify-center border-2 border-black">
               <Zap className="w-6 h-6 text-white" />
             </div>
@@ -24,7 +24,7 @@ export function Features() {
             </p>
           </div>
 
-          <div className="p-6 sm:p-8 border-[3px] border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] space-y-4">
+          <div className="p-6 sm:p-8 border-[3px] border-black bg-white space-y-4">
             <div className="w-12 h-12 bg-[#ff0000] flex items-center justify-center border-2 border-black">
               <Shield className="w-6 h-6 text-white" />
             </div>
@@ -34,7 +34,7 @@ export function Features() {
             </p>
           </div>
 
-          <div className="p-6 sm:p-8 border-[3px] border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] space-y-4">
+          <div className="p-6 sm:p-8 border-[3px] border-black bg-white space-y-4">
             <div className="w-12 h-12 bg-[#ff0000] flex items-center justify-center border-2 border-black">
               <Users className="w-6 h-6 text-white" />
             </div>
@@ -44,7 +44,7 @@ export function Features() {
             </p>
           </div>
 
-          <div className="p-6 sm:p-8 border-[3px] border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] space-y-4">
+          <div className="p-6 sm:p-8 border-[3px] border-black bg-white space-y-4">
             <div className="w-12 h-12 bg-[#ff0000] flex items-center justify-center border-2 border-black">
               <CheckCircle className="w-6 h-6 text-white" />
             </div>

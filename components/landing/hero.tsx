@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Search, Calculator, FileText, ArrowRight } from 'lucide-react'
+import { Search, Calculator, FileText, ArrowRight, Sparkles } from 'lucide-react'
 import Image from "next/image"
 import { useLanguage } from '@/lib/language-context'
 import Link from 'next/link'
@@ -23,7 +23,8 @@ export function Hero() {
       tools: {
         title: "Quick Tools:",
         calculator: "Fee Calculator",
-        templates: "Templates"
+        templates: "Templates",
+        facilities: "Benefits Finder"
       }
     },
     bn: {
@@ -35,7 +36,8 @@ export function Hero() {
       tools: {
         title: "কুইক টুলস:",
         calculator: "ফি ক্যালকুলেটর",
-        templates: "টেমপ্লেট"
+        templates: "টেমপ্লেট",
+        facilities: "সুবিধা ও ভাতা সন্ধানক"
       }
     }
   }
@@ -83,7 +85,7 @@ export function Hero() {
           <div className="w-full lg:w-[45%] text-left relative z-40 order-last lg:order-first">
             <div className="relative max-w-lg group" ref={resultsRef}>
               <label htmlFor="search-services" className="sr-only">{placeholder}</label>
-              <div className="flex shadow-[6px_6px_0_0_rgba(0,0,0,1)] sm:shadow-none">
+              <div className="flex">
                 <input
                   type="text"
                   id="search-services"
@@ -105,7 +107,7 @@ export function Hero() {
 
               {/* Search Results Dropdown */}
               {showResults && (
-                <div className="absolute top-full left-0 right-0 bg-white border-[3px] border-black mt-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-h-[400px] overflow-y-auto z-50">
+                <div className="absolute top-full left-0 right-0 bg-white border-[3px] border-black mt-2 max-h-[400px] overflow-y-auto z-50">
                   {query.trim() === '' && filteredServices.length > 0 && (
                     <div className="px-4 py-3 bg-gray-50 border-b-2 border-gray-100">
                       <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
@@ -165,6 +167,13 @@ export function Hero() {
               >
                 <FileText className="w-4 h-4 text-[#ff0000]" />
                 {tools.templates}
+              </Link>
+              <Link 
+                href="/facilities"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-black font-bold text-sm hover:bg-gray-50 transition-colors"
+              >
+                <Sparkles className="w-4 h-4 text-[#ff0000]" />
+                {tools.facilities}
               </Link>
             </div>
           </div>

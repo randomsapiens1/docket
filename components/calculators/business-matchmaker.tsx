@@ -170,7 +170,7 @@ export function BusinessMatchmaker() {
                   <button
                     key={opt.id}
                     onClick={() => handleAnswer(opt.id)}
-                    className="flex flex-col items-start p-6 border-[3px] border-black hover:bg-gray-50 hover:translate-x-1 hover:-translate-y-1 transition-all text-left bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1"
+                    className="flex flex-col items-start p-6 border-[3px] border-black hover:bg-gray-50 transition-all text-left bg-white"
                   >
                     <opt.icon className="w-8 h-8 text-[#ff0000] mb-4" />
                     <span className="font-black text-lg block">{opt.label}</span>

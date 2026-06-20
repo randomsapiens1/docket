@@ -50,12 +50,12 @@ export function Header() {
 
   const navItems = {
     en: [
-      { label: 'How it works', href: '#' },
       { label: 'Browse services', href: '/' },
+      { label: 'Facilities & Benefits', href: '/facilities' },
     ],
     bn: [
-      { label: 'কিভাবে এটি কাজ করে', href: '#' },
       { label: 'সেবাগুলো দেখুন', href: '/' },
+      { label: 'সুবিধা ও ভাতা সমূহ', href: '/facilities' },
     ]
   }
 

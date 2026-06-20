@@ -233,7 +233,7 @@ export default function VaultPage() {
           <div className="grid lg:grid-cols-3 gap-10">
             {/* Upload Sidebar */}
             <div className="lg:col-span-1 space-y-6">
-              <div className="bg-white border-[3px] border-black p-6 space-y-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+              <div className="bg-white border-[3px] border-black p-6 space-y-6">
                 <h2 className="text-xl font-black flex items-center gap-2">
                   <Plus className="w-5 h-5 text-[#ff0000]" />
                   {t.uploadTitle}
@@ -292,7 +292,7 @@ export default function VaultPage() {
               ) : (
                 <div className="grid sm:grid-cols-2 gap-6">
                   {documents.map((doc) => (
-                    <div key={doc.id} className="bg-white border-[3px] border-black p-6 space-y-4 hover:translate-x-1 hover:-translate-y-1 transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                    <div key={doc.id} className="bg-white border-[3px] border-black p-6 space-y-4 transition-all">
                       <div className="flex items-start justify-between">
                         <div className="p-3 bg-gray-50 border-2 border-black">
                           <FileText className="w-6 h-6 text-[#ff0000]" />

@@ -86,9 +86,9 @@ export default function AuthPage() {
     <main className="min-h-screen bg-[#f3f2f1] pt-16 flex flex-col">
       <Header />
       
-      <div className="flex-1 flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-white border-[3px] border-black p-8 space-y-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-          <div className="space-y-2 text-center">
+      <div className="flex-grow flex items-center justify-center p-4">
+        <div className="w-full max-w-md bg-white border-[3px] border-black p-8 space-y-8">
+          <div className="space-y-2">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-[#ff0000] border-2 border-black mb-2">
               <ShieldCheck className="w-8 h-8 text-white" />
             </div>

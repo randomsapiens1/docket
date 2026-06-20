@@ -68,7 +68,7 @@ export function TaskTabs() {
         </div>
 
         {/* Windows Tab Style Container */}
-        <div className="bg-white border-[3px] sm:border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] flex flex-col min-h-[400px] sm:min-h-[500px]">
+        <div className="bg-white border-[3px] sm:border-[4px] border-black flex flex-col min-h-[400px] sm:min-h-[500px]">
           
           {/* Tab Bar - Scrollable on mobile */}
           <div className="flex overflow-x-auto no-scrollbar border-b-[3px] sm:border-b-[4px] border-black bg-gray-100 snap-x snap-mandatory">
@@ -122,7 +122,7 @@ export function TaskTabs() {
                           className={cn(
                             "flex items-center justify-between p-3 sm:p-4 border-2 border-black transition-all",
                             item.status === 'Live' 
-                              ? "bg-white hover:bg-gray-50 sm:hover:translate-x-2 shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:shadow-none sm:shadow-none" 
+                              ? "bg-white hover:bg-gray-50" 
                               : "bg-gray-50 opacity-50 pointer-events-none"
                           )}
                         >
@@ -156,7 +156,7 @@ export function TaskTabs() {
                   <div className="hidden lg:flex w-full h-full items-center justify-center bg-gray-50 border-2 border-black border-dashed relative overflow-hidden group">
                     <div className="relative z-10 text-center space-y-4 transform group-hover:scale-105 transition-transform">
                       {React.createElement(ICON_MAP[categories[activeTab].title] || Plus, {
-                        className: "w-32 h-32 mx-auto text-[#ff0000] drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+                        className: "w-32 h-32 mx-auto text-[#ff0000]"
                       })}
                       <div className="space-y-1">
                         <p className="font-black text-2xl uppercase italic">{categories[activeTab].title}</p>
