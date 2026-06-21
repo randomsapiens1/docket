@@ -13,7 +13,7 @@ interface Answers {
   liability: 'low' | 'high' | null
 }
 
-export function BusinessMatchmaker() {
+export function BusinessMatchmaker({ compact = false }: { compact?: boolean }) {
   const { language } = useLanguage()
   const [step, setStep] = useState<Step>('owners')
   const [answers, setAnswers] = useState<Answers>({
@@ -141,20 +141,22 @@ export function BusinessMatchmaker() {
   const result = getResult()
 
   return (
-    <div className="bg-white border-[3px] border-black p-4 sm:p-10 space-y-8 min-h-[450px] flex flex-col justify-center relative overflow-hidden">
-      <div className="relative z-10 space-y-8">
+    <div className={`bg-white border-[3px] border-black flex flex-col justify-center relative overflow-hidden ${
+      compact ? 'p-4 sm:p-5 min-h-[300px]' : 'p-4 sm:p-10 min-h-[450px]'
+    }`}>
+      <div className={`relative z-10 ${compact ? 'space-y-4' : 'space-y-8'}`}>
         {step !== 'result' ? (
           <>
-            <div className="space-y-2">
-              <h3 className="text-3xl font-black text-black">{t.title}</h3>
-              <p className="text-gray-500 font-bold uppercase text-xs tracking-widest">{t.subtitle}</p>
+            <div className={compact ? 'space-y-1' : 'space-y-2'}>
+              <h3 className={`font-black text-black leading-tight ${compact ? 'text-lg sm:text-xl' : 'text-3xl'}`}>{t.title}</h3>
+              <p className={`text-gray-500 font-bold uppercase tracking-widest ${compact ? 'text-[9px]' : 'text-xs'}`}>{t.subtitle}</p>
               
               {/* Progress Bar */}
-              <div className="flex gap-2 pt-4">
+              <div className={`flex gap-1.5 ${compact ? 'pt-2' : 'pt-4'}`}>
                 {['owners', 'goal', 'liability'].map((s, i) => (
                   <div 
                     key={s} 
-                    className={`h-2 flex-1 border-2 border-black transition-colors ${
+                    className={`h-1.5 flex-1 border border-black transition-colors ${
                       step === s ? 'bg-[#ff0000]' : 
                       (['owners', 'goal', 'liability'].indexOf(step) > i ? 'bg-black' : 'bg-gray-100')
                     }`} 
@@ -163,53 +165,59 @@ export function BusinessMatchmaker() {
               </div>
             </div>
 
-            <div className="space-y-6">
-              <h4 className="text-xl font-bold text-black">{t.questions[step as keyof typeof t.questions].q}</h4>
-              <div className="grid sm:grid-cols-2 gap-4">
+            <div className={compact ? 'space-y-3' : 'space-y-6'}>
+              <h4 className={`font-bold text-black ${compact ? 'text-sm' : 'text-xl'}`}>{t.questions[step as keyof typeof t.questions].q}</h4>
+              <div className={`grid sm:grid-cols-2 ${compact ? 'gap-2' : 'gap-4'}`}>
                 {t.questions[step as keyof typeof t.questions].options.map((opt) => (
                   <button
                     key={opt.id}
                     onClick={() => handleAnswer(opt.id)}
-                    className="flex flex-col items-start p-6 border-[3px] border-black hover:bg-gray-50 transition-all text-left bg-white"
+                    className={`flex flex-col items-start border-[2px] sm:border-[3px] border-black hover:bg-gray-50 transition-all text-left bg-white ${
+                      compact ? 'p-3' : 'p-6'
+                    }`}
                   >
-                    <opt.icon className="w-8 h-8 text-[#ff0000] mb-4" />
-                    <span className="font-black text-lg block">{opt.label}</span>
-                    <span className="text-sm text-gray-600 font-medium leading-tight mt-1">{opt.desc}</span>
+                    <opt.icon className={`text-[#ff0000] ${compact ? 'w-5 h-5 mb-1.5' : 'w-8 h-8 mb-4'}`} />
+                    <span className={`font-black block leading-tight ${compact ? 'text-xs' : 'text-lg'}`}>{opt.label}</span>
+                    {!compact && <span className="text-sm text-gray-600 font-medium leading-tight mt-1">{opt.desc}</span>}
                   </button>
                 ))}
               </div>
             </div>
           </>
         ) : (
-          <div className="space-y-8 text-center sm:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-50 border-2 border-green-600 text-green-700 text-xs font-black uppercase mb-2">
-              <ShieldCheck className="w-4 h-4" />
+          <div className={compact ? 'space-y-4 text-left' : 'space-y-8 text-center sm:text-left'}>
+            <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 bg-green-50 border border-green-600 text-green-700 font-black uppercase text-[9px] ${
+              compact ? 'mb-1' : 'mb-2'
+            }`}>
+              <ShieldCheck className="w-3.5 h-3.5" />
               Recommended Structure
             </div>
             
-            <div className="space-y-4">
-              <h3 className="text-4xl sm:text-5xl font-black text-black">{result.title}</h3>
-              <p className="text-lg text-gray-700 font-medium max-w-2xl leading-relaxed">
+            <div className={compact ? 'space-y-1.5' : 'space-y-4'}>
+              <h3 className={`font-black text-black ${compact ? 'text-lg sm:text-xl' : 'text-4xl sm:text-5xl'}`}>{result.title}</h3>
+              <p className={`text-gray-700 font-medium leading-relaxed ${compact ? 'text-xs' : 'text-lg max-w-2xl'}`}>
                 {result.desc}
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <div className={`flex flex-col sm:flex-row gap-2 ${compact ? 'pt-1' : 'pt-2'}`}>
               <Link 
                 href={result.href}
-                className="flex-1 sm:flex-none px-6 py-2 bg-[#ff0000] text-white font-bold text-sm rounded-md border-2 border-black hover:bg-[#d90000] transition-colors flex items-center justify-center gap-2"
+                className={`flex-1 sm:flex-none bg-[#ff0000] text-white font-bold text-xs border border-black hover:bg-[#d90000] transition-all flex items-center justify-center gap-1.5 ${
+                  compact ? 'px-4 py-2' : 'px-6 py-2 text-sm rounded-md border-2'
+                }`}
               >
                 {result.action}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <button
                 onClick={() => {
                   setStep('owners')
                   setAnswers({ owners: null, goal: null, liability: null })
                 }}
-                className="px-6 py-2 bg-white text-black font-bold text-sm rounded-md border-2 border-black hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+                className={`px-4 py-2 bg-white text-black font-bold text-xs border border-black hover:bg-gray-50 transition-all flex items-center justify-center gap-1.5`}
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-3.5 h-3.5" />
                 {t.restart}
               </button>
             </div>

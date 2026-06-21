@@ -71,7 +71,7 @@ export function Hero() {
     <section className="pt-8 pb-16 sm:pt-32 sm:pb-40 lg:pt-48 lg:pb-60 min-h-[70vh] sm:min-h-[85vh] flex items-center px-4 sm:px-6 lg:px-8 bg-background relative z-20">
       <div className="max-w-7xl mx-auto w-full">
         {/* Title Row - 60% width on desktop */}
-        <div className="w-full lg:w-[60%] mb-2 sm:mb-8 relative z-10 space-y-4 sm:space-y-6">
+        <div className="w-full lg:w-[60%] mb-2 sm:mb-8 relative z-10 space-y-4 sm:space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <h1 className="text-4xl sm:text-4xl lg:text-[42px] font-extrabold tracking-tight text-pretty text-foreground leading-[1.1] sm:leading-[1.2]">
             {title}
           </h1>
@@ -82,7 +82,7 @@ export function Hero() {
 
         <div className="flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-2 lg:gap-8">
           {/* Left Column: Search */}
-          <div className="w-full lg:w-[45%] text-left relative z-40 order-last lg:order-first">
+          <div className="w-full lg:w-[45%] text-left relative z-40 order-last lg:order-first animate-in fade-in slide-in-from-bottom-6 duration-700 delay-150">
             <div className="relative max-w-lg group" ref={resultsRef}>
               <label htmlFor="search-services" className="sr-only">{placeholder}</label>
               <div className="flex">
@@ -180,7 +180,7 @@ export function Hero() {
 ...
 
           {/* Right Column: Image */}
-          <div className="w-full lg:w-[60%] flex justify-center lg:justify-end lg:-mt-48 -mt-6 mb-6 lg:mb-0">
+          <div className="w-full lg:w-[60%] flex justify-center lg:justify-end lg:-mt-48 -mt-6 mb-6 lg:mb-0 animate-in fade-in slide-in-from-right-8 duration-700">
             <div className="relative w-full max-w-[340px] sm:max-w-[480px] mx-auto lg:max-w-none">
               <Image
                 src="/docket-hero.webp"
