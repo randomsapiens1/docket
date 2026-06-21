@@ -1,11 +1,23 @@
 import { Header } from '@/components/landing/header'
 import { PhaseBanner } from '@/components/landing/phase-banner'
 import { Hero } from '@/components/landing/hero'
-import { TaskTabs } from '@/components/landing/task-tabs'
-import { LifeEventsSection } from '@/components/landing/life-events'
-import { FacilitiesPreview } from '@/components/landing/facilities-preview'
-import { TrustSection } from '@/components/landing/trust-section'
-import { Footer } from '@/components/landing/footer'
+import nextDynamic from 'next/dynamic'
+
+const TaskTabs = nextDynamic(() => import('@/components/landing/task-tabs').then(mod => mod.TaskTabs), {
+  loading: () => <div className="h-[400px] w-full animate-pulse bg-zinc-100 dark:bg-zinc-800 rounded-lg my-8" />,
+})
+const LifeEventsSection = nextDynamic(() => import('@/components/landing/life-events').then(mod => mod.LifeEventsSection), {
+  loading: () => <div className="h-[400px] w-full animate-pulse bg-zinc-100 dark:bg-zinc-800 rounded-lg my-8" />,
+})
+const FacilitiesPreview = nextDynamic(() => import('@/components/landing/facilities-preview').then(mod => mod.FacilitiesPreview), {
+  loading: () => <div className="h-[400px] w-full animate-pulse bg-zinc-100 dark:bg-zinc-800 rounded-lg my-8" />,
+})
+const TrustSection = nextDynamic(() => import('@/components/landing/trust-section').then(mod => mod.TrustSection), {
+  loading: () => <div className="h-[200px] w-full animate-pulse bg-zinc-100 dark:bg-zinc-800 rounded-lg my-8" />,
+})
+const Footer = nextDynamic(() => import('@/components/landing/footer').then(mod => mod.Footer), {
+  loading: () => <div className="h-[300px] w-full animate-pulse bg-zinc-100 dark:bg-zinc-800 rounded-lg mt-8" />,
+})
 
 export const dynamic = 'force-dynamic'
 

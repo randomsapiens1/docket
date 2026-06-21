@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
   // Image optimization enabled
   async headers() {
     return [
@@ -24,7 +27,7 @@ const nextConfig = {
           },
         ],
       },
-    ]
+    ];
   },
 }
 
