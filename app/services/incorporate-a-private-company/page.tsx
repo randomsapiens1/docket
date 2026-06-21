@@ -300,7 +300,6 @@ export default function ServiceDetailPage() {
             {/* Hero Card */}
             <div className="bg-white border-2 border-black p-8 space-y-6">
               <div className="space-y-2">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#ff0000]">{s.dept}</span>
                 <h1 className="text-3xl sm:text-4xl font-black text-black leading-tight">
                   {s.title}
                 </h1>

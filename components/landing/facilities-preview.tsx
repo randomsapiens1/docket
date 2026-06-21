@@ -3,6 +3,7 @@
 import { useLanguage } from '@/lib/language-context'
 import Link from 'next/link'
 import { Sparkles, ArrowRight, Coins, GraduationCap, Heart } from 'lucide-react'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
 
 const content = {
   en: {
@@ -75,7 +76,8 @@ export function FacilitiesPreview() {
 
   return (
     <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-secondary/10 border-t border-border">
-      <div className="max-w-7xl mx-auto space-y-12">
+      <ScrollReveal animation="slide-up">
+        <div className="max-w-7xl mx-auto space-y-12">
         
         {/* Header */}
         <div className="text-center space-y-4">
@@ -113,7 +115,7 @@ export function FacilitiesPreview() {
                     </span>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-black uppercase italic leading-tight">{item.title}</h3>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase leading-tight">{item.title}</h3>
                   <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                     {item.desc}
                   </p>
@@ -133,17 +135,19 @@ export function FacilitiesPreview() {
           })}
         </div>
 
-        {/* View All Button */}
+        {/* View All Link */}
         <div className="text-center pt-4">
-          <Link href="/facilities">
-            <button className="h-14 px-8 border-[3px] border-black bg-[#ff0000] text-white hover:bg-white hover:text-black font-black uppercase text-base tracking-wider transition-all flex items-center gap-3 mx-auto active:translate-x-0.5 active:translate-y-0.5">
-              {t.viewAll}
-              <ArrowRight className="w-5 h-5" />
-            </button>
+          <Link 
+            href="/facilities"
+            className="inline-flex items-center gap-2 text-base font-black uppercase tracking-wider text-[#ff0000] hover:underline"
+          >
+            {t.viewAll}
+            <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
 
-      </div>
+        </div>
+      </ScrollReveal>
     </section>
   )
 }

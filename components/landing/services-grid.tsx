@@ -1,35 +1,67 @@
-import { Briefcase, Map, Fingerprint, Receipt, Car, Globe, ArrowRight } from 'lucide-react'
+import { 
+  Fingerprint, 
+  Users, 
+  Briefcase, 
+  Award, 
+  Map, 
+  Car, 
+  Receipt, 
+  GraduationCap, 
+  Globe, 
+  Home, 
+  ArrowRight 
+} from 'lucide-react'
 
 const services = [
   {
-    title: "Business",
-    description: "Register your company, file returns, and stay compliant — step by step.",
-    icon: Briefcase,
-  },
-  {
-    title: "Land & Property",
-    description: "Transfer ownership, verify records, and pay land tax without the confusion.",
-    icon: Map,
-  },
-  {
-    title: "Identity",
-    description: "Apply for or correct your NID, passport, and certificates the right way.",
+    title: "Identity & Personal Documents",
+    description: "Everything related to proving who you are, including NID, passport, and certificates.",
     icon: Fingerprint,
   },
   {
-    title: "Tax",
-    description: "Register for TIN, file your income tax, and handle VAT without a consultant.",
-    icon: Receipt,
+    title: "Family & Life Events",
+    description: "Guides and checklists triggered by major life events like birth, marriage, and death.",
+    icon: Users,
   },
   {
-    title: "Vehicles",
-    description: "Get your driving license, register a vehicle, and renew fitness certificates.",
+    title: "Business & Entrepreneurship",
+    description: "Register your company, apply for licenses, file returns, and stay compliant.",
+    icon: Briefcase,
+  },
+  {
+    title: "Employment & Career",
+    description: "Services related to work, including TIN, police clearance, and work permits.",
+    icon: Award,
+  },
+  {
+    title: "Property & Land",
+    description: "Verify land records, request mutation (namjari), get khatians, and pay property taxes.",
+    icon: Map,
+  },
+  {
+    title: "Vehicles & Transportation",
+    description: "Get driving licenses, register vehicles, and renew fitness certificates.",
     icon: Car,
   },
   {
-    title: "Travel",
-    description: "Apply for a passport, get police clearance, and prepare travel documents.",
+    title: "Taxes & Finance",
+    description: "Register for TIN, file income tax returns, and process treasury e-challans.",
+    icon: Receipt,
+  },
+  {
+    title: "Education",
+    description: "Board certificates, name or age corrections, and educational equivalence.",
+    icon: GraduationCap,
+  },
+  {
+    title: "Immigration & Travel",
+    description: "Apply for passports, visas, immigration clearances, and expat welfare.",
     icon: Globe,
+  },
+  {
+    title: "Housing & Utilities",
+    description: "Apply for electricity, gas, water connections, and manage municipal holding tax.",
+    icon: Home,
   },
 ]
 

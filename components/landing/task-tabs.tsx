@@ -1,7 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { useLanguage } from '@/lib/language-context'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
 import { serviceCategories } from '@/lib/services'
 import { 
   Briefcase, 
@@ -14,25 +16,39 @@ import {
   Plus,
   ChevronDown,
   ChevronUp,
-  LucideIcon
+  LucideIcon,
+  Users,
+  Award,
+  GraduationCap,
+  Home,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { BusinessMatchmaker } from '@/components/calculators/business-matchmaker'
 
 const ICON_MAP: Record<string, LucideIcon> = {
-  "Business": Briefcase,
-  "Tax": Receipt,
-  "Land & Property": Map,
-  "Identity": Fingerprint,
-  "Vehicles": Car,
-  "Travel": Globe,
+  "Identity & Personal Documents": Fingerprint,
+  "Family & Life Events": Users,
+  "Business & Entrepreneurship": Briefcase,
+  "Employment & Career": Award,
+  "Property & Land": Map,
+  "Vehicles & Transportation": Car,
+  "Taxes & Finance": Receipt,
+  "Education": GraduationCap,
+  "Immigration & Travel": Globe,
+  "Housing & Utilities": Home,
   // BN
-  "ব্যবসা": Briefcase,
-  "কর": Receipt,
-  "ভূমি ও সম্পত্তি": Map,
-  "পরিচয়পত্র": Fingerprint,
-  "যানবাহন": Car,
-  "ভ্রমণ": Globe
+  "পরিচয় ও ব্যক্তিগত নথিপত্র": Fingerprint,
+  "পরিবার ও জীবনভিত্তিক সেবাসমূহ": Users,
+  "ব্যবসা ও উদ্যোক্তা": Briefcase,
+  "কর্মসংস্থান ও ক্যারিয়ার": Award,
+  "সম্পত্তি ও ভূমি": Map,
+  "যানবাহন ও পরিবহন": Car,
+  "কর ও অর্থসংস্থান": Receipt,
+  "শিক্ষা": GraduationCap,
+  "ইমিগ্রেশন ও ভ্রমণ": Globe,
+  "আবাসন ও ইউটিলিটি": Home
 }
 
 export function TaskTabs() {
@@ -40,6 +56,43 @@ export function TaskTabs() {
   const categories = serviceCategories[language]
   const [activeTab, setActiveTab] = useState(0)
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+
+  const scrollRef = React.useRef<HTMLDivElement>(null)
+  const [showLeftArrow, setShowLeftArrow] = useState(false)
+  const [showRightArrow, setShowRightArrow] = useState(true)
+
+  const checkScroll = React.useCallback(() => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current
+      setShowLeftArrow(scrollLeft > 10)
+      setShowRightArrow(scrollLeft + clientWidth < scrollWidth - 10)
+    }
+  }, [])
+
+  React.useEffect(() => {
+    const el = scrollRef.current
+    if (el) {
+      el.addEventListener('scroll', checkScroll)
+      checkScroll()
+      const timer = setTimeout(checkScroll, 150)
+      window.addEventListener('resize', checkScroll)
+      return () => {
+        el.removeEventListener('scroll', checkScroll)
+        window.removeEventListener('resize', checkScroll)
+        clearTimeout(timer)
+      }
+    }
+  }, [checkScroll])
+
+  const handleScroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 240
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      })
+    }
+  }
 
   const t = {
     en: {
@@ -60,7 +113,8 @@ export function TaskTabs() {
 
   return (
     <section className="py-16 sm:py-20 px-2 sm:px-6 lg:px-8 bg-white border-t border-border relative z-10">
-      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
+      <ScrollReveal animation="slide-up">
+        <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         <div className="text-center space-y-4">
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground px-4">
             {t.heading}
@@ -68,49 +122,91 @@ export function TaskTabs() {
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             {t.subheading}
           </p>
+          <div className="pt-2">
+            <Link 
+              href="/services"
+              className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-[#ff0000] hover:underline"
+            >
+              {language === 'en' ? 'View All Services' : 'সবগুলো সেবা দেখুন'}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
 
         {/* Windows Tab Style Container */}
         <div className="bg-white border-[3px] sm:border-[4px] border-black flex flex-col min-h-[400px] sm:min-h-[500px]">
           
-          {/* Tab Bar - Scrollable on mobile */}
-          <div className="flex overflow-x-auto no-scrollbar border-b-[3px] sm:border-b-[4px] border-black bg-gray-100 snap-x snap-mandatory">
-            {categories.map((cat, idx) => {
-              const Icon = ICON_MAP[cat.title] || Plus
-              const isActive = activeTab === idx
-              
-              return (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    setActiveTab(idx)
-                    setExpandedIndex(null)
-                  }}
-                  className={cn(
-                    "flex-none snap-start min-w-[140px] sm:flex-1 px-5 py-3.5 sm:px-6 sm:py-4 flex items-center justify-center gap-2 sm:gap-3 font-bold text-xs uppercase tracking-tight transition-all border-r-[3px] sm:border-r-[4px] border-black last:border-r-0",
-                    isActive 
-                      ? "bg-white text-black translate-y-[0px]" 
-                      : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
-                  )}
-                >
-                  <Icon className={cn("w-4 h-4 sm:w-5 sm:h-5", isActive ? "text-[#ff0000]" : "text-gray-400")} />
-                  {cat.title}
-                </button>
-              )
-            })}
+          {/* Tab Bar Container with Scroll Indications */}
+          <div className="border-b-[3px] sm:border-b-[4px] border-black bg-gray-100 flex items-stretch select-none relative">
+            
+            {/* Scroll Indicator / Scroll Left Button */}
+            <button 
+              onClick={() => handleScroll('left')}
+              className={cn(
+                "flex items-center justify-center w-10 border-r-[3px] border-black bg-gray-200 hover:bg-gray-300 text-black shrink-0 transition-all active:bg-white",
+                showLeftArrow ? "opacity-100 cursor-pointer" : "opacity-30 cursor-not-allowed pointer-events-none"
+              )}
+              disabled={!showLeftArrow}
+              aria-label="Scroll categories left"
+            >
+              <ChevronLeft className="w-5 h-5 text-black stroke-[3px]" />
+            </button>
+
+            {/* Tab Bar - Scrollable */}
+            <div 
+              ref={scrollRef}
+              className="flex-1 flex overflow-x-auto no-scrollbar snap-x snap-mandatory"
+            >
+              {categories.map((cat, idx) => {
+                const Icon = ICON_MAP[cat.title] || Plus
+                const isActive = activeTab === idx
+                
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setActiveTab(idx)
+                      setExpandedIndex(null)
+                    }}
+                    className={cn(
+                      "flex-none snap-start min-w-[145px] sm:flex-1 px-5 py-3.5 sm:px-6 sm:py-4 flex items-center justify-center gap-2 sm:gap-3 font-bold text-xs uppercase tracking-tight transition-all border-r-[3px] sm:border-r-[4px] border-black last:border-r-0",
+                      isActive 
+                        ? "bg-white text-black translate-y-[0px]" 
+                        : "bg-gray-100 text-muted-foreground hover:bg-gray-200"
+                    )}
+                  >
+                    <Icon className={cn("w-4 h-4 sm:w-5 sm:h-5", isActive ? "text-[#ff0000]" : "text-gray-400")} />
+                    {cat.title}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Scroll Indicator / Scroll Right Button */}
+            <button 
+              onClick={() => handleScroll('right')}
+              className={cn(
+                "flex items-center justify-center w-10 border-l-[3px] border-black bg-gray-200 hover:bg-gray-300 text-black shrink-0 transition-all active:bg-white",
+                showRightArrow ? "opacity-100 cursor-pointer" : "opacity-30 cursor-not-allowed pointer-events-none"
+              )}
+              disabled={!showRightArrow}
+              aria-label="Scroll categories right"
+            >
+              <ChevronRight className="w-5 h-5 text-black stroke-[3px]" />
+            </button>
           </div>
 
           {/* Content Area */}
-          <div className="flex-1 p-4 sm:p-12 animate-in fade-in slide-in-from-left-4 duration-300">
+          <div 
+            key={activeTab}
+            className="flex-1 p-4 sm:p-12 animate-in fade-in slide-in-from-bottom-3 duration-300 ease-out"
+          >
             <div className="space-y-8">
               
               {/* Top Row: Title/Description on Left, Matchmaker/Decorative Badge on Right */}
               <div className="flex flex-col lg:flex-row justify-between items-start gap-8 border-b-2 border-dashed border-gray-200 pb-8">
                 {/* Left Side Info */}
                 <div className="space-y-4 max-w-xl">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#ff0000] text-white border-2 border-black font-bold uppercase text-[9px] sm:text-[10px] tracking-widest">
-                    {categories[activeTab].title}
-                  </div>
                   <h3 className="text-2xl sm:text-4xl font-extrabold text-foreground leading-tight">
                     {categories[activeTab].description}
                   </h3>
@@ -118,7 +214,7 @@ export function TaskTabs() {
 
                 {/* Right Side Compact Widget */}
                 <div className="w-full lg:max-w-md shrink-0">
-                  {(categories[activeTab].title === "Business" || categories[activeTab].title === "ব্যবসা") ? (
+                  {(categories[activeTab].title === "Business & Entrepreneurship" || categories[activeTab].title === "ব্যবসা ও উদ্যোক্তা") ? (
                     <BusinessMatchmaker compact={true} />
                   ) : (
                     <div className="hidden lg:flex w-full h-full min-h-[140px] items-center justify-center bg-gray-50 border-2 border-black border-dashed relative overflow-hidden group p-6">
@@ -249,6 +345,7 @@ export function TaskTabs() {
 
         </div>
       </div>
-    </section>
+    </ScrollReveal>
+  </section>
   )
 }

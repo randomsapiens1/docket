@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
-import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, Calculator, ArrowRight, ShieldCheck, MapPin } from 'lucide-react'
+import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, ArrowRight, ShieldCheck, Home } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase'
@@ -14,176 +14,146 @@ import { templates } from '@/lib/templates'
 
 const content = {
   en: {
-    title: "Land Mutation (Namjari)",
-    dept: "Ministry of Land / Assistant Commissioner (Land)",
+    title: "Holding Tax Assessment & Payment",
+    dept: "Local Government Department / City Corporation / Pourashava",
     stats: [
-      { label: "Estimated Time", value: "28-45 Days", icon: Clock },
-      { label: "Government Fee", value: "৳1,170 (Fixed)", icon: CreditCard },
+      { label: "Estimated Time", value: "15-30 Days", icon: Clock },
+      { label: "Government Fee", value: "Assessment is Free", icon: CreditCard },
       { label: "Complexity", value: "Medium", icon: LayoutIcon }
     ],
     prepTitle: "Preparation Checklist",
-    prepDesc: "Gather these documents before you start the e-Mutation process.",
+    prepDesc: "Gather and upload these documents to begin the Holding Tax registration process.",
     docs: [
-      { label: "NID of the Applicant", docType: "NID" },
-      { label: "Passport-sized photograph & Scanned Signature", docType: "PHOTO" },
-      { label: "TIN Certificate of the Applicant", docType: "TIN" },
-      { label: "Latest Land Development Tax Receipt (Khajna Dakhila)", docType: null },
-      { label: "Previous Khatian (CS, SA, RS, or BS/City Survey)", docType: null },
-      { label: "Certified copy of Registered Sale Deed (Dalil)", docType: null },
-      { label: "Baya Dalil (Complete chain of previous deeds)", docType: null },
-      { label: "Succession/Warisan Certificate (for inheritance)", docType: null },
-      { label: "Authority Mutation Letter (for RAJUK/CDA/NHA plots)", docType: null }
+      { label: "NID of the Property Owner", docType: "NID" },
+      { label: "Passport-sized photograph of the Owner", docType: "PHOTO" },
+      { label: "Latest Land Mutation Khatian (Namjari)", docType: null },
+      { label: "Approved Building Plan from RAJUK / CDA / Authority", docType: null },
+      { label: "Occupancy Certificate / Construction Completion Certificate", docType: null },
+      { label: "Copy of Registered Purchase Deed (Dalil) or Allocation Letter", docType: null }
     ],
     foundInVault: "Found in Vault",
-    stepsTitle: "Step-by-Step Pathway",
+    stepsTitle: "Step-by-Step Process",
     steps: [
       {
-        title: "Authority Mutation (If Applicable)",
-        desc: "For leasehold properties (e.g., RAJUK, CDA, or NHA plots), you must first obtain a Mutation Letter from the respective authority before applying to the land office.",
-        action: "Check Authority",
+        title: "Online Registration & Application",
+        desc: "Sign up on the official holding tax portal of your respective City Corporation or Pourashava (e.g. sweb.gov.bd or local e-revenue portal) and submit the new holding application form.",
+        action: "LGD Portal",
+        link: "https://sweb.gov.bd/"
+      },
+      {
+        title: "Submit Valuation Documents",
+        desc: "Upload copies of your approved building plan, mutation khatian, purchase deeds, and enter details of property floor area and usage type (residential or commercial).",
+        action: "Upload Documents",
+        link: "https://sweb.gov.bd/"
+      },
+      {
+        title: "Physical Verification by Inspector",
+        desc: "A Revenue Inspector or Assistant Tax Officer will visit your property to verify building dimensions, number of floors, and usage type for tax calculation.",
+        action: "Inspection Protocol",
         link: "#"
       },
       {
-        title: "Online Application",
-        desc: "Visit the e-Mutation portal and fill in the land details including District, Upazila, Mouza, and Plot numbers.",
-        action: "Apply Online",
-        link: "https://mutation.land.gov.bd/"
+        title: "Assessment & Holding Number Issuance",
+        desc: "The tax department reviews the inspection report, calculates the annual rental valuation, sets the quarterly tax rate, and issues a unique Holding Number.",
+        action: "Check Status",
+        link: "https://sweb.gov.bd/"
       },
       {
-        title: "Pay Initial Fees",
-        desc: "Pay the initial application fee (৳20) and notice issuance fee (৳50) online via mobile banking.",
-        action: "Payment Portal",
-        link: "https://mutation.land.gov.bd/"
-      },
-      {
-        title: "Verification & Investigation",
-        desc: "The Union Land Assistant Officer (Tehsildar) will conduct a field investigation to verify possession and documents.",
-        action: "Track Status",
-        link: "https://mutation.land.gov.bd/"
-      },
-      {
-        title: "Hearing at AC Land Office",
-        desc: "You will receive an SMS with a hearing date. Attend with all original documents for verification by the AC (Land).",
-        action: "Requirements",
-        link: "#"
-      },
-      {
-        title: "Final Payment (DCR)",
-        desc: "Once approved, pay the record correction fee (৳1,000) and ledger fee (৳100) online to generate the DCR.",
-        action: "Pay Final Fee",
-        link: "https://mutation.land.gov.bd/"
-      },
-      {
-        title: "Download Khatian",
-        desc: "After final payment, download your newly generated Khatian (Record of Rights) featuring a verifiable QR code.",
-        action: "Download Portal",
-        link: "https://mutation.land.gov.bd/"
+        title: "Pay Holding Tax Online",
+        desc: "Receive your tax challan/bill. Pay your quarterly or annual holding tax online via the e-revenue portal using mobile banking (bKash, Nagad) or bank cards.",
+        action: "Pay Holding Tax",
+        link: "https://sweb.gov.bd/"
       }
     ],
-    ctaTitle: "Ready to start?",
-    ctaDesc: "Begin your land mutation process directly on the official e-Mutation portal.",
-    ctaButton: "Go to Mutation Portal",
+    ctaTitle: "Ready to register?",
+    ctaDesc: "Submit your Holding Tax application on the official local government portal.",
+    ctaButton: "Go to Holding Tax Portal",
     back: "Back to Directory",
     extraTitle: "Key Considerations",
     extraSteps: [
-      { name: "Physical Possession", desc: "Mutation is often rejected if the applicant does not have physical possession, especially in inheritance cases." },
-      { name: "Partition Deed", desc: "For inherited property, it is highly recommended to complete a registered Partition Deed (Bonton-nama) before mutation." },
-      { name: "Baya Deeds (Chain)", desc: "Missing 'Via Deeds' (history of ownership transfers) is a primary reason for mutation rejection." }
+      { name: "Residential vs Commercial Rates", desc: "Commercial usage (shops, offices, clinics) is assessed at a significantly higher tax rate compared to residential usage." },
+      { name: "Self-Occupied vs Rented", desc: "If you reside in the house yourself, you are eligible for self-occupancy tax rebates compared to if the property is rented out." },
+      { name: "Approved building plan mismatch", desc: "Construction that deviates from the approved RAJUK/CDA plan can lead to penalties and delays in holding number assignment." }
     ],
-    postTitle: "Post-Mutation Steps",
+    postTitle: "Post-Registration Compliance",
     postSteps: [
-      { name: "Pay Land Tax", desc: "Update your holding with the new Khatian and pay the annual Land Development Tax." },
-      { name: "Inheritance Tax Tip", desc: "If you mutate only your share of inherited land, ensure the remaining heirs' tax liabilities are clear." }
+      { name: "Annual Holding Tax Payment", desc: "Pay holding tax quarterly or annually before the deadline to avoid a 10% surcharge on late payments." },
+      { name: "Tax Assessment Appeal", desc: "If you disagree with the annual valuation, you can file an appeal with the assessment review board within 30 days of receiving the notice." }
     ]
   },
   bn: {
-    title: "নামজারি (মিউটেশন)",
-    dept: "ভূমি মন্ত্রণালয় / সহকারী কমিশনার (ভূমি)",
+    title: "হোল্ডিং ট্যাক্স নির্ধারণ ও পরিশোধ",
+    dept: "স্থানীয় সরকার বিভাগ / সিটি কর্পোরেশন / পৌরসভা",
     stats: [
-      { label: "আনুমানিক সময়", value: "২৮-৪৫ দিন", icon: Clock },
-      { label: "সরকারি ফি", value: "৳১,১৭০ (নির্ধারিত)", icon: CreditCard },
+      { label: "আনুমানিক সময়", value: "১৫-৩০ দিন", icon: Clock },
+      { label: "সরকারি ফি", value: "কর নির্ধারণ সম্পূর্ণ ফ্রি", icon: CreditCard },
       { label: "জটিলতা", value: "মাঝারি", icon: LayoutIcon }
     ],
     prepTitle: "প্রস্তুতিমূলক চেকলিস্ট",
-    prepDesc: "ই-নামজারি প্রক্রিয়া শুরু করার আগে এই নথিগুলো সংগ্রহ করুন।",
+    prepDesc: "হোল্ডিং ট্যাক্স নিবন্ধন প্রক্রিয়া শুরু করতে এই নথিগুলো সংগ্রহ ও আপলোড করুন।",
     docs: [
       { label: "আবেদনকারীর এনআইডি (NID)", docType: "NID" },
-      { label: "পাসপোর্ট সাইজ ছবি ও স্ক্যান করা স্বাক্ষর", docType: "PHOTO" },
-      { label: "আবেদনকারীর টিন (TIN) সার্টিফিকেট", docType: "TIN" },
-      { label: "সর্বশেষ ভূমি উন্নয়ন করের দাখিলা (খাজনা রশিদ)", docType: null },
-      { label: "পূর্ববর্তী খতিয়ান (CS, SA, RS, বা BS/City Survey)", docType: null },
-      { label: "নিবন্ধিত বিক্রয় দলিলের সার্টিফাইড কপি", docType: null },
-      { label: "বায়া দলিল (পূর্ববর্তী দলিলের ধারাবাহিকতা)", docType: null },
-      { label: "উত্তরাধিকার সনদ (উত্তরাধিকার সূত্রের ক্ষেত্রে)", docType: null },
-      { label: "অথরিটি মিউটেশন লেটার (রাজউক/সিডিএ প্লটের জন্য)", docType: null }
+      { label: "আবেদনকারীর পাসপোর্ট সাইজ ছবি", docType: "PHOTO" },
+      { label: "সর্বশেষ নামজারি খতিয়ান (মিউটেশন)", docType: null },
+      { label: "রাজউক / সিডিএ অনুমোদিত ভবনের নকশা (বিল্ডিং প্ল্যান)", docType: null },
+      { label: "অকুপেন্সি সার্টিফিকেট (ভবন ব্যবহারের সনদ)", docType: null },
+      { label: "নিবন্ধিত ক্রয় দলিলের কপি অথবা বরাদ্দপত্র", docType: null }
     ],
     foundInVault: "ভল্টে পাওয়া গেছে",
     stepsTitle: "ধাপে ধাপে নির্দেশিকা",
     steps: [
       {
-        title: "অথরিটি মিউটেশন (প্রয়োজ্য ক্ষেত্রে)",
-        desc: "লীজহোল্ড সম্পত্তির ক্ষেত্রে (যেমন: রাজউক, সিডিএ বা এনএইচএ প্লট), ভূমি অফিসে আবেদনের আগে সংশ্লিষ্ট কর্তৃপক্ষ থেকে মিউটেশন লেটার সংগ্রহ করতে হবে।",
-        action: "কর্তৃপক্ষ যাচাই করুন",
+        title: "অনলাইন রেজিস্ট্রেশন ও আবেদন",
+        desc: "আপনার সংশ্লিষ্ট সিটি কর্পোরেশন বা পৌরসভার হোল্ডিং ট্যাক্স পোর্টালে (যেমন: sweb.gov.bd বা লোকাল ই-রাজস্ব পোর্টাল) অ্যাকাউন্ট খুলে নতুন হোল্ডিং আবেদন ফর্মটি পূরণ করুন।",
+        action: "এলজিডি পোর্টাল",
+        link: "https://sweb.gov.bd/"
+      },
+      {
+        title: "ভবন মূল্যায়ন নথি জমা দান",
+        desc: "অনুমোদিত ভবনের নকশা, নামজারি খতিয়ান, ক্রয়ের দলিল আপলোড করুন এবং ভবনের মেঝে আয়তন ও ব্যবহারের ধরন (আবাসিক বা বাণিজ্যিক) সংক্রান্ত তথ্য প্রদান করুন।",
+        action: "ডকুমেন্ট আপলোড",
+        link: "https://sweb.gov.bd/"
+      },
+      {
+        title: "রাজস্ব পরিদর্শক দ্বারা সরজমিন পরিদর্শন",
+        desc: "কর নির্ধারণের জন্য রাজস্ব পরিদর্শক বা সহকারী কর কর্মকর্তা ভবনের আয়তন, তলা সংখ্যা এবং ব্যবহারিক অবস্থা যাচাই করতে সরজমিনে পরিদর্শন করবেন।",
+        action: "পরিদর্শন নির্দেশিকা",
         link: "#"
       },
       {
-        title: "অনলাইন আবেদন",
-        desc: "ই-নামজারি পোর্টালে গিয়ে জেলা, উপজেলা, মৌজা এবং দাগ নম্বরসহ ভূমির তথ্য দিয়ে আবেদন করুন।",
-        action: "অনলাইন আবেদন",
-        link: "https://mutation.land.gov.bd/"
+        title: "কর নির্ধারণ ও হোল্ডিং নম্বর প্রদান",
+        desc: "পরিদর্শন প্রতিবেদনের ওপর ভিত্তি করে বার্ষিক ভাড়া নির্ধারণ করা হবে, ত্রৈমাসিক করের পরিমাণ ধার্য করা হবে এবং একটি অনন্য হোল্ডিং নম্বর ইস্যু করা হবে।",
+        action: "অবস্থা ট্র্যাক করুন",
+        link: "https://sweb.gov.bd/"
       },
       {
-        title: "প্রাথমিক ফি প্রদান",
-        desc: "আবেদন ফি (৳২০) এবং নোটিশ জারি ফি (৳৫০) অনলাইন বা মোবাইল ব্যাংকিংয়ের মাধ্যমে প্রদান করুন।",
-        action: "পেমেন্ট পোর্টাল",
-        link: "https://mutation.land.gov.bd/"
-      },
-      {
-        title: "যাচাই ও তদন্ত",
-        desc: "ইউনিয়ন ভূমি সহকারী কর্মকর্তা (তহশিলদার) দখল এবং নথিপত্র যাচাইয়ের জন্য সরেজমিনে তদন্ত করবেন।",
-        action: "অবস্থা যাচাই করুন",
-        link: "https://mutation.land.gov.bd/"
-      },
-      {
-        title: "এসি ল্যান্ড অফিসে শুনানি",
-        desc: "এসএমএস-এর মাধ্যমে শুনানির তারিখ জানানো হবে। মূল নথিপত্রসহ এসি ল্যান্ড (AC Land) অফিসে উপস্থিত হন।",
-        action: "প্রয়োজনীয়তা",
-        link: "#"
-      },
-      {
-        title: "চূড়ান্ত ফি প্রদান (DCR)",
-        desc: "আবেদন অনুমোদিত হলে রেকর্ড সংশোধন ফি (৳১,০০০) এবং খতিয়ান ফি (৳১০০) অনলাইনে পরিশোধ করুন।",
-        action: "চূড়ান্ত ফি প্রদান",
-        link: "https://mutation.land.gov.bd/"
-      },
-      {
-        title: "খতিয়ান ডাউনলোড",
-        desc: "চূড়ান্ত পেমেন্টের পর কিউআর কোড (QR Code) যুক্ত নতুন খতিয়ান এবং ডিসিআর (DCR) ডাউনলোড করুন।",
-        action: "ডাউনলোড পোর্টাল",
-        link: "https://mutation.land.gov.bd/"
+        title: "অনলাইনে হোল্ডিং ট্যাক্স পরিশোধ",
+        desc: "হোল্ডিং নম্বর ইস্যু হওয়ার পর ত্রৈমাসিক বা বার্ষিক কর অনলাইন পোর্টালে মোবাইল ব্যাংকিং (বিকাশ, রকেট, নগদ) বা ব্যাংকের কার্ডের মাধ্যমে পরিশোধ করুন।",
+        action: "কর পরিশোধ করুন",
+        link: "https://sweb.gov.bd/"
       }
     ],
     ctaTitle: "আপনি কি প্রস্তুত?",
-    ctaDesc: "অফিসিয়াল ই-নামজারি পোর্টালের মাধ্যমে আপনার নামজারি প্রক্রিয়া শুরু করুন।",
-    ctaButton: "নামজারি পোর্টালে যান",
+    ctaDesc: "অফিসিয়াল লোকাল গভর্নমেন্ট পোর্টালে আপনার হোল্ডিং ট্যাক্স আবেদন সম্পন্ন করুন।",
+    ctaButton: "হোল্ডিং ট্যাক্স পোর্টালে যান",
     back: "ডিরেক্টরিতে ফিরে যান",
-    extraTitle: "গুরুত্বপূর্ণ বিষয়",
+    extraTitle: "গুরুত্বপূর্ণ বিবেচনা",
     extraSteps: [
-      { name: "সরেজমিন দখল", desc: "আবেদনকারীর ভূমির ওপর সরেজমিন দখল না থাকলে নামজারি বাতিল হতে পারে, বিশেষ করে উত্তরাধিকারের ক্ষেত্রে।" },
-      { name: "বণ্টননামা দলিল", desc: "উত্তরাধিকার সূত্রে প্রাপ্ত জমির ক্ষেত্রে নামজারির আগে একটি নিবন্ধিত বণ্টননামা (Partition Deed) সম্পন্ন করা জরুরি।" },
-      { name: "বায়া দলিল (ধারাবাহিকতা)", desc: "মালিকানা হস্তান্তরের ধারাবাহিক বা বায়া দলিল না থাকা নামজারি বাতিলের অন্যতম প্রধান কারণ।" }
+      { name: "আবাসিক বনাম বাণিজ্যিক করের হার", desc: "বাণিজ্যিক ব্যবহারের ক্ষেত্রে (দোকান, অফিস, হাসপাতাল ইত্যাদি) আবাসিক ব্যবহারের তুলনায় করের হার অনেক বেশি হয়ে থাকে।" },
+      { name: "নিজস্ব বাসস্থান বনাম ভাড়া প্রদান", desc: "ভবন মালিক নিজে বসবাস করলে কর রেয়াত পাওয়া যায়, তবে ভাড়া দিলে সে হার ভাড়া মূল্যের সাথে সামঞ্জস্য রেখে নির্ধারিত হয়।" },
+      { name: "অনুমোদিত নকশা বহির্ভূত নির্মাণ", desc: "রাজউক বা অনুমোদিত সংস্থার মূল নকশার বাইরে অতিরিক্ত অংশ নির্মাণ করা হলে জরিমানা বা কর নির্ধারণে জটিলতা দেখা দিতে পারে।" }
     ],
-    postTitle: "নামজারি পরবর্তী ধাপ",
+    postTitle: "কর নির্ধারণ পরবর্তী নিয়মাবলী",
     postSteps: [
-      { name: "ভূমি কর প্রদান", desc: "নতুন খতিয়ান অনুযায়ী আপনার হোল্ডিং আপডেট করুন এবং বার্ষিক ভূমি উন্নয়ন কর পরিশোধ করুন।" },
-      { name: "উত্তরাধিকার কর টিপস", desc: "উত্তরাধিকার সূত্রে প্রাপ্ত জমির আপনার অংশটুকু নামজারি করার সময় বাকি ওয়ারিশদের বকেয়া খাজনার বিষয়টি নিশ্চিত করুন।" }
+      { name: "বার্ষিক হোল্ডিং ট্যাক্স পরিশোধ", desc: "ধার্যকৃত কর ত্রৈমাসিক বা বাৎসরিক ভিত্তিতে সময়সীমার মধ্যে পরিশোধ করুন, বিলম্বে পরিশোধে ১০% সারচার্জ যুক্ত হতে পারে।" },
+      { name: "কর মূল্যায়নে আপত্তি ও আপিল", desc: "অতিরিক্ত কর নির্ধারিত হয়েছে বলে মনে হলে হোল্ডিং নোটিশ পাওয়ার ৩০ দিনের মধ্যে মূল্যায়ন রিভিউ বোর্ডে আপিল দায়ের করতে পারেন।" }
     ]
   }
 }
 
 export const dynamic = 'force-dynamic'
 
-export default function LandMutationPage() {
+export default function HoldingTaxPage() {
   const { language } = useLanguage()
   const s = content[language]
   const [checkedDocs, setCheckedDocs] = useState<number[]>([])
@@ -319,7 +289,7 @@ export default function LandMutationPage() {
               </div>
             </div>
 
-            {/* Additional Formalities */}
+            {/* Additional Formalities / Key Considerations */}
             <div className="bg-white border-2 border-black p-8 space-y-6">
               <h2 className="text-2xl font-black text-black">{s.extraTitle}</h2>
               <div className="space-y-4">
@@ -374,7 +344,6 @@ export default function LandMutationPage() {
                   return (
                     <div key={i} className="flex flex-col gap-1">
                       <button 
-                        key={i} 
                         onClick={() => toggleDoc(i)}
                         className="flex items-start gap-3 w-full text-left group"
                       >
@@ -420,7 +389,7 @@ export default function LandMutationPage() {
               {/* CTA Section */}
               <div className="pt-2 space-y-4">
                 <a 
-                  href="https://mutation.land.gov.bd/" 
+                  href="https://sweb.gov.bd/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="block"
@@ -429,12 +398,6 @@ export default function LandMutationPage() {
                     {s.ctaButton}
                   </Button>
                 </a>
-                <Link href="/calculators/fee-calculator" className="block">
-                  <Button className="w-full bg-white hover:bg-gray-50 text-black font-bold h-12 rounded-none border-2 border-black border-b-4 active:border-b-2 active:translate-y-0.5 transition-all flex items-center justify-center gap-2">
-                    <Calculator className="w-4 h-4 text-[#ff0000]" />
-                    {language === 'en' ? 'Calculate Fees' : 'ফি ক্যালকুলেট করুন'}
-                  </Button>
-                </Link>
               </div>
             </div>
           </div>
