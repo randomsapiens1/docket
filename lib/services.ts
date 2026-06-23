@@ -178,7 +178,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       items: [
         { name: "Board Certificates", status: "Soon", href: "#", keywords: ["board", "certificate", "ssc", "hsc"] },
         { name: "Certificate Correction", status: "Soon", href: "#", keywords: ["correction", "certificate", "name", "age"] },
-        { name: "Scholarship Applications", status: "Soon", href: "#", keywords: ["scholarship", "apply", "student", "stipend"] },
+        { name: "Scholarship & Visa Portal", status: "Live", href: "/services/scholarship-and-visa", keywords: ["scholarship", "visa", "study abroad", "student visa", "documents", "data", "store"] },
         { name: "Student Verification", status: "Soon", href: "#", keywords: ["student", "verification", "university", "college"] },
         { name: "Educational Equivalence", status: "Soon", href: "#", keywords: ["educational", "equivalence", "foreign", "degree"] }
       ]
@@ -364,7 +364,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       items: [
         { name: "বোর্ড সার্টিফিকেট", status: "Soon", href: "#", keywords: ["বোর্ড", "সার্টিফিকেট", "এসএসসি", "এইচএসসি"] },
         { name: "সনদ সংশোধন", status: "Soon", href: "#", keywords: ["সংশোধন", "নাম", "বয়স", "সনদ"] },
-        { name: "স্কলারশিপ আবেদন", status: "Soon", href: "#", keywords: ["বৃত্তি", "স্কলারশিপ", "স্টাইপেন্ড"] },
+        { name: "স্কলারশিপ ও ভিসা পোর্টাল", status: "Live", href: "/services/scholarship-and-visa", keywords: ["বৃত্তি", "স্কলারশিপ", "স্টাইপেন্ড", "ভিসা", "উচ্চশিক্ষা"] },
         { name: "শিক্ষার্থী যাচাইকরণ", status: "Soon", href: "#", keywords: ["শিক্ষার্থী", "যাচাই", "বিশ্ববিদ্যালয়"] },
         { name: "শিক্ষাগত সমমান সনদ (Equivalence)", status: "Soon", href: "#", keywords: ["সমমান", "ইকুইভ্যালেন্স", "বিদেশী ডিগ্রি"] }
       ]
