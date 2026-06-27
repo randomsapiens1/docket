@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { useLanguage } from "@/lib/language-context"
 import Link from 'next/link'
@@ -14,7 +14,9 @@ export function Header() {
   const { language, setLanguage } = useLanguage()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const supabase = createClient()
   const router = useRouter()
@@ -53,17 +55,23 @@ export function Header() {
 
   const navItems = {
     en: [
-      { label: 'Browse services', href: '/' },
       { label: 'Facilities & Benefits', href: '/facilities' },
     ],
     bn: [
-      { label: 'সেবাগুলো দেখুন', href: '/' },
       { label: 'সুবিধা ও ভাতা সমূহ', href: '/facilities' },
     ]
   }
 
   const items = navItems[language]
   const categories = serviceCategories[language]
+
+  const openDropdown = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setDropdownOpen(true)
+  }
+  const scheduleClose = () => {
+    closeTimer.current = setTimeout(() => setDropdownOpen(false), 120)
+  }
 
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 will-change-transform [transform:translateZ(0)] ${
@@ -99,6 +107,56 @@ export function Header() {
               {item.label}
             </a>
           ))}
+
+          {/* Browse services dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={openDropdown}
+            onMouseLeave={scheduleClose}
+          >
+            <button
+              className={`flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-xl transition-all duration-150 ${
+                dropdownOpen
+                  ? 'bg-black/5 text-gray-900 dark:text-white'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/8'
+              }`}
+            >
+              {language === 'en' ? 'Browse services' : 'সেবাগুলো দেখুন'}
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {dropdownOpen && (
+              <div
+                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[540px] bg-white dark:bg-gray-950 rounded-2xl ring-1 ring-black/8 shadow-xl shadow-black/10 py-4 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
+                onMouseEnter={openDropdown}
+                onMouseLeave={scheduleClose}
+              >
+                <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 px-3">
+                  {categories.map((cat, idx) => (
+                    <Link
+                      key={idx}
+                      href="/services"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-all duration-100 group"
+                    >
+                      {cat.title}
+                      <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-500 shrink-0 transition-colors" />
+                    </Link>
+                  ))}
+                </div>
+                <div className="mt-3 mx-3 pt-3 border-t border-gray-100 dark:border-white/8">
+                  <Link
+                    href="/services"
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-primary hover:bg-primary/5 rounded-xl transition-all duration-100"
+                  >
+                    {language === 'en' ? 'View full directory' : 'সব সেবা দেখুন'}
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
         </nav>
 
         {/* Desktop Right Actions */}
