@@ -1,58 +1,136 @@
-import { CheckCircle, Shield, Users, Zap } from 'lucide-react'
+'use client'
+
+import { useLanguage } from '@/lib/language-context'
+import { ClipboardList, Users, Sparkles, Lock, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
+
+const content = {
+  en: {
+    title: "What you can do with Docket",
+    subtitle: "Navigate government services, find financial benefits, and manage your official papers in one unified dashboard.",
+    features: [
+      {
+        title: "Service Pathways",
+        desc: "Get verified, step-by-step guidance and checklists for official processes like land mutation, trade licenses, and company setup.",
+        btnText: "Browse Services",
+        href: "#services",
+        icon: ClipboardList,
+        isExternal: false
+      },
+      {
+        title: "Life Events Guides",
+        desc: "Find all the required procedures and tasks triggered by major life events such as birth registration, marriage, and inheritance.",
+        btnText: "Explore Life Events",
+        href: "#life-events",
+        icon: Users,
+        isExternal: false
+      },
+      {
+        title: "Allowances & Benefits",
+        desc: "Quickly search, scan, and check your eligibility for active government grants, subsidies, and training programs in Bangladesh.",
+        btnText: "Search Benefits",
+        href: "#benefits",
+        icon: Sparkles,
+        isExternal: false
+      },
+      {
+        title: "Secure Document Vault",
+        desc: "Store your NID, TIN, photos, and trade licenses in an encrypted vault to auto-complete requirements on any official pathway.",
+        btnText: "Go to Vault",
+        href: "/vault",
+        icon: Lock,
+        isExternal: true
+      }
+    ]
+  },
+  bn: {
+    title: "ডকেট-এর প্রধান সুবিধাসমূহ",
+    subtitle: "একটি মাত্র প্ল্যাটফর্মে সরকারি সেবা গ্রহণ করুন, সামাজিক সুযোগ-সুবিধা খুঁজুন এবং আপনার প্রয়োজনীয় নথিপত্র সুরক্ষিতভাবে সংরক্ষণ করুন।",
+    features: [
+      {
+        title: "সেবা নির্দেশিকা ও চেকলিস্ট",
+        desc: "কোম্পানি নিবন্ধন, ই-টিন, নামজারি ও অন্যান্য অফিসিয়াল কাজের জন্য ধাপে ধাপে যাচাইকৃত নির্দেশিকা ও চেকলিস্ট পান।",
+        btnText: "সেবাগুলো দেখুন",
+        href: "#services",
+        icon: ClipboardList,
+        isExternal: false
+      },
+      {
+        title: "জীবনভিত্তিক নির্দেশিকা",
+        desc: "জন্ম নিবন্ধন, বিবাহ এবং উত্তরাধিকারের মতো জীবনের বড় ঘটনাগুলোতে প্রয়োজনীয় সরকারি কাজের ধাপগুলো জানুন।",
+        btnText: "লাইফ ইভেন্ট দেখুন",
+        href: "#life-events",
+        icon: Users,
+        isExternal: false
+      },
+      {
+        title: "সুবিধা ও ভাতা সন্ধানক",
+        desc: "বাংলাদেশে চলমান সরকারি সামাজিক নিরাপত্তা কর্মসূচী, যুব প্রশিক্ষণ কোর্স ও বৃত্তির তথ্য খুঁজুন।",
+        btnText: "ভাতা ও সুবিধা দেখুন",
+        href: "#benefits",
+        icon: Sparkles,
+        isExternal: false
+      },
+      {
+        title: "সুরক্ষিত ডকুমেন্ট ভল্ট",
+        desc: "আপনার এনআইডি, ই-টিন এবং অন্যান্য ফাইল ভল্টে আপলোড করে রাখুন, যাতে যেকোনো সেবা গ্রহণের সময় স্বয়ংক্রিয়ভাবে ব্যবহার করা যায়।",
+        btnText: "ভল্টে প্রবেশ করুন",
+        href: "/vault",
+        icon: Lock,
+        isExternal: true
+      }
+    ]
+  }
+}
 
 export function Features() {
+  const { language } = useLanguage()
+  const t = content[language]
+
   return (
-    <section id="features" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-secondary/20 border-t border-border">
+    <section id="features" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gray-50/60 border-t border-gray-100 relative z-30">
       <div className="max-w-7xl mx-auto space-y-12">
-        <div className="text-center space-y-4">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-black">
-            Everything you need to succeed
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight">
+            {t.title}
           </h2>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-            We simplify the complexity of government bureaucracy into actionable pathways.
+          <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+            {t.subtitle}
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
-          <div className="p-6 sm:p-8 border-[3px] border-black bg-white space-y-4">
-            <div className="w-12 h-12 bg-[#ff0000] flex items-center justify-center border-2 border-black">
-              <Zap className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-xl sm:text-2xl font-black uppercase italic">Verified Checklists</h3>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Every step sourced directly from official government sources. RJSC FAQs, gazette notifications, NBR circulars. Not estimated. Not paraphrased.
-            </p>
-          </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+          {t.features.map((item, idx) => {
+            const Icon = item.icon
+            const CardComponent = item.isExternal ? Link : 'a'
 
-          <div className="p-6 sm:p-8 border-[3px] border-black bg-white space-y-4">
-            <div className="w-12 h-12 bg-[#ff0000] flex items-center justify-center border-2 border-black">
-              <Shield className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-xl sm:text-2xl font-black uppercase italic">Accurate Fees</h3>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Fees calculated from official sources. No surprises. Discount eligibility checked automatically.
-            </p>
-          </div>
+            return (
+              <CardComponent
+                key={idx}
+                href={item.href}
+                className="group bg-white dark:bg-zinc-900 rounded-2xl ring-1 ring-black/8 shadow-sm hover:shadow-md hover:ring-primary/15 transition-all duration-150 flex flex-col cursor-pointer"
+              >
+                {/* Card header */}
+                <div className="p-6 space-y-3 flex-1">
+                  <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <Icon className="w-4 h-4 text-primary" />
+                  </div>
+                  <div className="space-y-1.5 pb-4 border-b border-gray-100 dark:border-white/8">
+                    <h3 className="text-base font-semibold text-gray-900 dark:text-white leading-snug">{item.title}</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
 
-          <div className="p-6 sm:p-8 border-[3px] border-black bg-white space-y-4">
-            <div className="w-12 h-12 bg-[#ff0000] flex items-center justify-center border-2 border-black">
-              <Users className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-xl sm:text-2xl font-black uppercase italic">Plain Language</h3>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Complex bureaucratic jargon translated into clear, actionable steps anyone can follow.
-            </p>
-          </div>
-
-          <div className="p-6 sm:p-8 border-[3px] border-black bg-white space-y-4">
-            <div className="w-12 h-12 bg-[#ff0000] flex items-center justify-center border-2 border-black">
-              <CheckCircle className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-xl sm:text-2xl font-black uppercase italic">Progress Tracking</h3>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Mark steps as complete. Save your progress. Return anytime and pick up where you left off.
-            </p>
-          </div>
+                {/* Card footer */}
+                <div className="px-6 pb-5">
+                  <div className="inline-flex items-center gap-1.5 text-sm font-medium text-primary group-hover:gap-2 transition-all duration-150">
+                    {item.btnText}
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-150" />
+                  </div>
+                </div>
+              </CardComponent>
+            )
+          })}
         </div>
       </div>
     </section>

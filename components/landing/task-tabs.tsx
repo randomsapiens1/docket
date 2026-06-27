@@ -112,7 +112,7 @@ export function TaskTabs() {
   }[language]
 
   return (
-    <section className="py-16 sm:py-20 px-2 sm:px-6 lg:px-8 bg-white border-t border-border relative z-10">
+    <section id="services" className="py-16 sm:py-20 px-2 sm:px-6 lg:px-8 bg-white border-t border-border relative z-10">
       <ScrollReveal animation="slide-up">
         <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         <div className="text-center space-y-4">

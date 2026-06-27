@@ -6,7 +6,6 @@ import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
 import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, Calculator, ArrowRight, ShieldCheck, MapPin } from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase'
 
 import { TemplateLibrary } from '@/components/resources/template-library'
@@ -230,13 +229,12 @@ export default function LandMutationPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f3f2f1] pt-16">
+    <main className="min-h-screen bg-gray-50 pt-16">
       <Header />
-      
-      {/* Breadcrumbs & Back */}
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <Link href="/" className="flex items-center gap-2 text-sm font-bold text-[#ff0000] hover:underline">
-          <ArrowLeft className="w-4 h-4" />
+        <Link href="/" className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors group">
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-150" />
           {s.back}
         </Link>
       </div>
@@ -245,24 +243,23 @@ export default function LandMutationPage() {
         <div className="grid lg:grid-cols-3 gap-8">
 
           {/* Main Content */}
-          <div className="order-last lg:order-first space-y-8 lg:col-span-2">
-            {/* Hero Card */}
-            <div className="bg-white border-2 border-black p-8 space-y-6">
-              <div className="space-y-2">
-                <h1 className="text-3xl sm:text-4xl font-black text-black leading-tight">
-                  {s.title}
-                </h1>
-              </div>
+          <div className="order-last lg:order-first space-y-6 lg:col-span-2">
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t-2 border-gray-100">
+            {/* Hero Card */}
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-6">
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-gray-400">{s.dept}</p>
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">{s.title}</h1>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-gray-100">
                 {s.stats.map((stat, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className="p-2 bg-gray-50 border border-black">
-                      <stat.icon className="w-5 h-5 text-black" />
+                    <div className="w-10 h-10 rounded-xl bg-gray-50 ring-1 ring-black/8 flex items-center justify-center shrink-0">
+                      <stat.icon className="w-4 h-4 text-gray-500" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold uppercase text-gray-500">{stat.label}</p>
-                      <p className="text-sm font-bold text-black">{stat.value}</p>
+                      <p className="text-xs font-medium text-gray-400">{stat.label}</p>
+                      <p className="text-sm font-semibold text-gray-900">{stat.value}</p>
                     </div>
                   </div>
                 ))}
@@ -270,34 +267,29 @@ export default function LandMutationPage() {
             </div>
 
             {/* Steps Timeline */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-black text-black">{s.stepsTitle}</h2>
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-gray-900">{s.stepsTitle}</h2>
               <div className="space-y-0">
                 {s.steps.map((step, i) => (
-                  <div key={i} className="relative pl-8 pb-10 group">
-                    {/* Vertical Line */}
+                  <div key={i} className="relative pl-9 pb-5">
                     {i !== s.steps.length - 1 && (
-                      <div className="absolute left-[11px] top-6 bottom-0 w-1 bg-black" />
+                      <div className="absolute left-[17px] top-8 bottom-0 w-px bg-gray-200" />
                     )}
-                    {/* Dot */}
-                    <div className="absolute left-0 top-1 w-6 h-6 bg-white border-4 border-black rounded-full z-10 group-hover:bg-[#ff0000] transition-colors" />
-                    
-                    <div className="bg-white border-2 border-black p-6 space-y-4 transition-all">
-                      <h3 className="text-xl font-bold flex items-center gap-3">
-                        <span className="bg-black text-white px-2 py-0.5 text-xs">{i + 1}</span>
-                        {step.title}
-                      </h3>
-                      <p className="text-gray-700 leading-relaxed">
-                        {step.desc}
-                      </p>
+                    <div className="absolute left-0 top-1.5 w-[34px] h-[34px] rounded-full bg-white ring-1 ring-black/10 flex items-center justify-center z-10 shadow-sm">
+                      <span className="text-xs font-semibold text-gray-500">{i + 1}</span>
+                    </div>
+                    <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-5 space-y-3">
+                      <h3 className="font-semibold text-gray-900">{step.title}</h3>
+                      <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
                       {step.link !== "#" && (
-                        <a 
+                        <a
                           href={step.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-sm font-bold text-[#ff0000] hover:underline"
+                          className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:gap-1.5 transition-all duration-150"
                         >
-                          {step.action} &rarr;
+                          {step.action}
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </a>
                       )}
                     </div>
@@ -306,95 +298,89 @@ export default function LandMutationPage() {
               </div>
             </div>
 
-            {/* Post-Registration Compliance */}
-            <div className="bg-white border-2 border-black p-8 space-y-6">
-              <h2 className="text-2xl font-black text-black">{s.postTitle}</h2>
-              <div className="grid sm:grid-cols-2 gap-6">
+            {/* Post Steps */}
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-5">
+              <h2 className="text-xl font-semibold text-gray-900">{s.postTitle}</h2>
+              <div className="grid sm:grid-cols-2 gap-4">
                 {s.postSteps.map((step, i) => (
-                  <div key={i} className="p-4 bg-gray-50 border-l-4 border-[#ff0000] space-y-1">
-                    <h4 className="font-bold text-black">{step.name}</h4>
-                    <p className="text-sm text-gray-600 leading-relaxed">{step.desc}</p>
+                  <div key={i} className="bg-gray-50 rounded-xl p-4 border-l-2 border-primary space-y-1">
+                    <h4 className="font-semibold text-sm text-gray-900">{step.name}</h4>
+                    <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Additional Formalities */}
-            <div className="bg-white border-2 border-black p-8 space-y-6">
-              <h2 className="text-2xl font-black text-black">{s.extraTitle}</h2>
-              <div className="space-y-4">
+            {/* Key Considerations */}
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-5">
+              <h2 className="text-xl font-semibold text-gray-900">{s.extraTitle}</h2>
+              <div className="space-y-3">
                 {s.extraSteps.map((step, i) => (
-                  <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-2 border-gray-100 hover:border-black transition-colors gap-4">
-                    <div>
-                      <h4 className="font-black text-black">{step.name}</h4>
-                      <p className="text-sm text-gray-600">{step.desc}</p>
+                  <div key={i} className="flex items-start justify-between gap-4 p-4 rounded-xl ring-1 ring-black/8 hover:ring-primary/20 transition-all duration-150">
+                    <div className="space-y-0.5">
+                      <h4 className="font-semibold text-sm text-gray-900">{step.name}</h4>
+                      <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
                     </div>
-                    <div className="text-[10px] font-bold uppercase bg-black text-white px-2 py-1 self-start sm:self-center">
+                    <span className="text-[10px] font-semibold uppercase px-2.5 py-1 rounded-full bg-primary/10 text-primary shrink-0">
                       Essential
-                    </div>
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Template Library Preview */}
-            <div className="space-y-6">
+            {/* Template Library */}
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-black text-black">
-                  {language === 'en' ? 'Essential Templates' : 'প্রয়োজনীয় টেমপ্লেট'}
+                <h2 className="text-xl font-semibold text-gray-900">
+                  {language === 'en' ? 'Essential Templates' : 'প্রয়োজনীয় টেমপ্লেট'}
                 </h2>
-                <Link href="/resources/templates" className="text-sm font-bold text-[#ff0000] hover:underline flex items-center gap-1">
+                <Link href="/resources/templates" className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:gap-1.5 transition-all duration-150">
                   {language === 'en' ? 'View Full Library' : 'সম্পূর্ণ লাইব্রেরি দেখুন'}
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
-              <div className="bg-white border-2 border-black p-8">
+              <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8">
                 <TemplateLibrary items={templates[language]} />
               </div>
             </div>
           </div>
 
           {/* Sidebar */}
-          <div className="order-first lg:order-last space-y-8">
-            {/* Checklist Card */}
-            <div className="bg-white border-2 border-black p-6 space-y-6 lg:sticky lg:top-24">
-              <div className="space-y-2">
-                <h2 className="text-xl font-black flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
+          <div className="order-first lg:order-last space-y-6">
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 space-y-5 lg:sticky lg:top-24">
+              <div className="space-y-1.5">
+                <h2 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-primary" />
                   {s.prepTitle}
                 </h2>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {s.prepDesc}
-                </p>
+                <p className="text-xs text-gray-400 leading-relaxed">{s.prepDesc}</p>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {s.docs.map((doc, i) => {
                   const isInVault = doc.docType && vaultDocs.includes(doc.docType)
                   return (
                     <div key={i} className="flex flex-col gap-1">
-                      <button 
-                        key={i} 
+                      <button
                         onClick={() => toggleDoc(i)}
-                        className="flex items-start gap-3 w-full text-left group"
+                        className="flex items-start gap-2.5 w-full text-left group"
                       >
                         <div className="mt-0.5 shrink-0">
                           {checkedDocs.includes(i) ? (
-                            <CheckCircle2 className="w-5 h-5 text-green-600" />
+                            <CheckCircle2 className="w-4 h-4 text-green-500" />
                           ) : (
-                            <Circle className="w-5 h-5 text-gray-300 group-hover:text-black" />
+                            <Circle className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors" />
                           )}
                         </div>
-                        <span className={`text-sm font-medium ${checkedDocs.includes(i) ? 'text-gray-400 line-through' : 'text-black'}`}>
+                        <span className={`text-sm leading-snug ${checkedDocs.includes(i) ? 'text-gray-400 line-through' : 'text-gray-700'}`}>
                           {doc.label}
                         </span>
                       </button>
                       {isInVault && (
-                        <div className="ml-8 flex items-center gap-1.5">
-                          <ShieldCheck className="w-3 h-3 text-green-600" />
-                          <span className="text-[10px] font-black uppercase text-green-600">
-                            {s.foundInVault}
-                          </span>
+                        <div className="ml-7 flex items-center gap-1">
+                          <ShieldCheck className="w-3 h-3 text-green-500" />
+                          <span className="text-[10px] font-semibold text-green-600">{s.foundInVault}</span>
                         </div>
                       )}
                     </div>
@@ -402,38 +388,30 @@ export default function LandMutationPage() {
                 })}
               </div>
 
-              <div className="pt-4 border-t border-gray-100">
-                <div className="bg-gray-50 p-4 border border-dashed border-gray-300">
-                  <p className="text-xs font-bold text-gray-500 uppercase mb-1">Status</p>
-                  <p className="text-sm font-bold text-black">
-                    {checkedDocs.length} of {s.docs.length} tasks completed
-                  </p>
-                  <div className="w-full h-2 bg-gray-200 mt-2">
-                    <div 
-                      className="h-full bg-[#ff0000] transition-all duration-500" 
-                      style={{ width: `${(checkedDocs.length / s.docs.length) * 100}%` }}
-                    />
-                  </div>
+              <div className="pt-3 border-t border-gray-100 space-y-2">
+                <div className="flex justify-between text-xs font-medium text-gray-500">
+                  <span>Progress</span>
+                  <span>{checkedDocs.length} / {s.docs.length}</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-500"
+                    style={{ width: `${(checkedDocs.length / s.docs.length) * 100}%` }}
+                  />
                 </div>
               </div>
 
-              {/* CTA Section */}
-              <div className="pt-2 space-y-4">
-                <a 
-                  href="https://mutation.land.gov.bd/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="block"
-                >
-                  <Button className="w-full bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold h-12 rounded-none border-b-4 border-black active:border-b-0 active:translate-y-1 transition-all">
+              <div className="pt-1 space-y-3">
+                <a href="https://mutation.land.gov.bd/" target="_blank" rel="noopener noreferrer" className="block">
+                  <button className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-semibold text-sm transition-all shadow-sm">
                     {s.ctaButton}
-                  </Button>
+                  </button>
                 </a>
                 <Link href="/calculators/fee-calculator" className="block">
-                  <Button className="w-full bg-white hover:bg-gray-50 text-black font-bold h-12 rounded-none border-2 border-black border-b-4 active:border-b-2 active:translate-y-0.5 transition-all flex items-center justify-center gap-2">
-                    <Calculator className="w-4 h-4 text-[#ff0000]" />
+                  <button className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl ring-1 ring-black/10 hover:bg-gray-50 text-gray-700 font-semibold text-sm transition-all">
+                    <Calculator className="w-4 h-4 text-primary" />
                     {language === 'en' ? 'Calculate Fees' : 'ফি ক্যালকুলেট করুন'}
-                  </Button>
+                  </button>
                 </Link>
               </div>
             </div>

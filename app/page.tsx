@@ -3,7 +3,10 @@ import { PhaseBanner } from '@/components/landing/phase-banner'
 import { Hero } from '@/components/landing/hero'
 import nextDynamic from 'next/dynamic'
 
-const TaskTabs = nextDynamic(() => import('@/components/landing/task-tabs').then(mod => mod.TaskTabs), {
+const Features = nextDynamic(() => import('@/components/landing/features').then(mod => mod.Features), {
+  loading: () => <div className="h-[300px] w-full animate-pulse bg-zinc-100 dark:bg-zinc-800 rounded-lg my-8" />,
+})
+const ServiceDirectory = nextDynamic(() => import('@/components/landing/service-directory').then(mod => mod.ServiceDirectory), {
   loading: () => <div className="h-[400px] w-full animate-pulse bg-zinc-100 dark:bg-zinc-800 rounded-lg my-8" />,
 })
 const LifeEventsSection = nextDynamic(() => import('@/components/landing/life-events').then(mod => mod.LifeEventsSection), {
@@ -27,7 +30,8 @@ export default function Page() {
       <Header />
       <PhaseBanner />
       <Hero />
-      <TaskTabs />
+      <Features />
+      <ServiceDirectory />
       <LifeEventsSection />
       <FacilitiesPreview />
       <TrustSection />

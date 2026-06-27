@@ -24,8 +24,6 @@ import {
   User
 } from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { createClient } from '@/lib/supabase'
 
 interface ProfileData {
@@ -728,84 +726,76 @@ export default function ScholarshipAndVisaPage() {
   }).length
 
   return (
-    <main className="min-h-screen bg-[#f3f2f1] pt-16">
+    <main className="min-h-screen bg-gray-50 pt-16">
       <Header />
-      
-      {/* Breadcrumbs & Back */}
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <Link href="/" className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-[#ff0000] hover:underline">
-          <ArrowLeft className="w-4 h-4 stroke-[3px]" />
+        <Link href="/" className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors group">
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-150" />
           {s.back}
         </Link>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        
-        {/* Page Title Card */}
-        <div className="bg-white border-[3px] border-black p-8 space-y-6 mb-10">
+
+        {/* Hero Card */}
+        <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-6 mb-8">
           <div className="space-y-2">
-            <span className="text-[10px] font-black uppercase bg-[#ff0000] text-white px-2 py-0.5">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+              <GraduationCap className="w-3.5 h-3.5" />
               {s.subtitle}
             </span>
-            <h1 className="text-4xl font-black text-black leading-tight flex items-center gap-3">
-              <GraduationCap className="w-10 h-10 text-[#ff0000] shrink-0" />
-              {s.title}
-            </h1>
-            <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">
-              {s.dept}
-            </p>
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">{s.title}</h1>
+            <p className="text-sm text-gray-400">{s.dept}</p>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t-[3px] border-black">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-gray-100">
             {s.stats.map((stat, i) => (
               <div key={i} className="flex items-center gap-3">
-                <div className="p-2 bg-gray-50 border-2 border-black">
-                  <stat.icon className="w-5 h-5 text-black" />
+                <div className="w-10 h-10 rounded-xl bg-gray-50 ring-1 ring-black/8 flex items-center justify-center shrink-0">
+                  <stat.icon className="w-4 h-4 text-gray-500" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase text-gray-400 leading-none">{stat.label}</p>
-                  <p className="text-sm font-bold text-black pt-1">{stat.value}</p>
+                  <p className="text-xs font-medium text-gray-400">{stat.label}</p>
+                  <p className="text-sm font-semibold text-gray-900">{stat.value}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Dual Layout: Left Sidebar Profile form, Right Main Visa Info & Scholarship Grid */}
-        <div className="grid lg:grid-cols-3 gap-10">
-          
-          {/* Left Column: Local Storage Data Persist & AI recommendations */}
-          <div className="lg:col-span-1 space-y-10">
-            
-            {/* Academic profile form */}
-            <div className="bg-white border-[3px] border-black p-6 space-y-6">
+        <div className="grid lg:grid-cols-3 gap-8">
+
+          {/* Left Sidebar: Profile + Matching */}
+          <div className="lg:col-span-1 space-y-6">
+
+            {/* Profile Form */}
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 space-y-5">
               <div className="space-y-1">
-                <h2 className="text-xl font-black uppercase flex items-center gap-2">
-                  <User className="w-5 h-5 text-[#ff0000]" />
+                <h2 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+                  <User className="w-4 h-4 text-primary" />
                   {s.profileTitle}
                 </h2>
-                <p className="text-xs text-gray-500 font-bold leading-normal">
-                  {s.profileDesc}
-                </p>
+                <p className="text-xs text-gray-400 leading-relaxed">{s.profileDesc}</p>
               </div>
 
               <form onSubmit={handleSaveProfile} className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black uppercase text-gray-500">{s.fullName}</label>
-                  <Input 
-                    type="text" 
-                    placeholder="e.g. Rahat Rahman" 
+                  <label className="text-xs font-medium text-gray-500">{s.fullName}</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Rahat Rahman"
                     value={profile.name}
                     onChange={e => setProfile({...profile, name: e.target.value})}
+                    className="w-full px-3.5 py-2.5 rounded-xl ring-1 ring-black/10 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black uppercase text-gray-500">{s.targetDegree}</label>
-                  <select 
+                  <label className="text-xs font-medium text-gray-500">{s.targetDegree}</label>
+                  <select
                     value={profile.targetDegree}
                     onChange={e => setProfile({...profile, targetDegree: e.target.value})}
-                    className="w-full h-12 px-4 border-[3px] border-black font-bold focus:bg-gray-50 outline-none appearance-none cursor-pointer rounded-none text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl ring-1 ring-black/10 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all appearance-none cursor-pointer"
                   >
                     {language === 'en' ? (
                       ["Bachelor's Degree", "Master's Degree", "PhD / Doctorate"].map(d => (
@@ -821,11 +811,11 @@ export default function ScholarshipAndVisaPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black uppercase text-gray-500">{s.targetCountry}</label>
-                  <select 
+                  <label className="text-xs font-medium text-gray-500">{s.targetCountry}</label>
+                  <select
                     value={profile.targetCountry}
                     onChange={e => setProfile({...profile, targetCountry: e.target.value})}
-                    className="w-full h-12 px-4 border-[3px] border-black font-bold focus:bg-gray-50 outline-none appearance-none cursor-pointer rounded-none text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl ring-1 ring-black/10 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all appearance-none cursor-pointer"
                   >
                     {["USA", "UK", "Canada", "Germany", "Australia", "Japan"].map(c => (
                       <option key={c} value={c}>{c}</option>
@@ -834,22 +824,23 @@ export default function ScholarshipAndVisaPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black uppercase text-gray-500">{s.gpa}</label>
-                  <Input 
-                    type="text" 
-                    placeholder="e.g. 3.80" 
+                  <label className="text-xs font-medium text-gray-500">{s.gpa}</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 3.80"
                     value={profile.gpa}
                     onChange={e => setProfile({...profile, gpa: e.target.value})}
+                    className="w-full px-3.5 py-2.5 rounded-xl ring-1 ring-black/10 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-black uppercase text-gray-500">{s.englishTest}</label>
-                    <select 
+                    <label className="text-xs font-medium text-gray-500">{s.englishTest}</label>
+                    <select
                       value={profile.englishTest}
                       onChange={e => setProfile({...profile, englishTest: e.target.value})}
-                      className="w-full h-12 px-4 border-[3px] border-black font-bold focus:bg-gray-50 outline-none appearance-none cursor-pointer rounded-none text-xs"
+                      className="w-full px-3 py-2.5 rounded-xl ring-1 ring-black/10 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all appearance-none cursor-pointer"
                     >
                       {["IELTS", "TOEFL", "PTE Academic", "None / Waiver"].map(t => (
                         <option key={t} value={t}>{t}</option>
@@ -857,105 +848,102 @@ export default function ScholarshipAndVisaPage() {
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-black uppercase text-gray-500">{s.englishScore}</label>
-                    <Input 
-                      type="text" 
-                      placeholder="e.g. 7.5" 
+                    <label className="text-xs font-medium text-gray-500">{s.englishScore}</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 7.5"
                       disabled={profile.englishTest === 'None / Waiver'}
                       value={profile.englishScore}
                       onChange={e => setProfile({...profile, englishScore: e.target.value})}
+                      className="w-full px-3 py-2.5 rounded-xl ring-1 ring-black/10 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black uppercase text-gray-500">{s.fundAmount}</label>
-                  <Input 
-                    type="number" 
-                    placeholder="e.g. 2500000" 
+                  <label className="text-xs font-medium text-gray-500">{s.fundAmount}</label>
+                  <input
+                    type="number"
+                    placeholder="e.g. 2500000"
                     value={profile.funds}
                     onChange={e => setProfile({...profile, funds: e.target.value})}
+                    className="w-full px-3.5 py-2.5 rounded-xl ring-1 ring-black/10 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
                   />
                 </div>
 
-                <Button type="submit" className="w-full mt-2 font-black uppercase flex items-center justify-center gap-2 border-[3px] border-black rounded-none">
-                  <Save className="w-5 h-5" />
+                <button type="submit" className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-semibold text-sm transition-all shadow-sm">
+                  <Save className="w-4 h-4" />
                   {s.saveBtn}
-                </Button>
+                </button>
               </form>
 
               {saveStatus && (
-                <div className="p-3 bg-green-50 border-2 border-green-500 text-green-800 text-xs font-bold flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-green-600 shrink-0" />
+                <div className="p-3 bg-green-50 rounded-xl ring-1 ring-green-200 text-green-700 text-xs font-medium flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-green-500 shrink-0" />
                   {s.profileSaved}
                 </div>
               )}
             </div>
 
-            {/* Smart Matches box based on profile */}
+            {/* Smart Matches */}
             {profile.gpa && (
-              <div className="bg-[#ff0000]/5 border-[3px] border-black p-6 space-y-4">
-                <h3 className="text-lg font-black uppercase text-black flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-[#ff0000]" />
+              <div className="bg-white rounded-2xl ring-1 ring-primary/20 shadow-sm p-6 space-y-4">
+                <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-primary" />
                   {s.matchingTitle}
                 </h3>
-                <p className="text-xs font-medium text-gray-700">
-                  {s.matchingDesc}
-                </p>
+                <p className="text-xs text-gray-400">{s.matchingDesc}</p>
 
                 <div className="space-y-3">
-                  <div className="p-3 bg-white border-2 border-black space-y-1 text-xs">
-                    <p className="font-black text-black uppercase">
+                  <div className="p-3 bg-gray-50 rounded-xl space-y-1">
+                    <p className="text-xs font-semibold text-gray-700">
                       {language === 'en' ? 'Scholarship Eligibility' : 'স্কলারশিপ যোগ্যতা'}
                     </p>
-                    <p className="font-bold text-gray-600">
-                      {language === 'en' 
+                    <p className="text-xs text-gray-500 leading-relaxed">
+                      {language === 'en'
                         ? `You match ${matchingScholarshipCount} prestigious global scholarships with your GPA (${profile.gpa || '0'}) and Language proficiency.`
                         : `আপনার জিপিএ (${profile.gpa || '০'}) এবং ভাষা পরীক্ষার ভিত্তিতে আপনি ${matchingScholarshipCount}টি আন্তর্জাতিক স্কলারশিপের আবেদনের যোগ্য।`}
                     </p>
                   </div>
 
-                  {/* Fund warning */}
                   {profile.funds && parseFunds < 1500000 && (
-                    <div className="p-3 bg-white border-2 border-black space-y-1 text-xs">
-                      <p className="font-black text-[#ff0000] uppercase flex items-center gap-1">
-                        <AlertCircle className="w-4 h-4 text-[#ff0000] shrink-0" />
+                    <div className="p-3 bg-amber-50 rounded-xl ring-1 ring-amber-200 space-y-1">
+                      <p className="text-xs font-semibold text-amber-700 flex items-center gap-1">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                         {language === 'en' ? 'Financial Advisory' : 'আর্থিক পরামর্শ'}
                       </p>
-                      <p className="font-bold text-gray-600">
+                      <p className="text-xs text-amber-600 leading-relaxed">
                         {language === 'en'
-                          ? "Your solvency proof (less than 15 Lakh BDT) might be tight for USA, UK, or Canada study visas without full funding. We recommend targeting fully-funded scholarships or exploring Germany's public universities."
-                          : "আপনার ব্যাংক তহবিল (১৫ লক্ষ টাকার কম) মার্কিন যুক্তরাষ্ট্র, যুক্তরাজ্য বা কানাডার জন্য কিছু কম হতে পারে। আমরা আপনাকে সম্পূর্ণ অর্থায়িত স্কলারশিপ বা জার্মানির পাবলিক বিশ্ববিদ্যালয়ে আবেদনের পরামর্শ দিচ্ছি।"}
+                          ? "Your solvency proof might be tight for USA, UK, or Canada. Consider fully-funded scholarships or Germany's public universities."
+                          : "আপনার ব্যাংক তহবিল কম হতে পারে। সম্পূর্ণ অর্থায়িত স্কলারশিপ বা জার্মানির পাবলিক বিশ্ববিদ্যালয় বিবেচনা করুন।"}
                       </p>
                     </div>
                   )}
 
-                  {/* Blocked account reminder if Germany target */}
                   {selectedCountry === 'Germany' && (
-                    <div className="p-3 bg-white border-2 border-black space-y-1 text-xs">
-                      <p className="font-black text-black uppercase flex items-center gap-1">
-                        <Globe className="w-4 h-4 text-[#ff0000] shrink-0" />
+                    <div className="p-3 bg-sky-50 rounded-xl ring-1 ring-sky-200 space-y-1">
+                      <p className="text-xs font-semibold text-sky-700 flex items-center gap-1">
+                        <Globe className="w-3.5 h-3.5 shrink-0" />
                         {language === 'en' ? 'German Blocked Account' : 'জার্মান ব্লকড অ্যাকাউন্ট'}
                       </p>
-                      <p className="font-bold text-gray-600">
+                      <p className="text-xs text-sky-600 leading-relaxed">
                         {language === 'en'
                           ? "Germany requires a Blocked Account (Sperrkonto) containing €11,908 EUR. This is mandatory for visa issuance."
-                          : "জার্মানির স্টুডেন্ট ভিসার জন্য আপনার একটি ব্লকড অ্যাকাউন্টে (Sperrkonto) কমপক্ষে €১১,৯০৮ ইউরো জমা থাকতে হবে। এটি ভিসা পাওয়ার জন্য বাধ্যতামূলক।"}
+                          : "জার্মানির স্টুডেন্ট ভিসার জন্য ব্লকড অ্যাকাউন্টে কমপক্ষে €১১,৯০৮ ইউরো জমা থাকতে হবে।"}
                       </p>
                     </div>
                   )}
 
-                  {/* Language waiver suggestion */}
                   {profile.englishTest === 'None / Waiver' && (
-                    <div className="p-3 bg-white border-2 border-black space-y-1 text-xs">
-                      <p className="font-black text-amber-600 uppercase flex items-center gap-1">
-                        <AlertCircle className="w-4 h-4 text-amber-500 shrink-0" />
+                    <div className="p-3 bg-amber-50 rounded-xl ring-1 ring-amber-200 space-y-1">
+                      <p className="text-xs font-semibold text-amber-700 flex items-center gap-1">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                         {language === 'en' ? 'Language Proof Alert' : 'ভাষা দক্ষতার সতর্কতা'}
                       </p>
-                      <p className="font-bold text-gray-600">
+                      <p className="text-xs text-amber-600 leading-relaxed">
                         {language === 'en'
-                          ? "Applying without an English proficiency certificate limits choices. Consider IELTS or TOEFL to expand options for fully-funded fellowships."
-                          : "ইংরেজি দক্ষতা পরীক্ষা ছাড়া আবেদন করলে অপশন সীমাবদ্ধ হয়ে যায়। বড় স্কলারশিপ ও ভিসা নিশ্চিত করতে আইইএলটিএস বা টোফেল দেওয়ার চেষ্টা করুন।"}
+                          ? "No English test limits scholarship options. Consider IELTS or TOEFL to expand eligibility."
+                          : "ইংরেজি পরীক্ষা ছাড়া স্কলারশিপের সুযোগ সীমিত। আইইএলটিএস বা টোফেল দেওয়ার চেষ্টা করুন।"}
                       </p>
                     </div>
                   )}
@@ -964,33 +952,31 @@ export default function ScholarshipAndVisaPage() {
             )}
           </div>
 
-          {/* Right Main Column (Span 2): Visa Selector & Detailed Steps & Scholarship listings */}
-          <div className="lg:col-span-2 space-y-10">
-            
-            {/* Visa Directory Selector */}
-            <div className="bg-white border-[3px] border-black p-8 space-y-8">
-              <div className="space-y-2">
-                <h2 className="text-2xl font-black text-black flex items-center gap-2">
-                  <Globe className="w-6 h-6 text-[#ff0000]" />
+          {/* Right Column */}
+          <div className="lg:col-span-2 space-y-8">
+
+            {/* Visa Directory */}
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-6">
+              <div className="space-y-1">
+                <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                  <Globe className="w-5 h-5 text-primary" />
                   {s.visaInfoTitle}
                 </h2>
-                <p className="text-sm font-bold text-gray-500 leading-normal uppercase">
-                  {s.selectCountryPrompt}
-                </p>
+                <p className="text-sm text-gray-400">{s.selectCountryPrompt}</p>
               </div>
 
               {/* Country Tabs */}
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+              <div className="flex flex-wrap gap-2">
                 {["USA", "UK", "Canada", "Germany", "Australia", "Japan"].map(c => {
                   const isActive = selectedCountry === c
                   return (
                     <button
                       key={c}
                       onClick={() => setSelectedCountry(c)}
-                      className={`py-3 border-2 border-black font-black uppercase text-xs transition-all ${
-                        isActive 
-                          ? 'bg-[#ff0000] text-white' 
-                          : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
+                      className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 ${
+                        isActive
+                          ? 'bg-primary text-white shadow-sm'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                     >
                       {c}
@@ -999,104 +985,95 @@ export default function ScholarshipAndVisaPage() {
                 })}
               </div>
 
-              {/* Stamped details of selected country visa */}
-              <div className="space-y-6 pt-6 border-t-2 border-dashed border-gray-200">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-wider bg-black text-white px-2 py-0.5">
-                      {selectedCountry} Profile
+              {/* Visa Details */}
+              <div className="space-y-5 pt-4 border-t border-gray-100">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div className="space-y-1">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+                      {selectedCountry}
                     </span>
-                    <h3 className="text-2xl font-black text-black pt-1">{guide.visaType}</h3>
+                    <h3 className="text-xl font-bold text-gray-900 pt-1">{guide.visaType}</h3>
                   </div>
-                  
-                  <div className="bg-gray-50 border-2 border-black p-3 text-right">
-                    <p className="text-[9px] font-black uppercase text-gray-400 leading-none">Government Visa Fee</p>
-                    <p className="text-sm font-black text-black pt-1">{guide.fee}</p>
-                  </div>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="border-2 border-black p-4 bg-gray-50">
-                    <p className="text-[9px] font-black uppercase text-gray-400">Processing Timeframe</p>
-                    <p className="text-sm font-bold text-black pt-1">{guide.processingTime}</p>
-                  </div>
-                  <div className="border-2 border-black p-4 bg-gray-50">
-                    <p className="text-[9px] font-black uppercase text-gray-400">Solvency Required</p>
-                    <p className="text-sm font-bold text-black pt-1">{guide.requiredFunds}</p>
+                  <div className="bg-gray-50 rounded-xl p-3 text-right ring-1 ring-black/8">
+                    <p className="text-[10px] font-medium text-gray-400 uppercase">Government Visa Fee</p>
+                    <p className="text-sm font-semibold text-gray-900 pt-0.5">{guide.fee}</p>
                   </div>
                 </div>
 
-                {/* Vertical Timeline pathway */}
-                <div className="space-y-4">
-                  <h4 className="text-base font-black uppercase text-black">{s.timeline}</h4>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <div className="bg-gray-50 rounded-xl p-4 ring-1 ring-black/8">
+                    <p className="text-[10px] font-medium text-gray-400 uppercase">Processing Time</p>
+                    <p className="text-sm font-semibold text-gray-900 pt-1">{guide.processingTime}</p>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-4 ring-1 ring-black/8">
+                    <p className="text-[10px] font-medium text-gray-400 uppercase">Solvency Required</p>
+                    <p className="text-sm font-semibold text-gray-900 pt-1">{guide.requiredFunds}</p>
+                  </div>
+                </div>
+
+                {/* Timeline */}
+                <div className="space-y-3">
+                  <h4 className="text-sm font-semibold text-gray-700">{s.timeline}</h4>
                   <div className="space-y-0">
                     {guide.steps.map((step, idx) => (
-                      <div key={idx} className="relative pl-6 pb-6 group">
+                      <div key={idx} className="relative pl-8 pb-4">
                         {idx !== guide.steps.length - 1 && (
-                          <div className="absolute left-[9px] top-5 bottom-0 w-0.5 bg-black" />
+                          <div className="absolute left-[13px] top-7 bottom-0 w-px bg-gray-200" />
                         )}
-                        <div className="absolute left-0 top-1 w-5 h-5 bg-white border-[3px] border-black rounded-full z-10 group-hover:bg-[#ff0000] transition-colors" />
-                        <div className="bg-white border-2 border-black p-4 space-y-1 text-xs">
-                          <h5 className="font-black text-black flex items-center gap-2">
-                            <span className="bg-black text-white px-1 text-[10px]">{idx + 1}</span>
-                            {step.title}
-                          </h5>
-                          <p className="font-bold text-gray-600 leading-normal">{step.desc}</p>
+                        <div className="absolute left-0 top-1 w-[26px] h-[26px] rounded-full bg-white ring-1 ring-black/10 flex items-center justify-center z-10 shadow-sm">
+                          <span className="text-[10px] font-semibold text-gray-500">{idx + 1}</span>
+                        </div>
+                        <div className="bg-gray-50 rounded-xl p-4 ring-1 ring-black/8 space-y-1">
+                          <h5 className="text-sm font-semibold text-gray-900">{step.title}</h5>
+                          <p className="text-xs text-gray-500 leading-relaxed">{step.desc}</p>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Required Documents Tracker with Vault Sync */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b-2 border-black pb-2">
-                    <h4 className="text-base font-black uppercase text-black">{s.checklistTitle}</h4>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-green-600 bg-green-50 px-2 py-0.5 border border-green-500">
+                {/* Document Checklist */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-sm font-semibold text-gray-700">{s.checklistTitle}</h4>
+                    <span className="text-[10px] font-semibold text-green-600 bg-green-50 px-2.5 py-1 rounded-full ring-1 ring-green-200">
                       {s.vaultLinked}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500 font-bold leading-normal">
-                    {s.checklistDesc}
-                  </p>
-
-                  <div className="grid sm:grid-cols-2 gap-3 pt-2">
+                  <p className="text-xs text-gray-400 leading-relaxed">{s.checklistDesc}</p>
+                  <div className="grid sm:grid-cols-2 gap-2.5">
                     {guide.requirements.map((req, idx) => {
                       const isLinked = req.docType && vaultDocs.includes(req.docType)
                       const isChecked = isLinked || checkedDocs.includes(req.text)
-                      
                       return (
-                        <div 
+                        <div
                           key={idx}
                           onClick={() => !isLinked && toggleDocCheck(req.text)}
-                          className={`border-2 p-3 flex items-start justify-between gap-3 select-none transition-colors ${
-                            isLinked 
-                              ? 'border-green-500 bg-green-50/50 cursor-default' 
-                              : 'border-black bg-white hover:bg-gray-50 cursor-pointer'
+                          className={`rounded-xl p-3 flex items-start justify-between gap-3 select-none transition-all duration-150 ${
+                            isLinked
+                              ? 'ring-1 ring-green-200 bg-green-50/60 cursor-default'
+                              : 'ring-1 ring-black/8 bg-white hover:ring-primary/20 cursor-pointer'
                           }`}
                         >
                           <div className="space-y-1 min-w-0">
-                            <p className={`text-xs font-bold leading-snug ${isChecked ? 'line-through text-gray-400' : 'text-black'}`}>
+                            <p className={`text-xs font-medium leading-snug ${isChecked ? 'line-through text-gray-400' : 'text-gray-700'}`}>
                               {req.text}
                             </p>
                             {isLinked && (
-                              <span className="inline-flex items-center gap-1 text-[8px] font-black uppercase text-green-600">
-                                <ShieldCheck className="w-3 h-3 text-green-600" />
+                              <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-green-600">
+                                <ShieldCheck className="w-3 h-3" />
                                 {s.foundInVault}
                               </span>
                             )}
                             {req.docType && !isLinked && (
-                              <span className="inline-flex items-center gap-1 text-[8px] font-black uppercase text-gray-400">
-                                {s.notInVault}
-                              </span>
+                              <span className="text-[10px] text-gray-400">{s.notInVault}</span>
                             )}
                           </div>
-
                           <div className="shrink-0 mt-0.5">
                             {isChecked ? (
-                              <CheckCircle2 className={`w-5 h-5 ${isLinked ? 'text-green-600' : 'text-black'}`} />
+                              <CheckCircle2 className={`w-4 h-4 ${isLinked ? 'text-green-500' : 'text-primary'}`} />
                             ) : (
-                              <Circle className="w-5 h-5 text-gray-300" />
+                              <Circle className="w-4 h-4 text-gray-300" />
                             )}
                           </div>
                         </div>
@@ -1105,16 +1082,16 @@ export default function ScholarshipAndVisaPage() {
                   </div>
                 </div>
 
-                {/* Post Arrival compliance rules */}
-                <div className="p-6 bg-gray-50 border-2 border-black space-y-4">
-                  <h4 className="text-base font-black uppercase text-black flex items-center gap-2">
-                    <AlertCircle className="w-5 h-5 text-[#ff0000]" />
+                {/* Post Arrival */}
+                <div className="bg-gray-50 rounded-xl ring-1 ring-black/8 p-5 space-y-3">
+                  <h4 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 text-primary" />
                     {s.complianceTitle}
                   </h4>
                   <ul className="space-y-2">
                     {guide.postArrival.map((rule, idx) => (
-                      <li key={idx} className="flex gap-2.5 items-start text-xs font-bold text-gray-700 leading-normal">
-                        <span className="text-[#ff0000] font-black shrink-0">•</span>
+                      <li key={idx} className="flex gap-2.5 items-start text-xs text-gray-600 leading-relaxed">
+                        <span className="text-primary font-bold shrink-0 mt-0.5">&bull;</span>
                         <span>{rule}</span>
                       </li>
                     ))}
@@ -1123,86 +1100,80 @@ export default function ScholarshipAndVisaPage() {
               </div>
             </div>
 
-            {/* Custom Task & Deadline Tracker (Storing data in local storage) */}
-            <div className="bg-white border-[3px] border-black p-8 space-y-6">
-              <div className="space-y-2">
-                <h2 className="text-2xl font-black text-black flex items-center gap-2">
-                  <Calendar className="w-6 h-6 text-[#ff0000]" />
+            {/* Task Tracker */}
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-5">
+              <div className="space-y-1">
+                <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-primary" />
                   {s.trackerTitle}
                 </h2>
-                <p className="text-sm font-bold text-gray-500 leading-normal uppercase">
-                  {s.trackerDesc}
-                </p>
+                <p className="text-sm text-gray-400">{s.trackerDesc}</p>
               </div>
 
-              {/* Task Add Form */}
-              <form onSubmit={handleAddTask} className="grid sm:grid-cols-3 gap-4 border-2 border-black p-4 bg-gray-50">
+              <form onSubmit={handleAddTask} className="grid sm:grid-cols-3 gap-3 bg-gray-50 rounded-xl ring-1 ring-black/8 p-4">
                 <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[10px] font-black uppercase text-gray-500">Task Details</label>
-                  <Input 
-                    type="text" 
+                  <label className="text-xs font-medium text-gray-500">Task Details</label>
+                  <input
+                    type="text"
                     placeholder={s.taskPlaceholder}
                     value={newTaskTitle}
                     onChange={e => setNewTaskTitle(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl ring-1 ring-black/10 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] font-black uppercase text-gray-500">{s.taskDeadline}</label>
+                  <label className="text-xs font-medium text-gray-500">{s.taskDeadline}</label>
                   <div className="flex gap-2">
-                    <Input 
-                      type="date" 
+                    <input
+                      type="date"
                       value={newTaskDeadline}
                       onChange={e => setNewTaskDeadline(e.target.value)}
-                      className="flex-1"
+                      className="flex-1 min-w-0 px-3 py-2.5 rounded-xl ring-1 ring-black/10 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
                     />
-                    <Button type="submit" size="icon" className="shrink-0 border-2 border-black">
-                      <Plus className="w-5 h-5" />
-                    </Button>
+                    <button type="submit" className="px-3 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-white transition-all shadow-sm shrink-0">
+                      <Plus className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
               </form>
 
-              {/* Tasks List */}
-              <div className="space-y-3 pt-2">
+              <div className="space-y-2.5">
                 {tasks.length === 0 ? (
-                  <p className="text-center py-6 border-2 border-dashed border-gray-300 text-xs font-bold text-gray-400 uppercase">
-                    {s.noTasks}
-                  </p>
+                  <div className="text-center py-8 rounded-xl ring-1 ring-dashed ring-gray-200">
+                    <p className="text-sm text-gray-400">{s.noTasks}</p>
+                  </div>
                 ) : (
                   tasks.map(task => (
-                    <div 
-                      key={task.id} 
-                      className={`border-2 border-black p-4 flex items-center justify-between gap-4 transition-colors ${
-                        task.completed ? 'bg-gray-50/50 opacity-75' : 'bg-white'
+                    <div
+                      key={task.id}
+                      className={`rounded-xl ring-1 p-4 flex items-center justify-between gap-4 transition-all duration-150 ${
+                        task.completed ? 'ring-gray-100 bg-gray-50/60' : 'ring-black/8 bg-white'
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        <button 
+                        <button
                           onClick={() => toggleTask(task.id)}
-                          className="shrink-0 p-1 hover:bg-gray-100 transition-colors"
+                          className="shrink-0 transition-all"
                         >
                           {task.completed ? (
-                            <CheckCircle2 className="w-5 h-5 text-green-600" />
+                            <CheckCircle2 className="w-4 h-4 text-green-500" />
                           ) : (
-                            <Circle className="w-5 h-5 text-gray-400 hover:text-black" />
+                            <Circle className="w-4 h-4 text-gray-300 hover:text-primary transition-colors" />
                           )}
                         </button>
                         <div className="min-w-0">
-                          <p className={`text-sm font-bold truncate pr-4 ${task.completed ? 'line-through text-gray-400' : 'text-black'}`}>
+                          <p className={`text-sm font-medium truncate ${task.completed ? 'line-through text-gray-400' : 'text-gray-900'}`}>
                             {task.title}
                           </p>
-                          <p className="text-[10px] font-black text-gray-400 uppercase">
-                            {s.taskDeadline}: {task.deadline}
-                          </p>
+                          <p className="text-xs text-gray-400">{s.taskDeadline}: {task.deadline}</p>
                         </div>
                       </div>
-
-                      <button 
+                      <button
                         onClick={() => deleteTask(task.id)}
-                        className="p-2 hover:bg-red-50 text-gray-400 hover:text-red-600 hover:border hover:border-black transition-all shrink-0"
+                        className="p-1.5 rounded-lg hover:bg-red-50 text-gray-300 hover:text-red-500 transition-all shrink-0"
                         title="Delete"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   ))
@@ -1210,59 +1181,55 @@ export default function ScholarshipAndVisaPage() {
               </div>
             </div>
 
-            {/* List of Prestigious Scholarships with dynamically matched status badges */}
-            <div className="bg-white border-[3px] border-black p-8 space-y-6">
-              <div className="space-y-2">
-                <h2 className="text-2xl font-black text-black flex items-center gap-2">
-                  <Award className="w-6 h-6 text-[#ff0000]" />
+            {/* Scholarships */}
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-6">
+              <div className="space-y-1">
+                <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                  <Award className="w-5 h-5 text-primary" />
                   {s.scholarshipsTitle}
                 </h2>
-                <p className="text-sm font-bold text-gray-500 leading-normal uppercase">
-                  {s.scholarshipsDesc}
-                </p>
+                <p className="text-sm text-gray-400">{s.scholarshipsDesc}</p>
               </div>
 
-              <div className="space-y-6 divide-y-2 divide-dashed divide-gray-200">
+              <div className="space-y-5 divide-y divide-gray-100">
                 {scholarships.map((sch, idx) => {
                   const meetsGPA = parseGPA >= sch.gpaReq
                   const meetsIELTS = profile.englishTest === 'None / Waiver' || parseScore >= sch.ieltsReq
                   const isEligible = meetsGPA && meetsIELTS
-                  
                   return (
-                    <div key={idx} className={`pt-6 first:pt-0 space-y-4`}>
+                    <div key={idx} className="pt-5 first:pt-0 space-y-4">
                       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
                         <div>
-                          <h3 className="text-lg font-black text-black leading-snug">{sch.name}</h3>
-                          <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">{sch.provider}</p>
+                          <h3 className="text-base font-semibold text-gray-900 leading-snug">{sch.name}</h3>
+                          <p className="text-xs text-gray-400 mt-0.5">{sch.provider}</p>
                         </div>
-
                         {profile.gpa && (
-                          <div className={`text-[9px] font-black uppercase px-2 py-0.5 border-2 text-center w-fit shrink-0 ${
-                            isEligible 
-                              ? 'bg-green-600 text-white border-green-700' 
-                              : 'bg-amber-100 text-amber-800 border-amber-300'
+                          <span className={`text-[10px] font-semibold uppercase px-2.5 py-1 rounded-full shrink-0 ${
+                            isEligible
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-amber-100 text-amber-700'
                           }`}>
                             {isEligible ? s.meetReqs : s.missReqs}
-                          </div>
+                          </span>
                         )}
                       </div>
 
-                      <p className="text-xs font-bold text-gray-700 leading-relaxed bg-gray-50 p-3 border border-black">
+                      <p className="text-xs text-gray-600 leading-relaxed bg-gray-50 rounded-xl p-3">
                         {sch.benefits}
                       </p>
 
-                      <div className="grid grid-cols-3 gap-2 text-[10px] font-black uppercase text-gray-500">
-                        <div>
-                          <span className="block text-gray-400 leading-none">{s.gpaRequired}</span>
-                          <span className="text-black font-bold text-xs">{sch.gpaReq} out of 4.0</span>
+                      <div className="grid grid-cols-3 gap-2">
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-medium text-gray-400 truncate">{s.gpaRequired}</p>
+                          <p className="text-sm font-semibold text-gray-900">{sch.gpaReq}/4.0</p>
                         </div>
-                        <div>
-                          <span className="block text-gray-400 leading-none">{s.ieltsRequired}</span>
-                          <span className="text-black font-bold text-xs">IELTS {sch.ieltsReq}</span>
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-medium text-gray-400 truncate">{s.ieltsRequired}</p>
+                          <p className="text-sm font-semibold text-gray-900">{sch.ieltsReq}</p>
                         </div>
-                        <div>
-                          <span className="block text-gray-400 leading-none">{s.deadlineLabel}</span>
-                          <span className="text-black font-bold text-xs">{sch.deadline}</span>
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-medium text-gray-400 truncate">{s.deadlineLabel}</p>
+                          <p className="text-sm font-semibold text-gray-900 truncate">{sch.deadline}</p>
                         </div>
                       </div>
                     </div>
@@ -1272,9 +1239,7 @@ export default function ScholarshipAndVisaPage() {
             </div>
 
           </div>
-
         </div>
-        
       </div>
 
       <Footer />
