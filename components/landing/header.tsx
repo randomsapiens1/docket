@@ -214,14 +214,14 @@ export function Header() {
 
       {/* Full-screen Mobile Nav */}
       <div
-        className={`fixed inset-0 z-[60] md:hidden flex flex-col bg-[#0a0a0a] transition-all duration-300 ease-out ${
+        className={`fixed inset-0 z-[60] md:hidden flex flex-col bg-black/80 backdrop-blur-2xl backdrop-saturate-150 transition-all duration-300 ease-out ${
           isMenuOpen
             ? 'opacity-100 pointer-events-auto translate-y-0'
             : 'opacity-0 pointer-events-none -translate-y-3'
         }`}
       >
         {/* Top bar */}
-        <div className="flex items-center justify-between px-5 h-16 shrink-0 border-b border-white/8">
+        <div className="flex items-center justify-between px-5 h-16 shrink-0 border-b border-white/10">
           <Link href="/" onClick={close} className="flex items-center gap-2 group">
             <div className="w-7 h-7 bg-[#ff0000] rounded-lg flex items-center justify-center shrink-0">
               <Image
@@ -325,7 +325,7 @@ export function Header() {
         </div>
 
         {/* Bottom actions */}
-        <div className="shrink-0 px-5 pb-10 pt-4 border-t border-white/8 space-y-3">
+        <div className="shrink-0 px-5 pb-10 pt-4 border-t border-white/10 space-y-3">
           {user ? (
             <>
               <Link href="/vault" onClick={close} className="block">
