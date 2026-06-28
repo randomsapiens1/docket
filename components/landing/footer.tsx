@@ -31,8 +31,8 @@ const content = {
       {
         title: "Legal",
         links: [
-          { label: "Privacy Policy", href: "#" },
-          { label: "Terms of Service", href: "#" }
+          { label: "Privacy Policy", href: "/privacy-policy" },
+          { label: "Terms of Service", href: "/terms-of-service" }
         ]
       }
     ],
@@ -64,8 +64,8 @@ const content = {
       {
         title: "আইনি তথ্য",
         links: [
-          { label: "প্রাইভেসি পলিসি", href: "#" },
-          { label: "ব্যবহারের শর্তাবলী", href: "#" }
+          { label: "প্রাইভেসি পলিসি", href: "/privacy-policy" },
+          { label: "ব্যবহারের শর্তাবলী", href: "/terms-of-service" }
         ]
       }
     ],
