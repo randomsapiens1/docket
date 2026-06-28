@@ -214,149 +214,90 @@ export function Header() {
 
       {/* Full-screen Mobile Nav */}
       <div
-        className={`fixed inset-0 z-[60] md:hidden flex flex-col bg-black/80 backdrop-blur-2xl backdrop-saturate-150 transition-all duration-300 ease-out ${
+        className={`fixed inset-0 z-[60] md:hidden flex flex-col bg-[#0d0d0d] transition-all duration-300 ease-out ${
           isMenuOpen
             ? 'opacity-100 pointer-events-auto translate-y-0'
-            : 'opacity-0 pointer-events-none -translate-y-3'
+            : 'opacity-0 pointer-events-none translate-y-4'
         }`}
       >
         {/* Top bar */}
-        <div className="flex items-center justify-between px-5 h-16 shrink-0 border-b border-white/10">
-          <Link href="/" onClick={close} className="flex items-center gap-2 group">
-            <div className="w-7 h-7 bg-[#ff0000] rounded-lg flex items-center justify-center shrink-0">
-              <Image
-                src="/docket-logo.png"
-                alt="docket logo"
-                width={16}
-                height={16}
-                className="w-4 h-4 object-contain brightness-0 invert"
-              />
-            </div>
-            <span className="font-bold text-xl tracking-tight text-white">docket</span>
+        <div className="flex items-center justify-between px-6 pt-14 pb-6 shrink-0">
+          <Link href="/" onClick={close}>
+            <span className="font-bold text-2xl tracking-tight text-white">docket</span>
           </Link>
           <button
             onClick={close}
-            className="p-2 rounded-xl bg-white/8 hover:bg-white/12 transition-all text-white"
             aria-label="Close menu"
+            className="w-10 h-10 flex items-center justify-center text-white/60 hover:text-white transition-colors relative"
           >
-            <X className="w-5 h-5" />
+            {/* Crosshair-style X */}
+            <span className="absolute w-[18px] h-px bg-current rotate-45" />
+            <span className="absolute w-[18px] h-px bg-current -rotate-45" />
+            <span className="absolute inset-0 border border-white/15 rounded-sm" />
           </button>
         </div>
 
-        {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-6 space-y-8">
+        {/* Tagline */}
+        <p className="px-6 pb-8 text-[10px] font-mono uppercase tracking-[0.2em] text-white/20 leading-relaxed">
+          {language === 'en'
+            ? 'CLEAR GUIDANCE.\nVERIFIED PATHWAYS.'
+            : 'স্বচ্ছ নির্দেশিকা।\nযাচাইকৃত পথ।'}
+        </p>
 
-          {/* Primary nav links */}
-          <nav className="space-y-1">
-            {items.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                onClick={close}
-                className="flex items-center justify-between py-3.5 border-b border-white/8 text-base font-semibold text-white/80 hover:text-white transition-colors group"
-              >
+        {/* Nav links */}
+        <nav className="flex-1 overflow-y-auto overscroll-contain px-6">
+          {[
+            { label: language === 'en' ? 'Services Directory' : 'সেবা ডিরেক্টরি', href: '/services' },
+            { label: language === 'en' ? 'Document Vault' : 'ডকুমেন্ট ভল্ট', href: '/vault' },
+            ...items,
+            { label: language === 'en' ? 'Fee Calculator' : 'ফি ক্যালকুলেটর', href: '/calculators/fee-calculator' },
+          ].map((item, idx) => (
+            <Link
+              key={idx}
+              href={item.href}
+              onClick={close}
+              className="group flex items-center justify-between py-5 border-b border-white/8 transition-all duration-150 active:opacity-60"
+            >
+              <span className="text-[1.6rem] font-semibold tracking-tight text-white/85 group-hover:text-white transition-colors leading-none">
                 {item.label}
-                <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-[#ff0000] group-hover:translate-x-0.5 transition-all duration-150" />
-              </Link>
-            ))}
-            <Link
-              href="/services"
-              onClick={close}
-              className="flex items-center justify-between py-3.5 border-b border-white/8 text-base font-semibold text-white/80 hover:text-white transition-colors group"
-            >
-              {language === 'en' ? 'Services Directory' : 'সেবা ডিরেক্টরি'}
-              <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-[#ff0000] group-hover:translate-x-0.5 transition-all duration-150" />
-            </Link>
-            <Link
-              href="/vault"
-              onClick={close}
-              className="flex items-center justify-between py-3.5 border-b border-white/8 text-base font-semibold text-white/80 hover:text-white transition-colors group"
-            >
-              {language === 'en' ? 'Document Vault' : 'ডকুমেন্ট ভল্ট'}
-              <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-[#ff0000] group-hover:translate-x-0.5 transition-all duration-150" />
-            </Link>
-          </nav>
-
-          {/* Services accordion */}
-          <div>
-            <button
-              onClick={() => setServicesOpen(o => !o)}
-              className="w-full flex items-center justify-between mb-4"
-            >
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-white/30">
-                {language === 'en' ? 'Browse by Category' : 'বিভাগ অনুযায়ী'}
               </span>
-              <ChevronDown
-                className={`w-3.5 h-3.5 text-white/30 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`}
-              />
-            </button>
+              <ArrowRight className="w-5 h-5 text-white/15 group-hover:text-[#ff0000] group-hover:translate-x-0.5 transition-all duration-150 shrink-0" />
+            </Link>
+          ))}
+        </nav>
 
-            {servicesOpen && (
-              <div className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-200">
-                {categories.map((cat, cidx) => {
-                  const liveItems = cat.items.flatMap(item =>
-                    item.subItems
-                      ? item.subItems.filter(s => s.status === 'Live')
-                      : item.status === 'Live' ? [{ name: item.name, status: item.status, href: item.href }] : []
-                  )
-                  if (liveItems.length === 0) return null
-                  return (
-                    <div key={cidx} className="space-y-1">
-                      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/25 pb-1">
-                        {cat.title}
-                      </p>
-                      {liveItems.map((row, ridx) => (
-                        <a
-                          key={ridx}
-                          href={row.href}
-                          onClick={close}
-                          className="flex items-center justify-between py-2 text-sm font-medium text-white/60 hover:text-white transition-colors group"
-                        >
-                          {row.name}
-                          <ArrowRight className="w-3.5 h-3.5 text-white/10 group-hover:text-[#ff0000] shrink-0 transition-colors" />
-                        </a>
-                      ))}
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </div>
-        </div>
+        {/* Bottom bar */}
+        <div className="shrink-0 px-6 pb-10 pt-6 flex items-center justify-between gap-4">
+          <button
+            onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
+            className="flex items-center gap-2 text-sm font-medium text-white/30 hover:text-white/60 transition-colors"
+          >
+            <Globe className="w-4 h-4" />
+            {language === 'en' ? 'বাংলা' : 'English'}
+          </button>
 
-        {/* Bottom actions */}
-        <div className="shrink-0 px-5 pb-10 pt-4 border-t border-white/10 space-y-3">
           {user ? (
-            <>
-              <Link href="/vault" onClick={close} className="block">
-                <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-white/8 hover:bg-white/12 text-white font-semibold text-sm transition-all">
-                  <UserIcon className="w-4 h-4" />
-                  {language === 'en' ? 'My Vault' : 'আমার ভল্ট'}
-                </button>
+            <div className="flex items-center gap-4">
+              <Link href="/vault" onClick={close} className="text-sm font-semibold text-white/60 hover:text-white transition-colors">
+                {language === 'en' ? 'My Vault' : 'আমার ভল্ট'}
               </Link>
               <button
                 onClick={() => { handleSignOut(); close() }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-[#ff0000]/10 hover:bg-[#ff0000]/20 text-[#ff0000] font-semibold text-sm transition-all"
+                className="text-sm font-semibold text-[#ff0000] hover:text-[#ff3333] transition-colors"
               >
-                <LogOut className="w-4 h-4" />
                 {language === 'en' ? 'Sign out' : 'সাইন আউট'}
               </button>
-            </>
+            </div>
           ) : (
-            <Link href="/auth" onClick={close} className="block">
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-xl bg-[#ff0000] hover:bg-[#e00000] text-white font-semibold text-sm transition-all shadow-lg shadow-[#ff0000]/20">
-                <LogIn className="w-4 h-4" />
-                {language === 'en' ? 'Sign in' : 'সাইন ইন'}
-              </button>
+            <Link
+              href="/auth"
+              onClick={close}
+              className="flex items-center gap-1.5 text-sm font-semibold text-[#ff0000] hover:text-[#ff3333] transition-colors group"
+            >
+              {language === 'en' ? 'Sign in' : 'সাইন ইন'}
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
           )}
-          <button
-            onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-white/5 hover:bg-white/8 text-white/50 hover:text-white/80 font-medium text-sm transition-all"
-          >
-            <Globe className="w-4 h-4" />
-            {language === 'en' ? 'Switch to বাংলা' : 'Switch to English'}
-          </button>
         </div>
       </div>
     </header>
