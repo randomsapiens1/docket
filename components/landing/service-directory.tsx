@@ -43,12 +43,50 @@ export function ServiceDirectory() {
 
               {/* Service items */}
               <ul className="space-y-1 flex-1">
-                {category.items.map((item, itemIdx) => {
+                {category.items.flatMap((item, itemIdx) => {
+                  if (item.subItems && item.subItems.length > 0) {
+                    return item.subItems.map((sub, subIdx) => {
+                      const isLive = sub.status === 'Live'
+                      return (
+                        <li key={`${itemIdx}-${subIdx}`}>
+                          <a
+                            href={isLive ? sub.href : '#'}
+                            className={`group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 ${
+                              isLive
+                                ? 'hover:bg-primary/5 cursor-pointer'
+                                : 'pointer-events-none opacity-50'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <ArrowRight className={`w-3.5 h-3.5 shrink-0 transition-transform duration-150 ${
+                                isLive
+                                  ? 'text-primary group-hover:translate-x-0.5'
+                                  : 'text-gray-300'
+                              }`} />
+                              <span className={`text-sm font-medium truncate ${
+                                isLive ? 'text-gray-800 group-hover:text-primary' : 'text-gray-400'
+                              } transition-colors duration-150`}>
+                                {sub.name}
+                              </span>
+                            </div>
+                            <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full shrink-0 ml-2 ${
+                              isLive
+                                ? 'bg-primary/10 text-primary'
+                                : 'bg-gray-100 text-gray-400'
+                            }`}>
+                              {isLive ? live : soon}
+                            </span>
+                          </a>
+                        </li>
+                      )
+                    })
+                  }
+
                   const isLive = item.status === 'Live'
-                  return (
+                  return [(
                     <li key={itemIdx}>
                       <a
-                        href={item.href}
+                        href={isLive ? item.href : '#'}
                         className={`group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 ${
                           isLive
                             ? 'hover:bg-primary/5 cursor-pointer'
@@ -76,7 +114,7 @@ export function ServiceDirectory() {
                         </span>
                       </a>
                     </li>
-                  )
+                  )]
                 })}
               </ul>
             </div>

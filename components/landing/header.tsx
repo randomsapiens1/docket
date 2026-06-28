@@ -212,161 +212,151 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile Drawer Overlay */}
+      {/* Full-screen Mobile Nav */}
       <div
-        className={`fixed inset-0 z-[60] md:hidden transition-opacity duration-300 ${
-          isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 z-[60] md:hidden flex flex-col bg-[#0a0a0a] transition-all duration-300 ease-out ${
+          isMenuOpen
+            ? 'opacity-100 pointer-events-auto translate-y-0'
+            : 'opacity-0 pointer-events-none -translate-y-3'
         }`}
       >
-        {/* Backdrop */}
-        <div
-          className="absolute inset-0 bg-black/40"
-          onClick={close}
-        />
-
-        {/* Drawer Panel — fully opaque */}
-        <div
-          className={`absolute top-0 right-0 h-full w-[88%] max-w-[360px] bg-white flex flex-col shadow-2xl transition-transform duration-300 ease-out ${
-            isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-        >
-          {/* Drawer Header */}
-          <div className="flex items-center justify-between px-5 h-14 border-b border-gray-100 shrink-0">
-            <span className="font-bold text-xl tracking-tighter text-gray-900">docket</span>
-            <button
-              onClick={close}
-              className="p-2 rounded-xl hover:bg-gray-100 transition-all text-gray-500"
-              aria-label="Close menu"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Scrollable Body */}
-          <div className="flex-1 overflow-y-auto overscroll-contain">
-
-            {/* Main Nav Links */}
-            <nav className="px-3 pt-4 pb-2 space-y-0.5">
-              {items.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={close}
-                  className="flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-semibold text-gray-800 hover:bg-gray-50 transition-all group"
-                >
-                  {item.label}
-                  <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 transition-colors" />
-                </Link>
-              ))}
-            </nav>
-
-            <div className="mx-4 border-t border-gray-100" />
-
-            {/* Services Accordion */}
-            <div className="px-3 pt-2 pb-4">
-              <button
-                onClick={() => setServicesOpen(o => !o)}
-                className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-semibold text-gray-800 hover:bg-gray-50 transition-all"
-              >
-                <span>{language === 'en' ? 'All Services' : 'সব সেবা'}</span>
-                <ChevronDown
-                  className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`}
-                />
-              </button>
-
-              {servicesOpen && (
-                <div className="mt-2 space-y-5 pb-2">
-                  {categories.map((cat, cidx) => {
-                    // Flatten: if item has subItems, show subItems; otherwise show the item itself
-                    const rows: { name: string; status: 'Live' | 'Soon'; href: string }[] = []
-                    cat.items.forEach(item => {
-                      if (item.subItems && item.subItems.length > 0) {
-                        item.subItems.forEach(sub => rows.push(sub))
-                      } else {
-                        rows.push({ name: item.name, status: item.status, href: item.href })
-                      }
-                    })
-
-                    return (
-                      <div key={cidx} className="space-y-0.5">
-                        <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 px-4 pb-1">
-                          {cat.title}
-                        </p>
-                        {rows.map((row, ridx) => (
-                          <a
-                            key={ridx}
-                            href={row.status === 'Live' ? row.href : undefined}
-                            onClick={row.status === 'Live' ? close : undefined}
-                            className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm transition-all ${
-                              row.status === 'Live'
-                                ? 'font-medium text-gray-900 hover:bg-primary/5 hover:text-primary cursor-pointer'
-                                : 'text-gray-400 cursor-default select-none'
-                            }`}
-                          >
-                            <span>{row.name}</span>
-                            {row.status === 'Live' ? (
-                              <ArrowRight className="w-3.5 h-3.5 text-primary shrink-0" />
-                            ) : (
-                              <span className="text-[9px] font-semibold uppercase px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-400 shrink-0">
-                                {language === 'en' ? 'Soon' : 'শীঘ্রই'}
-                              </span>
-                            )}
-                          </a>
-                        ))}
-                      </div>
-                    )
-                  })}
-
-                  {/* View All */}
-                  <Link
-                    href="/services"
-                    onClick={close}
-                    className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary/5 rounded-xl transition-all"
-                  >
-                    {language === 'en' ? 'View full directory' : 'সব সেবা দেখুন'}
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              )}
+        {/* Top bar */}
+        <div className="flex items-center justify-between px-5 h-16 shrink-0 border-b border-white/8">
+          <Link href="/" onClick={close} className="flex items-center gap-2 group">
+            <div className="w-7 h-7 bg-[#ff0000] rounded-lg flex items-center justify-center shrink-0">
+              <Image
+                src="/docket-logo.png"
+                alt="docket logo"
+                width={16}
+                height={16}
+                className="w-4 h-4 object-contain brightness-0 invert"
+              />
             </div>
+            <span className="font-bold text-xl tracking-tight text-white">docket</span>
+          </Link>
+          <button
+            onClick={close}
+            className="p-2 rounded-xl bg-white/8 hover:bg-white/12 transition-all text-white"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
+        {/* Scrollable body */}
+        <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-6 space-y-8">
+
+          {/* Primary nav links */}
+          <nav className="space-y-1">
+            {items.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={close}
+                className="flex items-center justify-between py-3.5 border-b border-white/8 text-base font-semibold text-white/80 hover:text-white transition-colors group"
+              >
+                {item.label}
+                <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-[#ff0000] group-hover:translate-x-0.5 transition-all duration-150" />
+              </Link>
+            ))}
+            <Link
+              href="/services"
+              onClick={close}
+              className="flex items-center justify-between py-3.5 border-b border-white/8 text-base font-semibold text-white/80 hover:text-white transition-colors group"
+            >
+              {language === 'en' ? 'Services Directory' : 'সেবা ডিরেক্টরি'}
+              <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-[#ff0000] group-hover:translate-x-0.5 transition-all duration-150" />
+            </Link>
+            <Link
+              href="/vault"
+              onClick={close}
+              className="flex items-center justify-between py-3.5 border-b border-white/8 text-base font-semibold text-white/80 hover:text-white transition-colors group"
+            >
+              {language === 'en' ? 'Document Vault' : 'ডকুমেন্ট ভল্ট'}
+              <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-[#ff0000] group-hover:translate-x-0.5 transition-all duration-150" />
+            </Link>
+          </nav>
+
+          {/* Services accordion */}
+          <div>
+            <button
+              onClick={() => setServicesOpen(o => !o)}
+              className="w-full flex items-center justify-between mb-4"
+            >
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-white/30">
+                {language === 'en' ? 'Browse by Category' : 'বিভাগ অনুযায়ী'}
+              </span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 text-white/30 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+
+            {servicesOpen && (
+              <div className="space-y-6 animate-in fade-in slide-in-from-top-2 duration-200">
+                {categories.map((cat, cidx) => {
+                  const liveItems = cat.items.flatMap(item =>
+                    item.subItems
+                      ? item.subItems.filter(s => s.status === 'Live')
+                      : item.status === 'Live' ? [{ name: item.name, status: item.status, href: item.href }] : []
+                  )
+                  if (liveItems.length === 0) return null
+                  return (
+                    <div key={cidx} className="space-y-1">
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/25 pb-1">
+                        {cat.title}
+                      </p>
+                      {liveItems.map((row, ridx) => (
+                        <a
+                          key={ridx}
+                          href={row.href}
+                          onClick={close}
+                          className="flex items-center justify-between py-2 text-sm font-medium text-white/60 hover:text-white transition-colors group"
+                        >
+                          {row.name}
+                          <ArrowRight className="w-3.5 h-3.5 text-white/10 group-hover:text-[#ff0000] shrink-0 transition-colors" />
+                        </a>
+                      ))}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
+        </div>
 
-          {/* Bottom Actions */}
-          <div className="shrink-0 px-4 pb-8 pt-4 border-t border-gray-100 space-y-2.5">
-            {user ? (
-              <>
-                <Link href="/vault" onClick={close} className="block">
-                  <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl ring-1 ring-black/10 font-semibold text-sm text-gray-800 hover:bg-gray-50 transition-all">
-                    <UserIcon className="w-4 h-4" />
-                    {language === 'en' ? 'My Vault' : 'আমার ভল্ট'}
-                  </button>
-                </Link>
-                <button
-                  onClick={() => { handleSignOut(); close() }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-sm text-red-500 hover:bg-red-50 ring-1 ring-red-200 transition-all"
-                >
-                  <LogOut className="w-4 h-4" />
-                  {language === 'en' ? 'Sign out' : 'সাইন আউট'}
-                </button>
-              </>
-            ) : (
-              <Link href="/auth" onClick={close} className="block">
-                <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-gray-900 text-white font-semibold text-sm hover:bg-gray-700 transition-all shadow-sm">
-                  <LogIn className="w-4 h-4" />
-                  {language === 'en' ? 'Sign in' : 'সাইন ইন'}
+        {/* Bottom actions */}
+        <div className="shrink-0 px-5 pb-10 pt-4 border-t border-white/8 space-y-3">
+          {user ? (
+            <>
+              <Link href="/vault" onClick={close} className="block">
+                <button className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-white/8 hover:bg-white/12 text-white font-semibold text-sm transition-all">
+                  <UserIcon className="w-4 h-4" />
+                  {language === 'en' ? 'My Vault' : 'আমার ভল্ট'}
                 </button>
               </Link>
-            )}
-
-            <button
-              onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl ring-1 ring-black/10 font-semibold text-sm text-gray-600 hover:bg-gray-50 transition-all"
-            >
-              <Globe className="w-4 h-4" />
-              {language === 'en' ? 'Switch to বাংলা' : 'Switch to English'}
-            </button>
-          </div>
+              <button
+                onClick={() => { handleSignOut(); close() }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-[#ff0000]/10 hover:bg-[#ff0000]/20 text-[#ff0000] font-semibold text-sm transition-all"
+              >
+                <LogOut className="w-4 h-4" />
+                {language === 'en' ? 'Sign out' : 'সাইন আউট'}
+              </button>
+            </>
+          ) : (
+            <Link href="/auth" onClick={close} className="block">
+              <button className="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-xl bg-[#ff0000] hover:bg-[#e00000] text-white font-semibold text-sm transition-all shadow-lg shadow-[#ff0000]/20">
+                <LogIn className="w-4 h-4" />
+                {language === 'en' ? 'Sign in' : 'সাইন ইন'}
+              </button>
+            </Link>
+          )}
+          <button
+            onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
+            className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-white/5 hover:bg-white/8 text-white/50 hover:text-white/80 font-medium text-sm transition-all"
+          >
+            <Globe className="w-4 h-4" />
+            {language === 'en' ? 'Switch to বাংলা' : 'Switch to English'}
+          </button>
         </div>
       </div>
     </header>

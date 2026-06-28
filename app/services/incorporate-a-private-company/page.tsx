@@ -4,11 +4,9 @@ import { useState, useEffect } from 'react'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
-import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, Calculator, ArrowRight, ShieldCheck } from 'lucide-react'
+import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, ArrowRight, ShieldCheck, Calculator } from 'lucide-react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase'
-
 import { TemplateLibrary } from '@/components/resources/template-library'
 import { templates } from '@/lib/templates'
 
@@ -67,20 +65,20 @@ const content = {
       {
         title: "Make a Company Seal",
         desc: "Once incorporated, procure an official company seal from any seal-making shop.",
-        action: "Requirements",
+        action: null,
         link: "#"
       },
       {
         title: "Open a Bank Account",
         desc: "Open a corporate bank account. Note: Foreign-owned companies must open a temporary 'Capital Remittance' account before registration.",
-        action: "Bank List",
+        action: null,
         link: "#"
       },
       {
         title: "Obtain a Trade License",
         desc: "Apply to the respective City Corporation or Municipal Corporation for a trade license.",
-        action: "Check Jurisdiction",
-        link: "#"
+        action: "Trade License Guide",
+        link: "/services/trade-license"
       },
       {
         title: "TIN Certificate",
@@ -101,8 +99,6 @@ const content = {
         link: "https://bida.gov.bd/"
       }
     ],
-    ctaTitle: "Ready to start?",
-    ctaDesc: "Jump directly to the official RJSC portal to begin your application.",
     ctaButton: "Go to RJSC Portal",
     back: "Back to Directory",
     extraTitle: "Additional Formalities & Licenses",
@@ -119,25 +115,27 @@ const content = {
       { name: "Tax Filings", desc: "Ensure monthly VAT returns and annual income tax filings are completed." },
       { name: "License Renewal", desc: "Trade licenses must be renewed annually before June 30th." },
       { name: "Audit Reports", desc: "Maintain audited financial statements as per the Companies Act 1994." }
-    ]
+    ],
+    templatesTitle: "Essential Templates",
+    templatesLink: "View Full Library"
   },
   bn: {
     title: "ব্যবসায়িক সেটআপ এবং কোম্পানি নিবন্ধন",
     dept: "যৌথ মূলধন কোম্পানি ও ফার্মসমূহের পরিদপ্তর (RJSC)",
     stats: [
-      { label: "আনুমানিক সময়", value: "২০-৩০ দিন", icon: Clock },
+      { label: "আনুমানিক সময়", value: "২০-৩০ দিন", icon: Clock },
       { label: "সরকারি ফি", value: "৳১১,০০০ থেকে শুরু", icon: CreditCard },
       { label: "জটিলতা", value: "উচ্চ", icon: LayoutIcon }
     ],
     prepTitle: "প্রস্তুতিমূলক চেকলিস্ট",
     prepDesc: "নিবন্ধন প্রক্রিয়া শুরু করার আগে এই নথি এবং ফর্মগুলো সংগ্রহ করুন।",
     docs: [
-      { label: "প্রস্তাবিত কোম্পানির নাম (ছাড়পত্রের জন্য)", docType: null },
+      { label: "প্রস্তাবিত কোম্পানির নাম (ছাড়পত্রের জন্য)", docType: null },
       { label: "সকল পরিচালক ও শেয়ারহোল্ডারদের এনআইডি / পাসপোর্ট", docType: "NID" },
       { label: "সকল পরিচালকের পাসপোর্ট সাইজ ছবি", docType: "PHOTO" },
       { label: "সকল পরিচালকের টিন (TIN) সার্টিফিকেট", docType: "TIN" },
-      { label: "নিবন্ধিত অফিসের ঠিকানা ও ভাড়ার চুক্তিপত্র", docType: "LEASE_AGREEMENT" },
-      { label: "খসড়া মেমোরেন্ডাম ও আর্টিকেলস অফ অ্যাসোসিয়েশন (MoA/AoA)", docType: "MOA" },
+      { label: "নিবন্ধিত অফিসের ঠিকানা ও ভাড়ার চুক্তিপত্র", docType: "LEASE_AGREEMENT" },
+      { label: "খসড়া মেমোরেন্ডাম ও আর্টিকেলস অফ অ্যাসোসিয়েশন (MoA/AoA)", docType: "MOA" },
       { label: "এনক্যাশমেন্ট সার্টিফিকেট (বিদেশী শেয়ারহোল্ডারদের জন্য)", docType: null },
       { label: "ফর্ম I: কোম্পানি নিবন্ধনের ঘোষণা", docType: null },
       { label: "ফর্ম VI: নিবন্ধিত অফিসের অবস্থানের নোটিশ", docType: null },
@@ -145,7 +143,7 @@ const content = {
       { label: "ফর্ম X: পরিচালক হতে ইচ্ছুক ব্যক্তিদের তালিকা", docType: null },
       { label: "ফর্ম XII: পরিচালক ও ব্যবস্থাপকদের বিবরণ", docType: null }
     ],
-    foundInVault: "ভল্টে পাওয়া গেছে",
+    foundInVault: "ভল্টে পাওয়া গেছে",
     stepsTitle: "ধাপে ধাপে নির্দেশিকা",
     steps: [
       {
@@ -155,7 +153,7 @@ const content = {
         link: "https://app.roc.gov.bd/rjsc-portal/search-entity-name.html"
       },
       {
-        title: "নামের ছাড়পত্র (Name Clearance)",
+        title: "নামের ছাড়পত্র (Name Clearance)",
         desc: "RJSC পোর্টালে 'Pre-Registration Activities' থেকে 'Apply for Name Clearance' সিলেক্ট করুন। এটি নিবন্ধনের পূর্বশর্ত এবং ৩০ দিন পর্যন্ত কার্যকর থাকে।",
         action: "অনলাইন আবেদন",
         link: "https://app.roc.gov.bd/"
@@ -168,27 +166,27 @@ const content = {
       },
       {
         title: "RJSC-তে নিবন্ধন",
-        desc: "'Registration' বিভাগ থেকে 'Apply for Registration' সিলেক্ট করুন। আপনার MoA, AoA এবং প্রয়োজনীয় ফর্মসমূহ (I, VI, IX, X, XII) আপলোড করুন।",
+        desc: "'Registration' বিভাগ থেকে 'Apply for Registration' সিলেক্ট করুন। আপনার MoA, AoA এবং প্রয়োজনীয় ফর্মসমূহ (I, VI, IX, X, XII) আপলোড করুন।",
         action: "আবেদন জমা দিন",
         link: "https://app.roc.gov.bd/"
       },
       {
         title: "কোম্পানির সিল তৈরি",
         desc: "নিবন্ধন সম্পন্ন হলে যেকোনো সিল তৈরির দোকান থেকে কোম্পানির দাপ্তরিক সিল তৈরি করে নিন।",
-        action: "প্রয়োজনীয়তা",
+        action: null,
         link: "#"
       },
       {
         title: "ব্যাংক অ্যাকাউন্ট খোলা",
-        desc: "কোম্পানির নামে একটি ব্যাংক অ্যাকাউন্ট খুলুন। দ্রষ্টব্য: বিদেশী মালিকানাধীন কোম্পানির ক্ষেত্রে নিবন্ধনের আগে একটি সাময়িক 'মূলধন রেমিট্যান্স' অ্যাকাউন্ট খুলতে হয়।",
-        action: "ব্যাংক তালিকা",
+        desc: "কোম্পানির নামে একটি ব্যাংক অ্যাকাউন্ট খুলুন। দ্রষ্টব্য: বিদেশী মালিকানাধীন কোম্পানির ক্ষেত্রে নিবন্ধনের আগে একটি সাময়িক 'মূলধন রেমিট্যান্স' অ্যাকাউন্ট খুলতে হয়।",
+        action: null,
         link: "#"
       },
       {
         title: "ট্রেড লাইসেন্স সংগ্রহ",
         desc: "সংশ্লিষ্ট সিটি কর্পোরেশন বা পৌরসভা থেকে ট্রেড লাইসেন্সের জন্য আবেদন করুন।",
-        action: "এলাকা যাচাই করুন",
-        link: "#"
+        action: "ট্রেড লাইসেন্স গাইড",
+        link: "/services/trade-license"
       },
       {
         title: "টিন (TIN) সার্টিফিকেট",
@@ -205,21 +203,19 @@ const content = {
       {
         title: "বিডা (BIDA) নিবন্ধন",
         desc: "শিল্প প্রতিষ্ঠান এবং বিদেশী বিনিয়োগকারীদের জন্য বিভিন্ন লাইসেন্স ও সুবিধা পেতে বিডা-তে নিবন্ধন বাধ্যতামূলক।",
-        action: "বিডা ওয়েবসাইট",
+        action: "বিডা ওয়েবসাইট",
         link: "https://bida.gov.bd/"
       }
     ],
-    ctaTitle: "আপনি কি প্রস্তুত?",
-    ctaDesc: "আপনার আবেদন শুরু করতে সরাসরি অফিসিয়াল RJSC পোর্টালে যান।",
     ctaButton: "RJSC পোর্টালে যান",
     back: "ডিরেক্টরিতে ফিরে যান",
     extraTitle: "অতিরিক্ত আনুষ্ঠানিকতা ও লাইসেন্স",
     extraSteps: [
       { name: "পরিচালকদের ট্যাক্স", desc: "সকল বিদেশী পরিচালকদের জন্য ব্যক্তিগত টিন (TIN) নিবন্ধন আবশ্যক।" },
-      { name: "ব্যাংক নিয়মিতকরণ", desc: "ব্যাংক অ্যাকাউন্ট নিয়মিতকরণ এবং অনলাইন ব্যাংকিং পোর্টাল সেটআপ করা।" },
-      { name: "চেম্বার মেম্বারশিপ", desc: "নির্দিষ্ট পারমিটের জন্য চেম্বার অফ কমার্স (যেমন: DCCI, FBCCI) মেম্বারশিপ প্রয়োজন।" },
+      { name: "ব্যাংক নিয়মিতকরণ", desc: "ব্যাংক অ্যাকাউন্ট নিয়মিতকরণ এবং অনলাইন ব্যাংকিং পোর্টাল সেটআপ করা।" },
+      { name: "চেম্বার মেম্বারশিপ", desc: "নির্দিষ্ট পারমিটের জন্য চেম্বার অফ কমার্স (যেমন: DCCI, FBCCI) মেম্বারশিপ প্রয়োজন।" },
       { name: "IRC ও ERC", desc: "ট্রেডিং ব্যবসার জন্য আমদানি ও রপ্তানি নিবন্ধন সনদ (IRC ও ERC) বাধ্যতামূলক।" },
-      { name: "শিল্প সংক্রান্ত ছাড়পত্র", desc: "শিল্প প্রকল্পের জন্য ফায়ার সার্টিফিকেট, ফ্যাক্টরি রেজিস্ট্রেশন এবং পরিবেশগত ছাড়পত্র।" }
+      { name: "শিল্প সংক্রান্ত ছাড়পত্র", desc: "শিল্প প্রকল্পের জন্য ফায়ার সার্টিফিকেট, ফ্যাক্টরি রেজিস্ট্রেশন এবং পরিবেশগত ছাড়পত্র।" }
     ],
     postTitle: "চলমান কমপ্লায়েন্স",
     postSteps: [
@@ -227,10 +223,11 @@ const content = {
       { name: "ট্যাক্স ফাইলিং", desc: "মাসিক ভ্যাট রিটার্ন এবং বার্ষিক আয়কর রিটার্ন জমা নিশ্চিত করুন।" },
       { name: "লাইসেন্স নবায়ন", desc: "ট্রেড লাইসেন্স প্রতি বছর ৩০ জুনের আগে নবায়ন করতে হবে।" },
       { name: "অডিট রিপোর্ট", desc: "কোম্পানি আইন ১৯৯৪ অনুযায়ী অডিট করা আর্থিক বিবরণী সংরক্ষণ করুন।" }
-    ]
+    ],
+    templatesTitle: "প্রয়োজনীয় টেমপ্লেট",
+    templatesLink: "সম্পূর্ণ লাইব্রেরি দেখুন"
   }
 }
-
 
 export const dynamic = 'force-dynamic'
 
@@ -256,7 +253,6 @@ export default function ServiceDetailPage() {
     fetchVault()
   }, [supabase])
 
-  // Auto-check docs found in vault
   useEffect(() => {
     const vaultIndices = s.docs
       .map((doc, idx) => (doc.docType && vaultDocs.includes(doc.docType) ? idx : -1))
@@ -267,27 +263,28 @@ export default function ServiceDetailPage() {
         setCheckedDocs(prev => {
           const hasNew = vaultIndices.some(idx => !prev.includes(idx))
           if (!hasNew) return prev
-          const combined = Array.from(new Set([...prev, ...vaultIndices]))
-          return combined
+          return Array.from(new Set([...prev, ...vaultIndices]))
         })
       }, 0)
     }
   }, [vaultDocs, s.docs])
 
   const toggleDoc = (index: number) => {
-    setCheckedDocs(prev => 
+    setCheckedDocs(prev =>
       prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
     )
   }
 
   return (
-    <main className="min-h-screen bg-[#f3f2f1] pt-16">
+    <main className="min-h-screen bg-gray-50 pt-16">
       <Header />
-      
-      {/* Breadcrumbs & Back */}
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <Link href="/" className="flex items-center gap-2 text-sm font-bold text-[#ff0000] hover:underline">
-          <ArrowLeft className="w-4 h-4" />
+        <Link
+          href="/services"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-gray-900 transition-colors group"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-150" />
           {s.back}
         </Link>
       </div>
@@ -296,24 +293,23 @@ export default function ServiceDetailPage() {
         <div className="grid lg:grid-cols-3 gap-8">
 
           {/* Main Content */}
-          <div className="order-last lg:order-first space-y-8 lg:col-span-2">
-            {/* Hero Card */}
-            <div className="bg-white border-2 border-black p-8 space-y-6">
-              <div className="space-y-2">
-                <h1 className="text-3xl sm:text-4xl font-black text-black leading-tight">
-                  {s.title}
-                </h1>
-              </div>
+          <div className="order-last lg:order-first space-y-6 lg:col-span-2">
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t-2 border-gray-100">
+            {/* Hero Card */}
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-6">
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-gray-400">{s.dept}</p>
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">{s.title}</h1>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-gray-100">
                 {s.stats.map((stat, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className="p-2 bg-gray-50 border border-black">
-                      <stat.icon className="w-5 h-5 text-black" />
+                    <div className="w-10 h-10 rounded-xl bg-gray-50 ring-1 ring-black/8 flex items-center justify-center shrink-0">
+                      <stat.icon className="w-4 h-4 text-gray-500" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold uppercase text-gray-500">{stat.label}</p>
-                      <p className="text-sm font-bold text-black">{stat.value}</p>
+                      <p className="text-xs font-medium text-gray-400">{stat.label}</p>
+                      <p className="text-sm font-semibold text-gray-900">{stat.value}</p>
                     </div>
                   </div>
                 ))}
@@ -321,34 +317,29 @@ export default function ServiceDetailPage() {
             </div>
 
             {/* Steps Timeline */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-black text-black">{s.stepsTitle}</h2>
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-gray-900">{s.stepsTitle}</h2>
               <div className="space-y-0">
                 {s.steps.map((step, i) => (
-                  <div key={i} className="relative pl-8 pb-10 group">
-                    {/* Vertical Line */}
+                  <div key={i} className="relative pl-9 pb-5">
                     {i !== s.steps.length - 1 && (
-                      <div className="absolute left-[11px] top-6 bottom-0 w-1 bg-black" />
+                      <div className="absolute left-[17px] top-8 bottom-0 w-px bg-gray-200" />
                     )}
-                    {/* Dot */}
-                    <div className="absolute left-0 top-1 w-6 h-6 bg-white border-4 border-black rounded-full z-10 group-hover:bg-[#ff0000] transition-colors" />
-                    
-                    <div className="bg-white border-2 border-black p-6 space-y-4 transition-all">
-                      <h3 className="text-xl font-bold flex items-center gap-3">
-                        <span className="bg-black text-white px-2 py-0.5 text-xs">{i + 1}</span>
-                        {step.title}
-                      </h3>
-                      <p className="text-gray-700 leading-relaxed">
-                        {step.desc}
-                      </p>
-                      {step.link !== "#" && (
-                        <a 
+                    <div className="absolute left-0 top-1.5 w-[34px] h-[34px] rounded-full bg-white ring-1 ring-black/10 flex items-center justify-center z-10 shadow-sm">
+                      <span className="text-xs font-semibold text-gray-500">{i + 1}</span>
+                    </div>
+                    <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-5 space-y-3">
+                      <h3 className="font-semibold text-gray-900">{step.title}</h3>
+                      <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
+                      {step.action && step.link !== "#" && (
+                        <a
                           href={step.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-sm font-bold text-[#ff0000] hover:underline"
+                          target={step.link.startsWith('http') ? '_blank' : undefined}
+                          rel={step.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                          className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:gap-1.5 transition-all duration-150"
                         >
-                          {step.action} &rarr;
+                          {step.action}
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </a>
                       )}
                     </div>
@@ -356,95 +347,92 @@ export default function ServiceDetailPage() {
                 ))}
               </div>
             </div>
-            {/* Post-Registration Compliance */}
-            <div className="bg-white border-2 border-black p-8 space-y-6">
-              <h2 className="text-2xl font-black text-black">{s.postTitle}</h2>
-              <div className="grid sm:grid-cols-2 gap-6">
+
+            {/* Ongoing Compliance */}
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-5">
+              <h2 className="text-xl font-semibold text-gray-900">{s.postTitle}</h2>
+              <div className="grid sm:grid-cols-2 gap-4">
                 {s.postSteps.map((step, i) => (
-                  <div key={i} className="p-4 bg-gray-50 border-l-4 border-[#ff0000] space-y-1">
-                    <h4 className="font-bold text-black">{step.name}</h4>
-                    <p className="text-sm text-gray-600 leading-relaxed">{step.desc}</p>
+                  <div key={i} className="bg-gray-50 rounded-xl p-4 border-l-2 border-primary space-y-1">
+                    <h4 className="font-semibold text-sm text-gray-900">{step.name}</h4>
+                    <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Additional Formalities */}
-            <div className="bg-white border-2 border-black p-8 space-y-6">
-              <h2 className="text-2xl font-black text-black">{s.extraTitle}</h2>
-              <div className="space-y-4">
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-5">
+              <h2 className="text-xl font-semibold text-gray-900">{s.extraTitle}</h2>
+              <div className="space-y-3">
                 {s.extraSteps.map((step, i) => (
-                  <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-2 border-gray-100 hover:border-black transition-colors gap-4">
-                    <div>
-                      <h4 className="font-black text-black">{step.name}</h4>
-                      <p className="text-sm text-gray-600">{step.desc}</p>
+                  <div key={i} className="flex items-start gap-4 p-4 rounded-xl ring-1 ring-black/8 hover:ring-primary/20 transition-all duration-150">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <ShieldCheck className="w-4 h-4 text-primary" />
                     </div>
-                    <div className="text-[10px] font-bold uppercase bg-black text-white px-2 py-1 self-start sm:self-center">
-                      Mandatory
+                    <div className="space-y-0.5">
+                      <h4 className="font-semibold text-sm text-gray-900">{step.name}</h4>
+                      <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Template Library Preview */}
-            <div className="space-y-6">
+            {/* Template Library */}
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-black text-black">
-                  {language === 'en' ? 'Essential Templates' : 'প্রয়োজনীয় টেমপ্লেট'}
-                </h2>
-                <Link href="/resources/templates" className="text-sm font-bold text-[#ff0000] hover:underline flex items-center gap-1">
-                  {language === 'en' ? 'View Full Library' : 'সম্পূর্ণ লাইব্রেরি দেখুন'}
-                  <ArrowRight className="w-4 h-4" />
+                <h2 className="text-xl font-semibold text-gray-900">{s.templatesTitle}</h2>
+                <Link
+                  href="/resources/templates"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:gap-1.5 transition-all duration-150"
+                >
+                  {s.templatesLink}
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
-              <div className="bg-white border-2 border-black p-8">
+              <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8">
                 <TemplateLibrary items={templates[language]} />
               </div>
             </div>
+
           </div>
 
           {/* Sidebar */}
-          <div className="order-first lg:order-last space-y-8">
-            {/* Checklist Card */}
-            <div className="bg-white border-2 border-black p-6 space-y-6 lg:sticky lg:top-24">
-              <div className="space-y-2">
-                <h2 className="text-xl font-black flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
+          <div className="order-first lg:order-last space-y-6">
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 space-y-5 lg:sticky lg:top-24">
+              <div className="space-y-1.5">
+                <h2 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-primary" />
                   {s.prepTitle}
                 </h2>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {s.prepDesc}
-                </p>
+                <p className="text-xs text-gray-400 leading-relaxed">{s.prepDesc}</p>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {s.docs.map((doc, i) => {
                   const isInVault = doc.docType && vaultDocs.includes(doc.docType)
                   return (
                     <div key={i} className="flex flex-col gap-1">
-                      <button 
-                        key={i} 
+                      <button
                         onClick={() => toggleDoc(i)}
-                        className="flex items-start gap-3 w-full text-left group"
+                        className="flex items-start gap-2.5 w-full text-left group"
                       >
                         <div className="mt-0.5 shrink-0">
                           {checkedDocs.includes(i) ? (
-                            <CheckCircle2 className="w-5 h-5 text-green-600" />
+                            <CheckCircle2 className="w-4 h-4 text-green-500" />
                           ) : (
-                            <Circle className="w-5 h-5 text-gray-300 group-hover:text-black" />
+                            <Circle className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors" />
                           )}
                         </div>
-                        <span className={`text-sm font-medium ${checkedDocs.includes(i) ? 'text-gray-400 line-through' : 'text-black'}`}>
+                        <span className={`text-sm leading-snug ${checkedDocs.includes(i) ? 'text-gray-400 line-through' : 'text-gray-700'}`}>
                           {doc.label}
                         </span>
                       </button>
                       {isInVault && (
-                        <div className="ml-8 flex items-center gap-1.5">
-                          <ShieldCheck className="w-3 h-3 text-green-600" />
-                          <span className="text-[10px] font-black uppercase text-green-600">
-                            {s.foundInVault}
-                          </span>
+                        <div className="ml-7 flex items-center gap-1">
+                          <ShieldCheck className="w-3 h-3 text-green-500" />
+                          <span className="text-[10px] font-semibold text-green-600">{s.foundInVault}</span>
                         </div>
                       )}
                     </div>
@@ -452,38 +440,34 @@ export default function ServiceDetailPage() {
                 })}
               </div>
 
-              <div className="pt-4 border-t border-gray-100">
-                <div className="bg-gray-50 p-4 border border-dashed border-gray-300">
-                  <p className="text-xs font-bold text-gray-500 uppercase mb-1">Status</p>
-                  <p className="text-sm font-bold text-black">
-                    {checkedDocs.length} of {s.docs.length} tasks completed
-                  </p>
-                  <div className="w-full h-2 bg-gray-200 mt-2">
-                    <div 
-                      className="h-full bg-[#ff0000] transition-all duration-500" 
-                      style={{ width: `${(checkedDocs.length / s.docs.length) * 100}%` }}
-                    />
-                  </div>
+              <div className="pt-3 border-t border-gray-100 space-y-2">
+                <div className="flex justify-between text-xs font-medium text-gray-500">
+                  <span>Progress</span>
+                  <span>{checkedDocs.length} / {s.docs.length}</span>
+                </div>
+                <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary rounded-full transition-all duration-500"
+                    style={{ width: `${(checkedDocs.length / s.docs.length) * 100}%` }}
+                  />
                 </div>
               </div>
 
-              {/* CTA Section */}
-              <div className="pt-2 space-y-4">
-                <a 
-                  href="https://app.roc.gov.bd/" 
-                  target="_blank" 
+              <div className="pt-1 space-y-3">
+                <a
+                  href="https://app.roc.gov.bd/"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="block"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-semibold text-sm transition-all shadow-sm"
                 >
-                  <Button className="w-full bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold h-12 rounded-none border-b-4 border-black active:border-b-0 active:translate-y-1 transition-all">
-                    {s.ctaButton}
-                  </Button>
+                  {s.ctaButton}
                 </a>
-                <Link href="/calculators/fee-calculator" className="block">
-                  <Button className="w-full bg-white hover:bg-gray-50 text-black font-bold h-12 rounded-none border-2 border-black border-b-4 active:border-b-2 active:translate-y-0.5 transition-all flex items-center justify-center gap-2">
-                    <Calculator className="w-4 h-4 text-[#ff0000]" />
-                    {language === 'en' ? 'Calculate Fees' : 'ফি ক্যালকুলেট করুন'}
-                  </Button>
+                <Link
+                  href="/calculators/fee-calculator"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl ring-1 ring-black/10 bg-white hover:bg-gray-50 text-gray-700 font-semibold text-sm transition-all"
+                >
+                  <Calculator className="w-4 h-4 text-primary" />
+                  {language === 'en' ? 'Calculate Fees' : 'ফি ক্যালকুলেট করুন'}
                 </Link>
               </div>
             </div>

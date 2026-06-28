@@ -24,10 +24,10 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       title: "Identity & Personal Documents",
       description: "Everything related to proving who you are.",
       items: [
-        { name: "Birth Certificate", status: "Soon", href: "#", keywords: ["birth", "certificate", "nothi"] },
-        { name: "National ID (NID)", status: "Soon", href: "#", keywords: ["nid", "national id", "identity", "card", "voter"] },
-        { name: "Passport", status: "Soon", href: "#", keywords: ["passport", "travel", "e-passport", "mrp"] },
-        { name: "Death Certificate", status: "Soon", href: "#", keywords: ["death", "certificate", "mrityu"] },
+        { name: "Birth Certificate", status: "Live", href: "/services/birth-and-death-registration", keywords: ["birth", "certificate", "nothi"] },
+        { name: "National ID (NID)", status: "Live", href: "/services/nid", keywords: ["nid", "national id", "identity", "card", "voter"] },
+        { name: "Passport", status: "Live", href: "/services/passport", keywords: ["passport", "travel", "e-passport", "mrp"] },
+        { name: "Death Certificate", status: "Live", href: "/services/birth-and-death-registration", keywords: ["death", "certificate", "mrityu"] },
         { name: "Marriage Registration", status: "Soon", href: "#", keywords: ["marriage", "registration", "kabin", "bibaho"] },
         { name: "Police Clearance Certificate", status: "Soon", href: "#", keywords: ["police", "clearance", "pcc", "criminal", "record"] }
       ]
@@ -92,7 +92,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
           href: "#",
           keywords: ["trade license", "tin", "bin", "vat", "irc", "erc", "environmental", "clearance"],
           subItems: [
-            { name: "Trade License", status: "Soon", href: "#" },
+            { name: "Trade License", status: "Live", href: "/services/trade-license" },
             { name: "TIN", status: "Live", href: "/services/register-for-tin" },
             { name: "BIN/VAT", status: "Soon", href: "#" },
             { name: "IRC/ERC", status: "Soon", href: "#" },
@@ -113,13 +113,13 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
         },
         {
           name: "Protect Your Business",
-          status: "Soon",
+          status: "Live",
           href: "#",
           keywords: ["trademark", "copyright", "patent", "ip", "brand"],
           subItems: [
-            { name: "Trademark Registration", status: "Soon", href: "#" },
+            { name: "Trademark Registration", status: "Live", href: "/services/trademark-and-patent" },
             { name: "Copyright Registration", status: "Soon", href: "#" },
-            { name: "Patent Registration", status: "Soon", href: "#" }
+            { name: "Patent Registration", status: "Live", href: "/services/trademark-and-patent" }
           ]
         }
       ]
@@ -152,7 +152,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       title: "Vehicles & Transportation",
       description: "Licenses, registration, fitness, and permits.",
       items: [
-        { name: "Driving License", status: "Soon", href: "#", keywords: ["driving", "license", "brta", "car", "bike"] },
+        { name: "Driving License", status: "Live", href: "/services/driving-license", keywords: ["driving", "license", "brta", "car", "bike"] },
         { name: "Learner License", status: "Soon", href: "#", keywords: ["learner", "license", "driving", "brta"] },
         { name: "Vehicle Registration", status: "Soon", href: "#", keywords: ["vehicle", "registration", "brta", "car", "bike"] },
         { name: "Fitness Certificate", status: "Soon", href: "#", keywords: ["fitness", "certificate", "brta", "vehicle"] },
@@ -187,7 +187,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       title: "Immigration & Travel",
       description: "Passport, visa, and expat services.",
       items: [
-        { name: "Passport", status: "Soon", href: "#", keywords: ["passport", "travel", "e-passport"] },
+        { name: "Passport", status: "Live", href: "/services/passport", keywords: ["passport", "travel", "e-passport"] },
         { name: "Visa Information", status: "Soon", href: "#", keywords: ["visa", "information", "travel"] },
         { name: "Immigration Clearance", status: "Soon", href: "#", keywords: ["immigration", "clearance", "bmet", "card"] },
         { name: "Expatriate Services", status: "Soon", href: "#", keywords: ["expatriate", "probashi", "welfare"] }
@@ -210,10 +210,10 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       title: "পরিচয় ও ব্যক্তিগত নথিপত্র",
       description: "এনআইডি, পাসপোর্ট, জন্ম ও মৃত্যু সনদ এবং অন্যান্য ব্যক্তিগত নথিপত্র।",
       items: [
-        { name: "জন্ম সনদ", status: "Soon", href: "#", keywords: ["জন্ম", "সনদ", "নিবন্ধন"] },
-        { name: "জাতীয় পরিচয়পত্র (NID)", status: "Soon", href: "#", keywords: ["এনআইডি", "জাতীয় পরিচয়পত্র", "কার্ড", "ভোটার"] },
-        { name: "পাসপোর্ট", status: "Soon", href: "#", keywords: ["পাসপোর্ট", "ভ্রমণ", "ই-পাসপোর্ট"] },
-        { name: "মৃত্যু সনদ", status: "Soon", href: "#", keywords: ["মৃত্যু", "সনদ", "মৃত্যু নিবন্ধন"] },
+        { name: "জন্ম সনদ", status: "Live", href: "/services/birth-and-death-registration", keywords: ["জন্ম", "সনদ", "নিবন্ধন"] },
+        { name: "জাতীয় পরিচয়পত্র (NID)", status: "Live", href: "/services/nid", keywords: ["এনআইডি", "জাতীয় পরিচয়পত্র", "কার্ড", "ভোটার"] },
+        { name: "পাসপোর্ট", status: "Live", href: "/services/passport", keywords: ["পাসপোর্ট", "ভ্রমণ", "ই-পাসপোর্ট"] },
+        { name: "মৃত্যু সনদ", status: "Live", href: "/services/birth-and-death-registration", keywords: ["মৃত্যু", "সনদ", "মৃত্যু নিবন্ধন"] },
         { name: "বিবাহ নিবন্ধন", status: "Soon", href: "#", keywords: ["বিবাহ", "নিবন্ধন", "কাবিন", "বিয়ে"] },
         { name: "পুলিশ ক্লিয়ারেন্স সনদ", status: "Soon", href: "#", keywords: ["পুলিশ", "ক্লিয়ারেন্স", "পিচিবি", "পিসিবি"] }
       ]
@@ -278,7 +278,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
           href: "#",
           keywords: ["ট্রেড লাইসেন্স", "টিন", "বিন", "ভ্যাট", "আইআরসি", "ইআরসি", "পরিবেশগত ছাড়পত্র"],
           subItems: [
-            { name: "ট্রেড লাইসেন্স", status: "Soon", href: "#" },
+            { name: "ট্রেড লাইসেন্স", status: "Live", href: "/services/trade-license" },
             { name: "টিন (TIN)", status: "Live", href: "/services/register-for-tin" },
             { name: "বিন/ভ্যাট (BIN/VAT)", status: "Soon", href: "#" },
             { name: "আমদানি/রপ্তানি সনদ (IRC/ERC)", status: "Soon", href: "#" },
@@ -299,13 +299,13 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
         },
         {
           name: "ব্যবসা সুরক্ষা",
-          status: "Soon",
+          status: "Live",
           href: "#",
           keywords: ["ট্রেডমার্ক", "কপিরাইট", "পেটেন্ট", "আইপি"],
           subItems: [
-            { name: "ট্রেডমার্ক নিবন্ধন", status: "Soon", href: "#" },
+            { name: "ট্রেডমার্ক নিবন্ধন", status: "Live", href: "/services/trademark-and-patent" },
             { name: "কপিরাইট নিবন্ধন", status: "Soon", href: "#" },
-            { name: "পেটেন্ট নিবন্ধন", status: "Soon", href: "#" }
+            { name: "পেটেন্ট নিবন্ধন", status: "Live", href: "/services/trademark-and-patent" }
           ]
         }
       ]
@@ -338,7 +338,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       title: "যানবাহন ও পরিবহন",
       description: "ড্রাইভিং লাইসেন্স, ফিটনেস সনদ এবং মালিকানা পরিবর্তন।",
       items: [
-        { name: "ড্রাইভিং লাইসেন্স", status: "Soon", href: "#", keywords: ["ড্রাইভিং", "লাইসেন্স", "বিআরটিএ", "গাড়ি", "বাইক"] },
+        { name: "ড্রাইভিং লাইসেন্স", status: "Live", href: "/services/driving-license", keywords: ["ড্রাইভিং", "লাইসেন্স", "বিআরটিএ", "গাড়ি", "বাইক"] },
         { name: "লার্নার লাইসেন্স", status: "Soon", href: "#", keywords: ["শিক্ষানবিস", "লার্নার", "লাইসেন্স", "ড্রাইভিং"] },
         { name: "যানবাহন নিবন্ধন", status: "Soon", href: "#", keywords: ["গাড়ি", "মোটরসাইকেল", "নিবন্ধন", "বিআরটিএ"] },
         { name: "ফিটনেস সার্টিফিকেট", status: "Soon", href: "#", keywords: ["ফিটনেস", "সার্টিফিকেট", "যানবাহন", "বিআরটিএ"] },
@@ -373,7 +373,7 @@ export const serviceCategories: Record<'en' | 'bn', ServiceCategory[]> = {
       title: "ইমিগ্রেশন ও ভ্রমণ",
       description: "পাসপোর্ট, ভিসা, ইমিগ্রেশন ক্লিয়ারেন্স এবং প্রবাসী সেবা।",
       items: [
-        { name: "পাসপোর্ট", status: "Soon", href: "#", keywords: ["পাসপোর্ট", "ভ্রমণ", "ই-পাসপোর্ট"] },
+        { name: "পাসপোর্ট", status: "Live", href: "/services/passport", keywords: ["পাসপোর্ট", "ভ্রমণ", "ই-পাসপোর্ট"] },
         { name: "ভিসা সংক্রান্ত তথ্য", status: "Soon", href: "#", keywords: ["ভিসা", "তথ্য", "ভ্রমণ"] },
         { name: "ইমিগ্রেশন ক্লিয়ারেন্স", status: "Soon", href: "#", keywords: ["ইমিগ্রেশন", "ক্লিয়ারেন্স", "বিএমইটি"] },
         { name: "প্রবাসী কল্যাণ সেবা", status: "Soon", href: "#", keywords: ["প্রবাসী", "কল্যাণ", "প্রবাস"] }

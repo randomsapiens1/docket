@@ -79,68 +79,68 @@ export function Footer() {
   const t = content[language]
 
   return (
-    <footer className="bg-[#e00000] text-white select-none relative overflow-hidden">
-      {/* Ambient depth layers */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/3 w-[600px] h-[400px] bg-white/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[300px] bg-black/10 rounded-full blur-3xl" />
-      </div>
+    <footer className="bg-[#0a0a0a] text-white select-none">
 
-      {/* CTA Section */}
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-        <div className="bg-white/10 backdrop-blur-sm ring-1 ring-white/20 rounded-3xl px-8 py-14 sm:px-14 text-center space-y-6 shadow-xl shadow-black/10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-white">
-            {t.ctaTitle}
-          </h2>
-          <p className="text-sm sm:text-base text-white/70 max-w-2xl mx-auto leading-relaxed">
-            {t.ctaSubtitle}
-          </p>
-          <div>
-            <Link href="/services">
-              <button className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white hover:bg-gray-50 text-[#e00000] font-semibold text-sm transition-all duration-200 shadow-lg shadow-black/15 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 group">
+      {/* CTA Band */}
+      <div className="border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
+            <div className="space-y-4 max-w-2xl">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] text-white">
+                {t.ctaTitle}
+              </h2>
+              <p className="text-base text-white/50 leading-relaxed max-w-lg">
+                {t.ctaSubtitle}
+              </p>
+            </div>
+            <div className="shrink-0">
+              <Link
+                href="/services"
+                className="group inline-flex items-center gap-3 px-7 py-4 bg-[#ff0000] hover:bg-[#e00000] text-white font-semibold text-sm rounded-xl transition-all duration-200 shadow-lg shadow-[#ff0000]/20"
+              >
                 {t.ctaBtn}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150" />
-              </button>
-            </Link>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Links Grid */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-white/15">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 md:gap-12">
 
-          {/* Logo & Description */}
-          <div className="space-y-4 md:col-span-2">
+          {/* Brand column */}
+          <div className="col-span-2 space-y-5">
             <Link href="/" className="flex items-center gap-2.5 w-fit group">
-              <div className="w-8 h-8 rounded-xl bg-white/15 ring-1 ring-white/25 flex items-center justify-center group-hover:bg-white/25 transition-colors duration-150">
+              <div className="w-8 h-8 bg-[#ff0000] rounded-lg flex items-center justify-center shrink-0">
                 <Image
                   src="/docket-logo.png"
                   alt="docket logo"
-                  width={20}
-                  height={20}
-                  className="w-5 h-5 object-contain"
+                  width={18}
+                  height={18}
+                  className="w-4.5 h-4.5 object-contain brightness-0 invert"
                 />
               </div>
-              <span className="text-xl font-bold tracking-tighter text-white">docket</span>
+              <span className="text-lg font-bold tracking-tight text-white">docket</span>
             </Link>
-            <p className="text-sm text-white/60 max-w-xs leading-relaxed">
+            <p className="text-sm text-white/40 leading-relaxed max-w-[220px]">
               {t.desc}
             </p>
           </div>
 
-          {/* Link Columns */}
+          {/* Link columns */}
           {t.columns.map((col, idx) => (
             <div key={idx} className="space-y-4">
-              <h4 className="text-xs font-semibold uppercase tracking-widest text-white/50">
+              <h4 className="text-[10px] font-semibold uppercase tracking-widest text-white/30">
                 {col.title}
               </h4>
-              <ul className="space-y-2.5">
+              <ul className="space-y-3">
                 {col.links.map((link, lIdx) => (
                   <li key={lIdx}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/70 hover:text-white transition-colors duration-150"
+                      className="text-sm text-white/60 hover:text-white transition-colors duration-150"
                     >
                       {link.label}
                     </Link>
@@ -151,12 +151,13 @@ export function Footer() {
           ))}
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-white/15 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/40">
-          <p>{t.rights}</p>
-          <p>{t.footerNote}</p>
+        {/* Bottom bar */}
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-white/30">{t.rights}</p>
+          <p className="text-xs text-white/30">{t.footerNote}</p>
         </div>
       </div>
+
     </footer>
   )
 }

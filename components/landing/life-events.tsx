@@ -86,8 +86,8 @@ export function LifeEventsSection() {
             {
               title: "Birth Registration (Birth Certificate)",
               desc: "Apply online within 45 days to obtain the child's official Birth Registration Certificate. This is mandatory for school admission, NID, and passports.",
-              status: "Soon",
-              href: "#"
+              status: "Live",
+              href: "/services/birth-and-death-registration"
             },
             {
               title: "Update Parent's TIN Profile",
@@ -98,8 +98,8 @@ export function LifeEventsSection() {
             {
               title: "Apply for Child's Passport",
               desc: "Apply for a machine-readable or e-passport for the child. Requires both parents' NIDs and the child's digital birth certificate.",
-              status: "Soon",
-              href: "#"
+              status: "Live",
+              href: "/services/passport"
             },
             {
               title: "School Admission Documents",
@@ -123,8 +123,8 @@ export function LifeEventsSection() {
             {
               title: "NID Name & Address Correction",
               desc: "If changing names or updating addresses after marriage, submit an NID correction form along with the registered Kabin-nama.",
-              status: "Soon",
-              href: "#"
+              status: "Live",
+              href: "/services/nid"
             },
             {
               title: "Spouse Visa & Family Travel Documents",
@@ -148,8 +148,8 @@ export function LifeEventsSection() {
             {
               title: "Register the Death & Get Certificate",
               desc: "Submit a death registration form at the local City Corporation ward office or Union Parishad. Requires a hospital death slip or councilor's proof.",
-              status: "Soon",
-              href: "#"
+              status: "Live",
+              href: "/services/birth-and-death-registration"
             },
             {
               title: "Apply for Warisan (Succession) Certificate",
@@ -191,8 +191,8 @@ export function LifeEventsSection() {
             {
               title: "Obtain a Trade License",
               desc: "Apply at your local City Corporation, Municipality, or Union Parishad to get the legal authorization to run your business.",
-              status: "Soon",
-              href: "#"
+              status: "Live",
+              href: "/services/trade-license"
             },
             {
               title: "VAT Registration (BIN Certificate)",
@@ -232,8 +232,8 @@ export function LifeEventsSection() {
             {
               title: "জন্ম নিবন্ধন (জন্ম সনদ)",
               desc: "শিশুর জন্মের ৪৫ দিনের মধ্যে অনলাইনে জন্ম নিবন্ধনের আবেদন করুন। স্কুলের ভর্তি, পাসপোর্ট এবং পরবর্তীতে এনআইডি কার্ডের জন্য এটি বাধ্যতামূলক।",
-              status: "Soon",
-              href: "#"
+              status: "Live",
+              href: "/services/birth-and-death-registration"
             },
             {
               title: "অভিভাবকের টিন (TIN) তথ্য আপডেট",
@@ -244,8 +244,8 @@ export function LifeEventsSection() {
             {
               title: "শিশুর পাসপোর্টের জন্য আবেদন",
               desc: "শিশুর জন্য ই-পাসপোর্ট বা মেশিন রিডেবল পাসপোর্টের আবেদন করুন। এর জন্য শিশুর ডিজিটাল জন্ম সনদ এবং বাবা-মায়ের এনআইডি কার্ডের প্রয়োজন হবে।",
-              status: "Soon",
-              href: "#"
+              status: "Live",
+              href: "/services/passport"
             },
             {
               title: "স্কুলে ভর্তির প্রয়োজনীয় কাগজপত্র",
@@ -269,8 +269,8 @@ export function LifeEventsSection() {
             {
               title: "এনআইডিতে নাম ও ঠিকানা পরিবর্তন",
               desc: "বিবাহের পর এনআইডি কার্ড ও পাসপোর্টে নাম বা ঠিকানা পরিবর্তন করতে চাইলে কাবিননামার কপি সংযুক্ত করে সংশোধনের আবেদন দাখিল করুন।",
-              status: "Soon",
-              href: "#"
+              status: "Live",
+              href: "/services/nid"
             },
             {
               title: "স্পাউস ভিসা ও ফ্যামিলি ইমিগ্রেশন",
@@ -294,8 +294,8 @@ export function LifeEventsSection() {
             {
               title: "মৃত্যু নিবন্ধন ও সনদপত্র সংগ্রহ",
               desc: "স্থানীয় সিটি কর্পোরেশনের ওয়ার্ড কাউন্সিলর অফিস বা ইউনিয়ন পরিষদ থেকে অফিশিয়াল মৃত্যু সনদ সংগ্রহ করুন। হাসপাতাল বা স্থানীয় গন্যমান্য ব্যক্তির প্রত্যয়ন প্রয়োজন হবে।",
-              status: "Soon",
-              href: "#"
+              status: "Live",
+              href: "/services/birth-and-death-registration"
             },
             {
               title: "ওয়ারিশন (উত্তরাধিকার) সনদপত্র সংগ্রহ",
@@ -337,8 +337,8 @@ export function LifeEventsSection() {
             {
               title: "ট্রেড লাইসেন্স সংগ্রহ",
               desc: "আপনার ব্যবসা পরিচালনা করার আইনি অনুমতি পেতে স্থানীয় সিটি কর্পোরেশন, পৌরসভা বা ইউনিয়ন পরিষদে আবেদন করুন।",
-              status: "Soon",
-              href: "#"
+              status: "Live",
+              href: "/services/trade-license"
             },
             {
               title: "ভ্যাট রেজিস্ট্রেশন (BIN সনদ)",
