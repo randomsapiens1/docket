@@ -58,7 +58,7 @@ export default function Page() {
       <PhaseBanner />
       <Hero />
       <Features />
-      <ServiceDirectory />
+      <ServiceDirectory preview />
       <LifeEventsSection />
       <FacilitiesPreview />
       <TrustSection />

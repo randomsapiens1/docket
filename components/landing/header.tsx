@@ -62,9 +62,10 @@ export function Header() {
 
   const navLinks = [
     { label: language === 'en' ? 'Services' : 'সেবাসমূহ', href: '/services' },
-    { label: language === 'en' ? 'Document Vault' : 'ডকুমেন্ট ভল্ট', href: '/vault' },
     { label: language === 'en' ? 'Facilities & Benefits' : 'সুবিধা ও ভাতা', href: '/facilities' },
+    { label: language === 'en' ? 'Document Vault' : 'ডকুমেন্ট ভল্ট', href: '/vault' },
     { label: language === 'en' ? 'Fee Calculator' : 'ফি ক্যালকুলেটর', href: '/calculators/fee-calculator' },
+    { label: language === 'en' ? 'About Us' : 'আমাদের সম্পর্কে', href: '/about' },
   ]
 
   return (
@@ -85,9 +86,17 @@ export function Header() {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1">
+            <Link href="/about" className="text-sm font-medium text-gray-600 hover:text-gray-900 px-3.5 py-2 rounded-xl hover:bg-black/5 transition-all duration-150">
+              {language === 'en' ? 'About' : 'আমাদের সম্পর্কে'}
+            </Link>
+
             <a href="/facilities" className="text-sm font-medium text-gray-600 hover:text-gray-900 px-3.5 py-2 rounded-xl hover:bg-black/5 transition-all duration-150">
-              {language === 'en' ? 'Facilities & Benefits' : 'সুবিধা ও ভাতা সমূহ'}
+              {language === 'en' ? 'Facilities' : 'সুবিধা ও ভাতা'}
             </a>
+
+            <Link href="/services" className="text-sm font-medium text-gray-600 hover:text-gray-900 px-3.5 py-2 rounded-xl hover:bg-black/5 transition-all duration-150">
+              {language === 'en' ? 'Quick Access' : 'দ্রুত অ্যাক্সেস'}
+            </Link>
 
             <div className="relative" onMouseEnter={openDropdown} onMouseLeave={scheduleClose}>
               <button className={`flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-xl transition-all duration-150 ${
