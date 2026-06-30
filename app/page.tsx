@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { Header } from '@/components/landing/header'
 import { PhaseBanner } from '@/components/landing/phase-banner'
 import { Hero } from '@/components/landing/hero'
@@ -22,11 +23,37 @@ const Footer = nextDynamic(() => import('@/components/landing/footer').then(mod 
   loading: () => <div className="h-[300px] w-full animate-pulse bg-zinc-100 dark:bg-zinc-800 rounded-lg mt-8" />,
 })
 
+export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://docket.bd',
+  },
+}
+
 export const dynamic = 'force-dynamic'
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Docket',
+  url: 'https://docket.bd',
+  description: 'Verified, step-by-step guidance for official government processes in Bangladesh.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://docket.bd/services?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+}
 
 export default function Page() {
   return (
     <main className="bg-background pt-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
       <PhaseBanner />
       <Hero />

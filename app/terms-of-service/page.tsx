@@ -63,7 +63,7 @@ export default function TermsOfServicePage() {
             <div className="space-y-3">
               <h2 className="text-lg font-semibold text-gray-900">4. User Accounts</h2>
               <p className="text-sm">
-                You must provide accurate information when creating an account. You are responsible for maintaining the confidentiality of your login credentials and for all activity that occurs under your account. Notify us immediately at <a href="mailto:support@docket.com.bd" className="text-primary hover:underline">support@docket.com.bd</a> if you suspect unauthorized access.
+                You must provide accurate information when creating an account. You are responsible for maintaining the confidentiality of your login credentials and for all activity that occurs under your account. Notify us immediately at <a href="mailto:docket.bd@gmail.com" className="text-primary hover:underline">docket.bd@gmail.com</a> if you suspect unauthorized access.
               </p>
               <p className="text-sm">
                 You must be at least 18 years old to create an account. By creating an account, you represent that you meet this requirement.
@@ -146,7 +146,7 @@ export default function TermsOfServicePage() {
               <h2 className="text-lg font-semibold text-gray-900">14. Contact</h2>
               <p className="text-sm">
                 For questions about these Terms, contact us at:<br />
-                <a href="mailto:legal@docket.com.bd" className="text-primary hover:underline">legal@docket.com.bd</a>
+                <a href="mailto:docket.bd@gmail.com" className="text-primary hover:underline">docket.bd@gmail.com</a>
               </p>
             </div>
 

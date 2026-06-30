@@ -105,7 +105,7 @@ export default function PrivacyPolicyPage() {
                 <li>Delete your account and all associated data</li>
                 <li>Withdraw consent for marketing communications at any time</li>
               </ul>
-              <p className="text-sm">To exercise these rights, contact us at <a href="mailto:privacy@docket.com.bd" className="text-primary hover:underline">privacy@docket.com.bd</a>.</p>
+              <p className="text-sm">To exercise these rights, contact us at <a href="mailto:docket.bd@gmail.com" className="text-primary hover:underline">docket.bd@gmail.com</a>.</p>
             </div>
 
             <div className="space-y-3">
@@ -126,7 +126,7 @@ export default function PrivacyPolicyPage() {
               <h2 className="text-lg font-semibold text-gray-900">11. Contact</h2>
               <p className="text-sm">
                 For privacy-related questions or requests, contact us at:<br />
-                <a href="mailto:privacy@docket.com.bd" className="text-primary hover:underline">privacy@docket.com.bd</a>
+                <a href="mailto:docket.bd@gmail.com" className="text-primary hover:underline">docket.bd@gmail.com</a>
               </p>
             </div>
 

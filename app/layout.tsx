@@ -20,12 +20,58 @@ export const viewport: Viewport = {
   themeColor: '#ffffff',
 }
 
+const siteUrl = 'https://docket.bd'
+
 export const metadata: Metadata = {
-  title: 'Docket | Government made easy',
-  description: 'Verified, step-by-step guidance for official processes in Bangladesh. From company registration to land transfers.',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Docket | Government made easy',
+    template: '%s | Docket',
+  },
+  description: 'Verified, step-by-step guidance for official government processes in Bangladesh. From company registration to land transfers, passports to TIN registration.',
+  keywords: ['Bangladesh government services', 'government processes Bangladesh', 'NID Bangladesh', 'TIN registration', 'company registration Bangladesh', 'passport Bangladesh', 'trade license Dhaka'],
+  authors: [{ name: 'Docket', url: siteUrl }],
+  creator: 'Docket',
+  publisher: 'Docket',
   icons: {
     icon: '/docket-logo.png',
     apple: '/docket-logo.png',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: siteUrl,
+    siteName: 'Docket',
+    title: 'Docket | Government made easy',
+    description: 'Verified, step-by-step guidance for official government processes in Bangladesh.',
+    images: [
+      {
+        url: '/docket-hero.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Docket — Government made easy',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Docket | Government made easy',
+    description: 'Verified, step-by-step guidance for official government processes in Bangladesh.',
+    images: ['/docket-hero.webp'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: siteUrl,
   },
 }
 
