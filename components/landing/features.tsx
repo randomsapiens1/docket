@@ -1,8 +1,9 @@
 'use client'
 
 import { useLanguage } from '@/lib/language-context'
-import { ClipboardList, Users, Sparkles, Lock, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const content = {
   en: {
@@ -14,7 +15,7 @@ const content = {
         desc: "Get verified, step-by-step guidance and checklists for official processes like land mutation, trade licenses, and company setup.",
         btnText: "Browse Services",
         href: "#services",
-        icon: ClipboardList,
+        gif: "/customer-care.gif",
         isExternal: false
       },
       {
@@ -22,7 +23,7 @@ const content = {
         desc: "Find all the required procedures and tasks triggered by major life events such as birth registration, marriage, and inheritance.",
         btnText: "Explore Life Events",
         href: "#life-events",
-        icon: Users,
+        gif: "/life-skills.gif",
         isExternal: false
       },
       {
@@ -30,7 +31,7 @@ const content = {
         desc: "Quickly search, scan, and check your eligibility for active government grants, subsidies, and training programs in Bangladesh.",
         btnText: "Search Benefits",
         href: "#benefits",
-        icon: Sparkles,
+        gif: "/growth.gif",
         isExternal: false
       },
       {
@@ -38,7 +39,7 @@ const content = {
         desc: "Store your NID, TIN, photos, and trade licenses in an encrypted vault to auto-complete requirements on any official pathway.",
         btnText: "Go to Vault",
         href: "/vault",
-        icon: Lock,
+        gif: "/storage-security.gif",
         isExternal: true
       }
     ]
@@ -52,7 +53,7 @@ const content = {
         desc: "কোম্পানি নিবন্ধন, ই-টিন, নামজারি ও অন্যান্য অফিসিয়াল কাজের জন্য ধাপে ধাপে যাচাইকৃত নির্দেশিকা ও চেকলিস্ট পান।",
         btnText: "সেবাগুলো দেখুন",
         href: "#services",
-        icon: ClipboardList,
+        gif: "/customer-care.gif",
         isExternal: false
       },
       {
@@ -60,7 +61,7 @@ const content = {
         desc: "জন্ম নিবন্ধন, বিবাহ এবং উত্তরাধিকারের মতো জীবনের বড় ঘটনাগুলোতে প্রয়োজনীয় সরকারি কাজের ধাপগুলো জানুন।",
         btnText: "লাইফ ইভেন্ট দেখুন",
         href: "#life-events",
-        icon: Users,
+        gif: "/life-skills.gif",
         isExternal: false
       },
       {
@@ -68,7 +69,7 @@ const content = {
         desc: "বাংলাদেশে চলমান সরকারি সামাজিক নিরাপত্তা কর্মসূচী, যুব প্রশিক্ষণ কোর্স ও বৃত্তির তথ্য খুঁজুন।",
         btnText: "ভাতা ও সুবিধা দেখুন",
         href: "#benefits",
-        icon: Sparkles,
+        gif: "/growth.gif",
         isExternal: false
       },
       {
@@ -76,7 +77,7 @@ const content = {
         desc: "আপনার এনআইডি, ই-টিন এবং অন্যান্য ফাইল ভল্টে আপলোড করে রাখুন, যাতে যেকোনো সেবা গ্রহণের সময় স্বয়ংক্রিয়ভাবে ব্যবহার করা যায়।",
         btnText: "ভল্টে প্রবেশ করুন",
         href: "/vault",
-        icon: Lock,
+        gif: "/storage-security.gif",
         isExternal: true
       }
     ]
@@ -101,7 +102,6 @@ export function Features() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {t.features.map((item, idx) => {
-            const Icon = item.icon
             const CardComponent = item.isExternal ? Link : 'a'
 
             return (
@@ -112,9 +112,7 @@ export function Features() {
               >
                 {/* Card header */}
                 <div className="p-6 space-y-3 flex-1">
-                  <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-primary" />
-                  </div>
+                  <Image src={item.gif} alt={item.title} width={80} height={80} className="w-20 h-20 object-contain" unoptimized />
                   <div className="space-y-1.5 pb-4 border-b border-gray-100 dark:border-white/8">
                     <h3 className="text-base font-semibold text-gray-900 dark:text-white leading-snug">{item.title}</h3>
                     <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>

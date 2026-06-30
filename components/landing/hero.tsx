@@ -104,7 +104,7 @@ export function Hero() {
                   className="flex-1 px-3 py-3.5 sm:py-4 text-base sm:text-lg font-medium text-gray-900 bg-transparent placeholder:text-gray-400 focus:outline-none w-full"
                   autoComplete="off"
                 />
-                <button className="bg-primary hover:bg-primary/90 active:scale-95 text-white px-5 sm:px-6 py-2.5 sm:py-3 m-1.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all duration-150 shrink-0 shadow-sm">
+                <button className="bg-black hover:bg-gray-800 text-white px-5 sm:px-6 py-2.5 sm:py-3 m-1.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all duration-150 shrink-0">
                   <Search className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span className="hidden sm:inline">{searchAlt}</span>
                 </button>

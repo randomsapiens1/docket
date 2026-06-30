@@ -5,17 +5,14 @@ import { useLanguage } from '@/lib/language-context'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
 import {
   Search,
-  Baby,
-  Heart,
-  FileText,
   ArrowRight,
   CheckCircle2,
   ShieldAlert,
   Circle,
   RotateCcw,
   X,
-  Briefcase
 } from 'lucide-react'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 
@@ -31,7 +28,7 @@ interface ActionStep {
 interface EventData {
   title: string
   subtitle: string
-  icon: React.ComponentType<{ className?: string }>
+  gif: string
   actions: ActionStep[]
 }
 
@@ -81,7 +78,7 @@ export function LifeEventsSection() {
         birth: {
           title: "Welcoming a Child",
           subtitle: "Registering birth, passports, and school documents.",
-          icon: Baby,
+          gif: "/family.gif",
           actions: [
             {
               title: "Birth Registration (Birth Certificate)",
@@ -112,7 +109,7 @@ export function LifeEventsSection() {
         marriage: {
           title: "Getting Married",
           subtitle: "Marriage deeds, spouse visas, and name changes.",
-          icon: Heart,
+          gif: "/love.gif",
           actions: [
             {
               title: "Register the Marriage (Kabin-nama)",
@@ -143,7 +140,7 @@ export function LifeEventsSection() {
         death: {
           title: "Loss of a Loved One",
           subtitle: "Death certificate, inheritance khatian, and bank settlements.",
-          icon: FileText,
+          gif: "/sad.gif",
           actions: [
             {
               title: "Register the Death & Get Certificate",
@@ -174,7 +171,7 @@ export function LifeEventsSection() {
         business: {
           title: "Starting a Business",
           subtitle: "Trade licenses, company registration, and tax credentials.",
-          icon: Briefcase,
+          gif: "/business-plan.gif",
           actions: [
             {
               title: "Incorporate a Private Company",
@@ -227,7 +224,7 @@ export function LifeEventsSection() {
         birth: {
           title: "নতুন শিশুর জন্ম",
           subtitle: "জন্ম নিবন্ধন, পাসপোর্ট এবং স্কুলের ভর্তি নথিপত্র।",
-          icon: Baby,
+          gif: "/family.gif",
           actions: [
             {
               title: "জন্ম নিবন্ধন (জন্ম সনদ)",
@@ -258,7 +255,7 @@ export function LifeEventsSection() {
         marriage: {
           title: "বিবাহ বন্ধন",
           subtitle: "বিবাহ নিবন্ধন (কাবিননামা), স্পাউস ভিসা এবং নাম সংশোধন।",
-          icon: Heart,
+          gif: "/love.gif",
           actions: [
             {
               title: "বিবাহ নিবন্ধন (কাবিননামা)",
@@ -289,7 +286,7 @@ export function LifeEventsSection() {
         death: {
           title: "স্বজন হারানো (মৃত্যু)",
           subtitle: "মৃত্যু সনদ, ওয়ারিশন/উত্তরাধিকার সনদ এবং ব্যাংক হিসাব নিষ্পত্তি।",
-          icon: FileText,
+          gif: "/sad.gif",
           actions: [
             {
               title: "মৃত্যু নিবন্ধন ও সনদপত্র সংগ্রহ",
@@ -320,7 +317,7 @@ export function LifeEventsSection() {
         business: {
           title: "নতুন ব্যবসা শুরু করা",
           subtitle: "ট্রেড লাইসেন্স, কোম্পানি নিবন্ধন এবং ট্যাক্স নথিপত্র।",
-          icon: Briefcase,
+          gif: "/business-plan.gif",
           actions: [
             {
               title: "প্রাইভেট লিমিটেড কোম্পানি ইনকরপোরেশন",
@@ -514,7 +511,7 @@ export function LifeEventsSection() {
               </div>
               <button
                 type="submit"
-                className="bg-primary hover:bg-primary/90 active:scale-95 text-white font-semibold px-6 py-3.5 rounded-xl transition-all duration-150 shrink-0 text-sm shadow-sm"
+                className="bg-black hover:bg-gray-800 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-150 shrink-0 text-sm"
               >
                 {t.searchBtn}
               </button>
@@ -528,7 +525,6 @@ export function LifeEventsSection() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {(['birth', 'marriage', 'death', 'business'] as EventType[]).map((type) => {
                   const eventConfig = t.events[type]
-                  const Icon = eventConfig.icon
                   const isSelected = activeEvent === type
                   const colors = eventColors[type]
 
@@ -543,9 +539,7 @@ export function LifeEventsSection() {
                           : "ring-black/8 bg-white hover:ring-primary/20"
                       )}
                     >
-                      <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center shrink-0", colors.icon)}>
-                        <Icon className="w-4 h-4" />
-                      </div>
+                      <Image src={eventConfig.gif} alt={eventConfig.title} width={44} height={44} className="w-11 h-11 object-contain shrink-0" unoptimized />
                       <div className="space-y-0.5 min-w-0">
                         <h4 className="font-semibold text-sm text-gray-900 leading-snug">{eventConfig.title}</h4>
                         <p className="text-xs text-gray-400 leading-snug line-clamp-2">{eventConfig.subtitle}</p>

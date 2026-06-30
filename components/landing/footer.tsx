@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react"
 
 const content = {
   en: {
-    ctaTitle: "Government shouldn't be this hard to navigate.",
+    ctaTitle: "Administrative work doesn't have to be this hard.",
     ctaSubtitle: "Start your first process today. No signup. No credit card. Just clear, verified guidance.",
     ctaBtn: "Get Started Free",
     desc: "Making government processes accessible to everyone.",
@@ -96,7 +96,7 @@ export function Footer() {
             <div className="shrink-0">
               <Link
                 href="/services"
-                className="group inline-flex items-center gap-3 px-7 py-4 bg-[#ff0000] hover:bg-[#e00000] text-white font-semibold text-sm rounded-xl transition-all duration-200 shadow-lg shadow-[#ff0000]/20"
+                className="group inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-gray-100 text-gray-900 font-semibold text-sm rounded-xl transition-all duration-150"
               >
                 {t.ctaBtn}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-150" />
