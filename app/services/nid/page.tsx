@@ -378,6 +378,10 @@ export default function NIDRegistrationPage() {
                     Most NID updates take a few weeks to review and process by verification officers before being downloadable.
                   </p>
                 </div>
+                <div className="flex items-center gap-1.5 pt-1">
+                  <span className="text-[10px] text-gray-400">Source:</span>
+                  <a href="https://services.nidw.gov.bd/" target="_blank" rel="noopener noreferrer" className="text-[10px] font-medium text-primary hover:underline">services.nidw.gov.bd</a>
+                </div>
               </div>
             </div>
           </div>

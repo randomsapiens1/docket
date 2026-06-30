@@ -378,6 +378,10 @@ export default function TradeLicensePage() {
                     Once paid, digital trade licenses are typically issued instantly or within 48 hours for immediate printing.
                   </p>
                 </div>
+                <div className="flex items-center gap-1.5 pt-1">
+                  <span className="text-[10px] text-gray-400">Source:</span>
+                  <a href="https://dncc.gov.bd/" target="_blank" rel="noopener noreferrer" className="text-[10px] font-medium text-primary hover:underline">dncc.gov.bd</a>
+                </div>
               </div>
             </div>
           </div>

@@ -378,6 +378,10 @@ export default function PassportPage() {
                     Once biometric enrollment is complete, you can track the status of printing and delivery on the portal using your enrollment ID.
                   </p>
                 </div>
+                <div className="flex items-center gap-1.5 pt-1">
+                  <span className="text-[10px] text-gray-400">Source:</span>
+                  <a href="https://www.epassport.gov.bd/" target="_blank" rel="noopener noreferrer" className="text-[10px] font-medium text-primary hover:underline">epassport.gov.bd</a>
+                </div>
               </div>
             </div>
           </div>

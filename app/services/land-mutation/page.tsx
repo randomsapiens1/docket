@@ -413,6 +413,10 @@ export default function LandMutationPage() {
                     {language === 'en' ? 'Calculate Fees' : 'ফি ক্যালকুলেট করুন'}
                   </button>
                 </Link>
+                <div className="flex items-center gap-1.5 pt-1">
+                  <span className="text-[10px] text-gray-400">Source:</span>
+                  <a href="https://mutation.land.gov.bd/" target="_blank" rel="noopener noreferrer" className="text-[10px] font-medium text-primary hover:underline">mutation.land.gov.bd</a>
+                </div>
               </div>
             </div>
           </div>

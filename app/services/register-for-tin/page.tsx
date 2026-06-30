@@ -394,6 +394,10 @@ export default function TINRegistrationPage() {
                     You must have access to the mobile number registered with your NID to receive the activation code.
                   </p>
                 </div>
+                <div className="flex items-center gap-1.5 pt-1">
+                  <span className="text-[10px] text-gray-400">Source:</span>
+                  <a href="https://secure.incometax.gov.bd/" target="_blank" rel="noopener noreferrer" className="text-[10px] font-medium text-primary hover:underline">incometax.gov.bd</a>
+                </div>
               </div>
             </div>
           </div>

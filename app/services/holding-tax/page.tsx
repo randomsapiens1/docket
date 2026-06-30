@@ -388,9 +388,9 @@ export default function HoldingTaxPage() {
 
               {/* CTA Section */}
               <div className="pt-2 space-y-4">
-                <a 
-                  href="https://sweb.gov.bd/" 
-                  target="_blank" 
+                <a
+                  href="https://sweb.gov.bd/"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="block"
                 >
@@ -398,6 +398,10 @@ export default function HoldingTaxPage() {
                     {s.ctaButton}
                   </Button>
                 </a>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] text-gray-400">Source:</span>
+                  <a href="https://sweb.gov.bd/" target="_blank" rel="noopener noreferrer" className="text-[10px] font-medium text-primary hover:underline">sweb.gov.bd</a>
+                </div>
               </div>
             </div>
           </div>

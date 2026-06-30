@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react"
 
 const content = {
   en: {
-    ctaTitle: "Ready to cut through the bureaucracy?",
+    ctaTitle: "Government shouldn't be this hard to navigate.",
     ctaSubtitle: "Start your first process today. No signup. No credit card. Just clear, verified guidance.",
     ctaBtn: "Get Started Free",
     desc: "Making government processes accessible to everyone.",
@@ -23,7 +23,7 @@ const content = {
       {
         title: "Company",
         links: [
-          { label: "About Us", href: "#" },
+          { label: "About Us", href: "/about" },
           { label: "Official Blog", href: "#" },
           { label: "Contact Support", href: "#" }
         ]
@@ -40,7 +40,7 @@ const content = {
     footerNote: "Made in Bangladesh for Bangladeshis."
   },
   bn: {
-    ctaTitle: "সরকারি আমলাতান্ত্রিক জটিলতা এড়াতে প্রস্তুত?",
+    ctaTitle: "সরকারি কাজ এত কঠিন হওয়ার কথা না।",
     ctaSubtitle: "আজই আপনার প্রথম কাজ শুরু করুন। কোনো সাইন-আপ বা ক্রেডিট কার্ড লাগবে না। শুধু সঠিক এবং যাচাইকৃত নির্দেশিকা।",
     ctaBtn: "ফ্রি শুরু করুন",
     desc: "সরকারি সেবা ও নির্দেশিকাসমূহ সকলের জন্য সহজলভ্য করা।",
@@ -56,7 +56,7 @@ const content = {
       {
         title: "কোম্পানি",
         links: [
-          { label: "আমাদের সম্পর্কে", href: "#" },
+          { label: "আমাদের সম্পর্কে", href: "/about" },
           { label: "অফিশিয়াল ব্লগ", href: "#" },
           { label: "যোগাযোগ", href: "#" }
         ]
