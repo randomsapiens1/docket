@@ -4,6 +4,7 @@ import { ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
 import { useLanguage } from '@/lib/language-context'
+import { trackEvent } from '@/lib/analytics'
 
 const content = {
   en: {
@@ -126,6 +127,7 @@ export function TrustSection() {
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackEvent('click_source_badge', { source: label })}
                   className="group flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:border-primary/40 hover:bg-primary/5 transition-all duration-150"
                 >
                   <span>{label}</span>

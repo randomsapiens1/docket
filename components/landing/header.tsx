@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation"
 import { Menu, X, Globe, LogIn, User as UserIcon, LogOut, ChevronRight, ChevronDown, ArrowRight } from "lucide-react"
 import { User } from "@supabase/supabase-js"
 import { serviceCategories } from "@/lib/services"
+import { trackEvent } from "@/lib/analytics"
 
 export function Header() {
   const { language, setLanguage } = useLanguage()
@@ -135,7 +136,11 @@ export function Header() {
 
           {/* Desktop right actions */}
           <div className="hidden md:flex items-center gap-2">
-            <button onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
+            <button onClick={() => {
+                const next = language === 'en' ? 'bn' : 'en'
+                setLanguage(next)
+                trackEvent('language_switch', { language: next })
+              }}
               className="flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-xl ring-1 ring-black/10 hover:bg-black/5 text-gray-600 transition-all duration-150">
               <Globe className="w-3.5 h-3.5" />
               {language === 'en' ? 'বাংলা' : 'EN'}
@@ -153,7 +158,7 @@ export function Header() {
                 </button>
               </>
             ) : (
-              <Link href="/auth">
+              <Link href="/auth" onClick={() => trackEvent('click_sign_in', { location: 'header' })}>
                 <button className="text-sm font-semibold px-4 py-2 rounded-xl bg-gray-900 hover:bg-gray-700 text-white transition-all duration-150 shadow-sm">
                   {language === 'en' ? 'Sign in' : 'সাইন ইন'}
                 </button>
@@ -163,7 +168,11 @@ export function Header() {
 
           {/* Mobile: language + hamburger */}
           <div className="flex items-center gap-2 md:hidden">
-            <button onClick={() => setLanguage(language === 'en' ? 'bn' : 'en')}
+            <button onClick={() => {
+                const next = language === 'en' ? 'bn' : 'en'
+                setLanguage(next)
+                trackEvent('language_switch', { language: next })
+              }}
               className="flex items-center gap-1 text-xs font-semibold px-3 py-2 rounded-xl ring-1 ring-black/10 text-gray-600 hover:bg-black/5 transition-all">
               <Globe className="w-3.5 h-3.5" />
               {language === 'en' ? 'বাংলা' : 'EN'}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useLanguage } from '@/lib/language-context'
+import { trackEvent } from '@/lib/analytics'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -108,6 +109,7 @@ export function Features() {
               <CardComponent
                 key={idx}
                 href={item.href}
+                onClick={() => trackEvent('click_feature', { feature_name: item.title })}
                 className="group bg-white dark:bg-zinc-900 rounded-2xl ring-1 ring-black/8 shadow-sm hover:shadow-md hover:ring-primary/15 transition-all duration-150 flex flex-col cursor-pointer"
               >
                 {/* Card header */}

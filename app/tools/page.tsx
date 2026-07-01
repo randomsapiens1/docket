@@ -6,6 +6,7 @@ import { useLanguage } from '@/lib/language-context'
 import { ArrowRight, Clock } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { trackEvent } from '@/lib/analytics'
 
 const content = {
   en: {
@@ -168,7 +169,7 @@ export default function ToolsPage() {
             )
 
             return tool.href ? (
-              <Link key={tool.title} href={tool.href} className="flex">
+              <Link key={tool.title} href={tool.href} className="flex" onClick={() => trackEvent('click_tool', { tool_name: tool.title })}>
                 {card}
               </Link>
             ) : (

@@ -2,8 +2,8 @@
 
 import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/lib/language-context'
+import { trackEvent } from '@/lib/analytics'
 import { serviceCategories, ServiceItem } from '@/lib/services'
-
 import Link from 'next/link'
 
 const labels = {
@@ -72,6 +72,7 @@ export function ServiceDirectory({ preview = false }: { preview?: boolean }) {
                         <li key={i}>
                           <a
                             href={item.href}
+                            onClick={() => trackEvent('click_service', { service_name: item.name, category: category.title })}
                             className="group flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-primary/5 transition-all duration-150"
                           >
                             <ArrowRight className="w-3.5 h-3.5 shrink-0 text-primary group-hover:translate-x-0.5 transition-transform duration-150" />
@@ -107,6 +108,7 @@ export function ServiceDirectory({ preview = false }: { preview?: boolean }) {
                             <li key={`${itemIdx}-${subIdx}`}>
                               <a
                                 href={isLive ? sub.href : '#'}
+                                onClick={isLive ? () => trackEvent('click_service', { service_name: sub.name, category: category.title }) : undefined}
                                 className={`group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 ${
                                   isLive ? 'hover:bg-primary/5 cursor-pointer' : 'pointer-events-none opacity-50'
                                 }`}
@@ -131,6 +133,7 @@ export function ServiceDirectory({ preview = false }: { preview?: boolean }) {
                         <li key={itemIdx}>
                           <a
                             href={isLive ? item.href : '#'}
+                            onClick={isLive ? () => trackEvent('click_service', { service_name: item.name, category: category.title }) : undefined}
                             className={`group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 ${
                               isLive ? 'hover:bg-primary/5 cursor-pointer' : 'pointer-events-none opacity-50'
                             }`}

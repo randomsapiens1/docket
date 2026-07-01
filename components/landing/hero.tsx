@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Search, ArrowRight } from 'lucide-react'
 import Image from "next/image"
 import { useLanguage } from '@/lib/language-context'
+import { trackEvent } from '@/lib/analytics'
 import Link from 'next/link'
 import { serviceCategories } from '@/lib/services'
 
@@ -126,7 +127,10 @@ export function Hero() {
                         <li key={idx}>
                           <Link
                             href={service.href}
-                            onClick={() => setShowResults(false)}
+                            onClick={() => {
+                              setShowResults(false)
+                              trackEvent('search', { search_term: service.name, category: service.category })
+                            }}
                             className={`flex flex-col px-4 py-3.5 hover:bg-gray-50 transition-colors ${service.status === 'Soon' ? 'pointer-events-none opacity-50' : ''}`}
                           >
                             <div className="flex items-center justify-between">
@@ -161,18 +165,21 @@ export function Hero() {
               <span className="text-xs font-medium text-gray-400 mr-1">{quickSearch.title}</span>
               <Link
                 href="/services/incorporate-a-private-company"
+                onClick={() => trackEvent('click_quick_search', { label: 'Start a Business' })}
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white rounded-full ring-1 ring-black/10 shadow-sm hover:shadow-md hover:ring-primary/30 hover:bg-primary/5 text-sm font-medium text-gray-700 hover:text-primary transition-all duration-150"
               >
                 {quickSearch.startBusiness}
               </Link>
               <Link
                 href="/services/register-for-tin"
+                onClick={() => trackEvent('click_quick_search', { label: 'TIN Certificate' })}
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white rounded-full ring-1 ring-black/10 shadow-sm hover:shadow-md hover:ring-primary/30 hover:bg-primary/5 text-sm font-medium text-gray-700 hover:text-primary transition-all duration-150"
               >
                 {quickSearch.tinCertificate}
               </Link>
               <Link
                 href="/services/scholarship-and-visa"
+                onClick={() => trackEvent('click_quick_search', { label: 'Scholarship & Visa Portal' })}
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white rounded-full ring-1 ring-black/10 shadow-sm hover:shadow-md hover:ring-primary/30 hover:bg-primary/5 text-sm font-medium text-gray-700 hover:text-primary transition-all duration-150"
               >
                 {quickSearch.visaPortal}
