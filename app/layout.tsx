@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { LanguageProvider } from '@/lib/language-context'
+import Script from 'next/script'
 import './globals.css'
 
 const geistSans = Geist({
@@ -87,7 +88,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-<body className="font-sans antialiased">
+      <body className="font-sans antialiased">
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-C8JM0223HX" strategy="afterInteractive" />
+        <Script id="gtag-init" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-C8JM0223HX');
+        `}</Script>
         <LanguageProvider>
           {children}
         </LanguageProvider>
