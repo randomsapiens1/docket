@@ -35,7 +35,8 @@ export const metadata: Metadata = {
   creator: 'Docket',
   publisher: 'Docket',
   icons: {
-    icon: '/docket-logo.png',
+    icon: '/docket-fevicon.svg',
+    shortcut: '/docket-fevicon.svg',
     apple: '/docket-logo.png',
   },
   openGraph: {
