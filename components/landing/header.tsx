@@ -141,14 +141,14 @@ export function Header() {
                 setLanguage(next)
                 trackEvent('language_switch', { language: next })
               }}
-              className="flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-xl ring-1 ring-black/10 hover:bg-black/5 text-gray-600 transition-all duration-150">
+              className="flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-xl bg-white/60 backdrop-blur-sm ring-1 ring-black/10 hover:bg-white/90 hover:ring-black/20 hover:shadow-md hover:scale-[1.02] text-gray-600 transition-all duration-200">
               <Globe className="w-3.5 h-3.5" />
               {language === 'en' ? 'বাংলা' : 'EN'}
             </button>
             {user ? (
               <>
                 <Link href="/vault">
-                  <button className="flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl ring-1 ring-black/10 hover:bg-black/5 text-gray-700 transition-all duration-150">
+                  <button className="flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl bg-white/60 backdrop-blur-sm ring-1 ring-black/10 hover:bg-white/90 hover:ring-black/20 hover:shadow-md hover:scale-[1.02] text-gray-700 transition-all duration-200">
                     <UserIcon className="w-3.5 h-3.5" />
                     {language === 'en' ? 'My Vault' : 'আমার ভল্ট'}
                   </button>
@@ -159,7 +159,7 @@ export function Header() {
               </>
             ) : (
               <Link href="/auth" onClick={() => trackEvent('click_sign_in', { location: 'header' })}>
-                <button className="text-sm font-semibold px-4 py-2 rounded-xl bg-gray-900 hover:bg-gray-700 text-white transition-all duration-150 shadow-sm">
+                <button className="text-sm font-semibold px-4 py-2 rounded-xl bg-gray-900/90 backdrop-blur-sm hover:bg-gray-900 hover:shadow-lg hover:shadow-black/25 hover:scale-[1.03] text-white transition-all duration-200 shadow-sm border border-white/10">
                   {language === 'en' ? 'Sign in' : 'সাইন ইন'}
                 </button>
               </Link>
@@ -173,7 +173,7 @@ export function Header() {
                 setLanguage(next)
                 trackEvent('language_switch', { language: next })
               }}
-              className="flex items-center gap-1 text-xs font-semibold px-3 py-2 rounded-xl ring-1 ring-black/10 text-gray-600 hover:bg-black/5 transition-all">
+              className="flex items-center gap-1 text-xs font-semibold px-3 py-2 rounded-xl bg-white/60 backdrop-blur-sm ring-1 ring-black/10 text-gray-600 hover:bg-white/90 hover:ring-black/20 hover:shadow-sm hover:scale-[1.02] transition-all duration-200">
               <Globe className="w-3.5 h-3.5" />
               {language === 'en' ? 'বাংলা' : 'EN'}
             </button>

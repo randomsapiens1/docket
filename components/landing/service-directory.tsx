@@ -162,7 +162,7 @@ export function ServiceDirectory({ preview = false }: { preview?: boolean }) {
           <div className="mt-8 text-center">
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-black hover:bg-gray-800 text-white font-semibold text-sm transition-all shadow-sm group"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900/90 backdrop-blur-sm hover:bg-gray-900 hover:shadow-xl hover:shadow-black/25 hover:scale-[1.03] active:scale-[0.98] text-white font-semibold text-sm transition-all duration-200 shadow-md border border-white/10 group"
             >
               {viewAll}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

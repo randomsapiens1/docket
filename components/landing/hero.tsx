@@ -105,7 +105,7 @@ export function Hero() {
                   className="flex-1 px-3 py-3.5 sm:py-4 text-base sm:text-lg font-medium text-gray-900 bg-transparent placeholder:text-gray-400 focus:outline-none w-full"
                   autoComplete="off"
                 />
-                <button className="bg-black hover:bg-gray-800 text-white px-5 sm:px-6 py-2.5 sm:py-3 m-1.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all duration-150 shrink-0">
+                <button className="bg-gray-900/90 backdrop-blur-sm hover:bg-gray-900 hover:shadow-lg hover:shadow-black/20 hover:scale-[1.03] active:scale-[0.98] text-white px-5 sm:px-6 py-2.5 sm:py-3 m-1.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all duration-200 shrink-0 border border-white/10">
                   <Search className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span className="hidden sm:inline">{searchAlt}</span>
                 </button>
@@ -166,21 +166,21 @@ export function Hero() {
               <Link
                 href="/services/incorporate-a-private-company"
                 onClick={() => trackEvent('click_quick_search', { label: 'Start a Business' })}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white rounded-full ring-1 ring-black/10 shadow-sm hover:shadow-md hover:ring-primary/30 hover:bg-primary/5 text-sm font-medium text-gray-700 hover:text-primary transition-all duration-150"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/70 backdrop-blur-sm rounded-full ring-1 ring-black/10 shadow-sm hover:bg-white hover:shadow-md hover:shadow-primary/10 hover:ring-primary/30 hover:text-primary hover:scale-[1.04] active:scale-[0.97] text-sm font-medium text-gray-700 transition-all duration-200"
               >
                 {quickSearch.startBusiness}
               </Link>
               <Link
                 href="/services/register-for-tin"
                 onClick={() => trackEvent('click_quick_search', { label: 'TIN Certificate' })}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white rounded-full ring-1 ring-black/10 shadow-sm hover:shadow-md hover:ring-primary/30 hover:bg-primary/5 text-sm font-medium text-gray-700 hover:text-primary transition-all duration-150"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/70 backdrop-blur-sm rounded-full ring-1 ring-black/10 shadow-sm hover:bg-white hover:shadow-md hover:shadow-primary/10 hover:ring-primary/30 hover:text-primary hover:scale-[1.04] active:scale-[0.97] text-sm font-medium text-gray-700 transition-all duration-200"
               >
                 {quickSearch.tinCertificate}
               </Link>
               <Link
                 href="/services/scholarship-and-visa"
                 onClick={() => trackEvent('click_quick_search', { label: 'Scholarship & Visa Portal' })}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white rounded-full ring-1 ring-black/10 shadow-sm hover:shadow-md hover:ring-primary/30 hover:bg-primary/5 text-sm font-medium text-gray-700 hover:text-primary transition-all duration-150"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/70 backdrop-blur-sm rounded-full ring-1 ring-black/10 shadow-sm hover:bg-white hover:shadow-md hover:shadow-primary/10 hover:ring-primary/30 hover:text-primary hover:scale-[1.04] active:scale-[0.97] text-sm font-medium text-gray-700 transition-all duration-200"
               >
                 {quickSearch.visaPortal}
               </Link>
