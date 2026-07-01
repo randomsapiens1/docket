@@ -64,7 +64,7 @@ export function Header() {
     { label: language === 'en' ? 'Services' : 'সেবাসমূহ', href: '/services' },
     { label: language === 'en' ? 'Facilities & Benefits' : 'সুবিধা ও ভাতা', href: '/facilities' },
     { label: language === 'en' ? 'Document Vault' : 'ডকুমেন্ট ভল্ট', href: '/vault' },
-    { label: language === 'en' ? 'Fee Calculator' : 'ফি ক্যালকুলেটর', href: '/calculators/fee-calculator' },
+    { label: language === 'en' ? 'Quick Access' : 'দ্রুত অ্যাক্সেস', href: '/tools' },
     { label: language === 'en' ? 'About Us' : 'আমাদের সম্পর্কে', href: '/about' },
   ]
 
@@ -94,7 +94,7 @@ export function Header() {
               {language === 'en' ? 'Facilities' : 'সুবিধা ও ভাতা'}
             </a>
 
-            <Link href="/services" className="text-sm font-medium text-gray-600 hover:text-gray-900 px-3.5 py-2 rounded-xl hover:bg-black/5 transition-all duration-150">
+            <Link href="/tools" className="text-sm font-medium text-gray-600 hover:text-gray-900 px-3.5 py-2 rounded-xl hover:bg-black/5 transition-all duration-150">
               {language === 'en' ? 'Quick Access' : 'দ্রুত অ্যাক্সেস'}
             </Link>
 
