@@ -119,6 +119,7 @@ export function Footer() {
                   alt="docket logo"
                   width={18}
                   height={18}
+                  unoptimized
                   className="w-4.5 h-4.5 object-contain brightness-0 invert"
                 />
               </div>

@@ -75,7 +75,7 @@ export function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 -ml-1">
-            <Image src="/1.Docket-logo.svg" alt="docket" width={32} height={32} priority className="w-7 h-7 object-contain" />
+            <Image src="/1.Docket-logo.svg" alt="docket" width={32} height={32} priority unoptimized className="w-7 h-7 object-contain" />
             <span className="font-bold text-2xl tracking-tighter text-gray-900">docket</span>
           </Link>
 

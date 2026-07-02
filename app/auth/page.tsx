@@ -182,7 +182,7 @@ export default function AuthPage() {
         {/* Logo + lang toggle */}
         <div className="relative flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 w-fit">
-            <Image src="/1.Docket-logo.svg" alt="Docket" width={30} height={30} className="w-7 h-7 object-contain brightness-0 invert" />
+            <Image src="/1.Docket-logo.svg" alt="Docket" width={30} height={30} unoptimized className="w-7 h-7 object-contain brightness-0 invert" />
             <span className="font-bold text-xl tracking-tighter text-white">docket</span>
           </Link>
           <button
