@@ -28,11 +28,10 @@ import {
   Upload,
   Trash2,
   Download,
-  Plus,
   ShieldCheck,
-  AlertCircle,
   Loader2,
-  FileBadge,
+  Lock,
+  ChevronDown,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -45,16 +44,15 @@ interface Document {
 }
 
 const DOC_TYPES = [
-  { value: 'NID', label: 'National ID (NID)' },
-  { value: 'TIN', label: 'TIN Certificate' },
-  { value: 'TRADE_LICENSE', label: 'Trade License' },
-  { value: 'PASSPORT', label: 'Passport' },
-  { value: 'MOA', label: 'MoA / AoA' },
-  { value: 'LEASE_AGREEMENT', label: 'Lease Agreement' },
-  { value: 'PHOTO', label: 'Passport Photo' },
+  { value: 'NID',           label: 'National ID (NID)',   color: 'bg-blue-50 text-blue-700' },
+  { value: 'TIN',           label: 'TIN Certificate',     color: 'bg-amber-50 text-amber-700' },
+  { value: 'TRADE_LICENSE', label: 'Trade License',       color: 'bg-emerald-50 text-emerald-700' },
+  { value: 'PASSPORT',      label: 'Passport',            color: 'bg-indigo-50 text-indigo-700' },
+  { value: 'MOA',           label: 'MoA / AoA',           color: 'bg-purple-50 text-purple-700' },
+  { value: 'LEASE_AGREEMENT', label: 'Lease Agreement',   color: 'bg-rose-50 text-rose-700' },
+  { value: 'PHOTO',         label: 'Passport Photo',      color: 'bg-sky-50 text-sky-700' },
 ]
 
-export const dynamic = 'force-dynamic'
 
 export default function VaultPage() {
   const { language } = useLanguage()
@@ -63,28 +61,40 @@ export default function VaultPage() {
   const [uploading, setUploading] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [selectedType, setSelectedType] = useState('NID')
+  const [dragOver, setDragOver] = useState(false)
   const router = useRouter()
   const urlCache = useRef<Record<string, string>>({})
   const docsUnsubRef = useRef<(() => void) | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (firebaseUser) => {
-      if (!firebaseUser) {
-        router.push('/auth')
-        return
-      }
-      setUser(firebaseUser)
-
-      // Subscribe to documents — fires immediately from cache, then network
+    const startDocs = (uid: string) => {
       const q = query(
         collection(db, 'documents'),
-        where('user_id', '==', firebaseUser.uid),
+        where('user_id', '==', uid),
         orderBy('created_at', 'desc')
       )
       docsUnsubRef.current = onSnapshot(q, (snapshot) => {
         setDocuments(snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as Document)))
         setLoading(false)
       })
+    }
+
+    // Fast path: auth already resolved in this session (e.g. navigating from another page)
+    if (auth.currentUser) {
+      setUser(auth.currentUser)
+      startDocs(auth.currentUser.uid)
+    }
+
+    const unsubscribeAuth = onAuthStateChanged(auth, (firebaseUser) => {
+      if (!firebaseUser) {
+        router.push('/auth')
+        return
+      }
+      // Skip if fast path already handled this user
+      if (auth.currentUser?.uid === firebaseUser.uid && docsUnsubRef.current) return
+      setUser(firebaseUser)
+      startDocs(firebaseUser.uid)
     })
 
     return () => {
@@ -93,31 +103,18 @@ export default function VaultPage() {
     }
   }, [router])
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file || !user) return
-
-    if (file.size > 5 * 1024 * 1024) {
-      alert('File size exceeds 5MB limit.')
-      return
-    }
-
+  const processFile = async (file: File) => {
+    if (!user) return
+    if (file.size > 5 * 1024 * 1024) { alert('File size exceeds 5MB limit.'); return }
     const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png']
-    if (!allowedTypes.includes(file.type)) {
-      alert('Invalid file type. Only PDF, JPG, and PNG are allowed.')
-      return
-    }
+    if (!allowedTypes.includes(file.type)) { alert('Only PDF, JPG, and PNG are allowed.'); return }
 
     setUploading(true)
     try {
       const fileExt = file.name.split('.').pop()
       const safeExt = fileExt?.toLowerCase().match(/^[a-z0-9]+$/) ? fileExt : 'bin'
-      const fileName = `${crypto.randomUUID()}.${safeExt}`
-      const filePath = `vault/${user.uid}/${fileName}`
-
-      const storageRef = ref(storage, filePath)
-      await uploadBytes(storageRef, file)
-
+      const filePath = `vault/${user.uid}/${crypto.randomUUID()}.${safeExt}`
+      await uploadBytes(ref(storage, filePath), file)
       await addDoc(collection(db, 'documents'), {
         user_id: user.uid,
         doc_type: selectedType,
@@ -126,23 +123,34 @@ export default function VaultPage() {
         content_type: file.type,
         created_at: Timestamp.now(),
       })
-      // onSnapshot updates the list automatically
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'An unexpected error occurred')
+      alert(err instanceof Error ? err.message : 'Upload failed')
     } finally {
       setUploading(false)
     }
   }
 
-  const handleDelete = async (document: Document) => {
-    if (!confirm('Are you sure you want to delete this document?')) return
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) processFile(file)
+    e.target.value = ''
+  }
 
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    setDragOver(false)
+    const file = e.dataTransfer.files?.[0]
+    if (file) processFile(file)
+  }
+
+  const handleDelete = async (document: Document) => {
+    if (!confirm('Delete this document?')) return
     try {
       await deleteObject(ref(storage, document.file_path))
       await deleteDoc(doc(db, 'documents', document.id))
-      setDocuments((prev) => prev.filter((d) => d.id !== document.id))
+      delete urlCache.current[document.id]
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'An unexpected error occurred')
+      alert(err instanceof Error ? err.message : 'Delete failed')
     }
   }
 
@@ -157,44 +165,51 @@ export default function VaultPage() {
       a.target = '_blank'
       a.click()
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Failed to download file')
+      alert(err instanceof Error ? err.message : 'Download failed')
     }
   }
 
+  const docTypeInfo = (value: string) =>
+    DOC_TYPES.find((t) => t.value === value) ?? { label: value, color: 'bg-gray-100 text-gray-600' }
+
   const t = {
     en: {
-      title: "My Document Vault",
-      subtitle: "Securely store and manage your official documents.",
-      uploadTitle: "Upload New Document",
-      docType: "Document Type",
-      empty: "Your vault is empty. Upload your first document to get started.",
-      uploading: "Uploading...",
-      uploaded: "Uploaded on",
-      actions: "Actions"
+      title: 'Document Vault',
+      subtitle: 'Securely store and access your official documents.',
+      uploadTitle: 'Upload Document',
+      docType: 'Document Type',
+      dropzone: 'Drop a file here, or click to browse',
+      dropzoneHint: 'PDF, JPG, PNG · Max 5 MB',
+      uploading: 'Uploading…',
+      empty: 'Your vault is empty.',
+      emptyHint: 'Upload your first document to get started.',
+      uploaded: 'Added',
     },
     bn: {
-      title: "আমার ডকুমেন্ট ভল্ট",
-      subtitle: "আপনার অফিসিয়াল কাগজপত্র সুরক্ষিতভাবে সংরক্ষণ ও পরিচালনা করুন।",
-      uploadTitle: "নতুন ডকুমেন্ট আপলোড করুন",
-      docType: "ডকুমেন্টের ধরণ",
-      empty: "আপনার ভল্ট খালি। শুরু করতে আপনার প্রথম ডকুমেন্ট আপলোড করুন।",
-      uploading: "আপলোড হচ্ছে...",
-      uploaded: "আপলোড করা হয়েছে",
-      actions: "অ্যাকশন"
-    }
+      title: 'ডকুমেন্ট ভল্ট',
+      subtitle: 'আপনার অফিসিয়াল কাগজপত্র সুরক্ষিতভাবে সংরক্ষণ ও অ্যাক্সেস করুন।',
+      uploadTitle: 'ডকুমেন্ট আপলোড',
+      docType: 'ডকুমেন্টের ধরণ',
+      dropzone: 'ফাইল এখানে ড্রপ করুন বা ক্লিক করুন',
+      dropzoneHint: 'PDF, JPG, PNG · সর্বোচ্চ ৫ MB',
+      uploading: 'আপলোড হচ্ছে…',
+      empty: 'আপনার ভল্ট খালি।',
+      emptyHint: 'শুরু করতে প্রথম ডকুমেন্ট আপলোড করুন।',
+      uploaded: 'যোগ করা হয়েছে',
+    },
   }[language]
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#f3f2f1] pt-16">
+      <main className="min-h-screen bg-gray-50 pt-16">
         <Header />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
-          <div className="h-16 bg-white border-[3px] border-black animate-pulse" />
-          <div className="grid lg:grid-cols-3 gap-10">
-            <div className="h-64 bg-white border-[3px] border-black animate-pulse" />
-            <div className="lg:col-span-2 grid sm:grid-cols-2 gap-6">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+          <div className="h-20 bg-white rounded-2xl ring-1 ring-black/8 animate-pulse" />
+          <div className="grid lg:grid-cols-3 gap-6">
+            <div className="h-72 bg-white rounded-2xl ring-1 ring-black/8 animate-pulse" />
+            <div className="lg:col-span-2 grid sm:grid-cols-2 gap-4">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-36 bg-white border-[3px] border-black animate-pulse" />
+                <div key={i} className="h-32 bg-white rounded-2xl ring-1 ring-black/8 animate-pulse" />
               ))}
             </div>
           </div>
@@ -204,136 +219,143 @@ export default function VaultPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f3f2f1] pt-16">
+    <main className="min-h-screen bg-gray-50 pt-16">
       <Header />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="space-y-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
 
-          {/* Page Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b-[3px] border-black pb-8">
-            <div className="space-y-2">
-              <h1 className="text-4xl font-black text-black flex items-center gap-3">
-                <FileBadge className="w-10 h-10 text-[#ff0000]" />
-                {t.title}
-              </h1>
-              <p className="text-lg font-bold text-gray-500 uppercase tracking-wide">
-                {t.subtitle}
-              </p>
+        {/* Page header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-2.5">
+              <Lock className="w-7 h-7 text-primary" />
+              {t.title}
+            </h1>
+            <p className="text-sm text-gray-500">{t.subtitle}</p>
+          </div>
+          <div className="flex items-center gap-2.5 bg-white rounded-xl ring-1 ring-black/8 shadow-sm px-4 py-2.5">
+            <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Signed in as</p>
+              <p className="text-sm font-medium text-gray-800 leading-none mt-0.5">{user?.email}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-6">
+
+          {/* Upload panel */}
+          <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 space-y-5 h-fit">
+            <h2 className="text-base font-semibold text-gray-900">{t.uploadTitle}</h2>
+
+            {/* Doc type selector */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-gray-500">{t.docType}</label>
+              <div className="relative">
+                <select
+                  value={selectedType}
+                  onChange={(e) => setSelectedType(e.target.value)}
+                  className="w-full h-10 pl-3 pr-8 rounded-xl ring-1 ring-black/10 bg-white text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/40 appearance-none cursor-pointer"
+                >
+                  {DOC_TYPES.map((type) => (
+                    <option key={type.value} value={type.value}>{type.label}</option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              </div>
             </div>
 
-            <div className="flex items-center gap-4 bg-white border-2 border-black p-4">
-              <div className="p-2 bg-green-50 rounded-full">
-                <ShieldCheck className="w-6 h-6 text-green-600" />
-              </div>
-              <div>
-                <p className="text-[10px] font-black uppercase text-gray-400">Secure Storage</p>
-                <p className="text-sm font-bold text-black">{user?.email}</p>
-              </div>
+            {/* Dropzone */}
+            <div
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={handleDrop}
+              onClick={() => !uploading && fileInputRef.current?.click()}
+              className={`relative flex flex-col items-center justify-center gap-2 p-8 rounded-xl border-2 border-dashed cursor-pointer transition-all duration-200 ${
+                dragOver
+                  ? 'border-primary bg-primary/5'
+                  : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
+              }`}
+            >
+              <input
+                ref={fileInputRef}
+                type="file"
+                onChange={handleUpload}
+                disabled={uploading}
+                className="hidden"
+                accept=".pdf,.jpg,.jpeg,.png"
+              />
+              {uploading ? (
+                <Loader2 className="w-7 h-7 text-primary animate-spin" />
+              ) : (
+                <Upload className={`w-7 h-7 transition-colors ${dragOver ? 'text-primary' : 'text-gray-300'}`} />
+              )}
+              <p className="text-sm font-medium text-gray-600 text-center">
+                {uploading ? t.uploading : t.dropzone}
+              </p>
+              <p className="text-xs text-gray-400">{t.dropzoneHint}</p>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-10">
-            {/* Upload Sidebar */}
-            <div className="lg:col-span-1 space-y-6">
-              <div className="bg-white border-[3px] border-black p-6 space-y-6">
-                <h2 className="text-xl font-black flex items-center gap-2">
-                  <Plus className="w-5 h-5 text-[#ff0000]" />
-                  {t.uploadTitle}
-                </h2>
-
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-black uppercase text-gray-500">{t.docType}</label>
-                    <select
-                      value={selectedType}
-                      onChange={(e) => setSelectedType(e.target.value)}
-                      className="w-full h-12 px-4 border-2 border-black font-bold focus:bg-gray-50 outline-none appearance-none cursor-pointer rounded-none"
-                    >
-                      {DOC_TYPES.map(type => (
-                        <option key={type.value} value={type.value}>{type.label}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="relative group">
-                    <input
-                      type="file"
-                      onChange={handleUpload}
-                      disabled={uploading}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                    />
-                    <div className="border-2 border-dashed border-black p-8 text-center space-y-3 group-hover:bg-gray-50 transition-colors">
-                      {uploading ? (
-                        <Loader2 className="w-8 h-8 animate-spin mx-auto text-[#ff0000]" />
-                      ) : (
-                        <Upload className="w-8 h-8 mx-auto text-gray-400 group-hover:text-black transition-colors" />
-                      )}
-                      <p className="text-sm font-bold text-gray-600">
-                        {uploading ? t.uploading : "Drop file or click to upload"}
-                      </p>
-                    </div>
-                  </div>
+          {/* Document grid */}
+          <div className="lg:col-span-2">
+            {documents.length === 0 ? (
+              <div className="flex flex-col items-center justify-center gap-3 bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-20 text-center">
+                <div className="w-14 h-14 rounded-2xl bg-gray-50 ring-1 ring-black/8 flex items-center justify-center">
+                  <FileText className="w-7 h-7 text-gray-300" />
                 </div>
-
-                <div className="p-4 bg-blue-50 border-l-4 border-blue-500 flex gap-3">
-                  <AlertCircle className="w-5 h-5 text-blue-500 shrink-0" />
-                  <p className="text-[10px] leading-relaxed text-blue-800 font-medium">
-                    Allowed formats: PDF, JPG, PNG. Max size: 5MB. All files are encrypted at rest.
-                  </p>
-                </div>
+                <p className="font-semibold text-gray-900">{t.empty}</p>
+                <p className="text-sm text-gray-400">{t.emptyHint}</p>
               </div>
-            </div>
-
-            {/* Document Grid */}
-            <div className="lg:col-span-2">
-              {documents.length === 0 ? (
-                <div className="bg-white border-[3px] border-black border-dashed p-20 text-center space-y-4">
-                  <FileText className="w-16 h-16 mx-auto text-gray-200" />
-                  <p className="text-xl font-bold text-gray-400">{t.empty}</p>
-                </div>
-              ) : (
-                <div className="grid sm:grid-cols-2 gap-6">
-                  {documents.map((document) => (
-                    <div key={document.id} className="bg-white border-[3px] border-black p-6 space-y-4 transition-all">
+            ) : (
+              <div className="grid sm:grid-cols-2 gap-4">
+                {documents.map((document) => {
+                  const info = docTypeInfo(document.doc_type)
+                  return (
+                    <div
+                      key={document.id}
+                      className="group bg-white rounded-2xl ring-1 ring-black/8 shadow-sm hover:shadow-md hover:ring-black/12 transition-all duration-200 p-5 flex flex-col gap-4"
+                    >
                       <div className="flex items-start justify-between">
-                        <div className="p-3 bg-gray-50 border-2 border-black">
-                          <FileText className="w-6 h-6 text-[#ff0000]" />
-                        </div>
-                        <div className="flex gap-2">
+                        <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${info.color}`}>
+                          {info.label}
+                        </span>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                           <button
                             onClick={() => handleDownload(document)}
-                            className="p-2 hover:bg-gray-100 border border-transparent hover:border-black transition-all"
+                            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
                             title="Download"
                           >
-                            <Download className="w-5 h-5 text-gray-600" />
+                            <Download className="w-4 h-4 text-gray-500" />
                           </button>
                           <button
                             onClick={() => handleDelete(document)}
-                            className="p-2 hover:bg-red-50 border border-transparent hover:border-black transition-all group"
+                            className="p-1.5 rounded-lg hover:bg-red-50 transition-colors"
                             title="Delete"
                           >
-                            <Trash2 className="w-5 h-5 text-gray-400 group-hover:text-red-600" />
+                            <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-500 transition-colors" />
                           </button>
                         </div>
                       </div>
 
-                      <div className="space-y-1">
-                        <span className="text-[10px] font-black uppercase bg-black text-white px-2 py-0.5">
-                          {document.doc_type}
-                        </span>
-                        <h3 className="font-black text-black truncate pr-4" title={document.file_name}>
-                          {document.file_name}
-                        </h3>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase">
-                          {t.uploaded} {document.created_at?.toDate().toLocaleDateString()}
-                        </p>
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 rounded-xl bg-gray-50 ring-1 ring-black/8 flex items-center justify-center shrink-0">
+                          <FileText className="w-5 h-5 text-gray-400" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-gray-900 truncate" title={document.file_name}>
+                            {document.file_name}
+                          </p>
+                          <p className="text-xs text-gray-400 mt-0.5">
+                            {t.uploaded} {document.created_at?.toDate().toLocaleDateString()}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
