@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
-import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, ArrowRight, Smartphone, ShieldCheck } from 'lucide-react'
+import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, ArrowRight, Smartphone, ShieldCheck, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 import { auth, db } from '@/lib/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
@@ -13,6 +13,9 @@ import { collection, query, where, getDocs } from 'firebase/firestore'
 const content = {
   en: {
     title: "e-TIN Registration Guide",
+    subtitleBefore: "Register your 12-digit Bangladesh e-TIN online for free through the official ",
+    subtitleLink: "NBR portal",
+    subtitleAfter: ". Verify your identity, submit your application, and download your e-TIN certificate instantly.",
     dept: "National Board of Revenue (NBR)",
     stats: [
       { label: "Estimated Time", value: "10-15 Minutes", icon: Clock },
@@ -48,8 +51,8 @@ const content = {
       {
         title: "Taxpayer Purpose",
         desc: "Select the purpose (e.g., individual, company, firm) and the reason for obtaining a TIN (e.g., getting a trade license).",
-        action: "View Categories",
-        link: "#"
+        action: "Trade License Guide",
+        link: "/services/trade-license"
       },
       {
         title: "Fill Application Form",
@@ -74,13 +77,14 @@ const content = {
     ctaDesc: "Most applications are processed instantly. Have your NID and mobile ready.",
     ctaButton: "Start e-TIN Registration",
     back: "Back to Directory",
+    whyTitle: "Why do you need a TIN?",
     extraTitle: "When do you need a TIN?",
     extraSteps: [
-      { name: "Trade License", desc: "Mandatory for obtaining or renewing any trade license in Bangladesh." },
+      { name: "Trade License", desc: "Mandatory for obtaining or renewing any trade license in Bangladesh.", link: "/services/trade-license" },
       { name: "Bank Account", desc: "Required for opening corporate or high-value personal bank accounts." },
-      { name: "Property Transfer", desc: "Necessary for buying or selling land, buildings, or flats." },
+      { name: "Property Transfer", desc: "Necessary for buying or selling land, buildings, or flats.", link: "/services/land-mutation" },
       { name: "Credit Cards", desc: "Banks require a TIN to issue credit cards to individuals." },
-      { name: "Import/Export", desc: "Essential for obtaining IRC/ERC and performing customs clearance." }
+      { name: "Import/Export", desc: "Essential for obtaining IRC/ERC and performing customs clearance.", link: "/services/incorporate-a-private-company" }
     ],
     postTitle: "Taxpayer Responsibilities",
     postSteps: [
@@ -88,10 +92,32 @@ const content = {
       { name: "Record Keeping", desc: "Maintain all financial documents, bank statements, and investment proofs." },
       { name: "Address Updates", desc: "Update your TIN profile if your permanent or business address changes." },
       { name: "Withholding Tax", desc: "If applicable, ensure proper deduction and deposit of tax at source (TDS)." }
+    ],
+    faqTitle: "Frequently Asked Questions",
+    faqs: [
+      {
+        q: "How to register e-TIN Bangladesh?",
+        a: "Visit secure.incometax.gov.bd, create an account using your NID number and active mobile, select your taxpayer type, fill in your personal or business details, and download your TIN certificate immediately after automatic NID verification."
+      },
+      {
+        q: "How to register for TIN online?",
+        a: "Go to the NBR e-TIN portal at secure.incometax.gov.bd and register with a unique username and password. Verify your identity via a mobile OTP, then select your taxpayer category, enter your information, and your TIN certificate is issued instantly — no physical form or office visit required."
+      },
+      {
+        q: "What is my e-TIN number?",
+        a: "Your e-TIN is a 12-digit Tax Identification Number assigned by the National Board of Revenue (NBR) to identify you as a registered taxpayer in Bangladesh. It is printed on your TIN certificate, which you can download or reprint at any time by logging into the NBR e-TIN portal."
+      },
+      {
+        q: "How to verify TIN number?",
+        a: "TIN certificates can be verified online through the NBR portal. Visit secure.incometax.gov.bd, navigate to the certificate verification section, and enter the TIN number along with the certificate issue date. The system will display the registered taxpayer's information to confirm authenticity."
+      }
     ]
   },
   bn: {
     title: "ই-টিন (e-TIN) নিবন্ধন নির্দেশিকা",
+    subtitleBefore: "বাংলাদেশের ১২ সংখ্যার ই-টিন সম্পূর্ণ বিনামূল্যে অনলাইনে নিবন্ধন করুন — সরকারি ",
+    subtitleLink: "এনবিআর পোর্টালের",
+    subtitleAfter: " মাধ্যমে। পরিচয় যাচাই করুন, আবেদন জমা দিন এবং সাথে সাথে ই-টিন সার্টিফিকেট ডাউনলোড করুন।",
     dept: "জাতীয় রাজস্ব বোর্ড (NBR)",
     stats: [
       { label: "আনুমানিক সময়", value: "১০-১৫ মিনিট", icon: Clock },
@@ -127,8 +153,8 @@ const content = {
       {
         title: "করদাতার ধরণ নির্বাচন",
         desc: "আপনার করদাতার ধরণ (যেমন: ব্যক্তি, কোম্পানি, ফার্ম) এবং টিন গ্রহণের কারণ (যেমন: ট্রেড লাইসেন্স সংগ্রহ) সিলেক্ট করুন।",
-        action: "ক্যাটাগরি দেখুন",
-        link: "#"
+        action: "ট্রেড লাইসেন্স গাইড",
+        link: "/services/trade-license"
       },
       {
         title: "আবেদন ফর্ম পূরণ",
@@ -153,13 +179,14 @@ const content = {
     ctaDesc: "অধিকাংশ আবেদন তাৎক্ষণিকভাবে সম্পন্ন হয়। আপনার এনআইডি এবং মোবাইল সাথে রাখুন।",
     ctaButton: "ই-টিন নিবন্ধন শুরু করুন",
     back: "ডিরেক্টরিতে ফিরে যান",
+    whyTitle: "কেন টিন (TIN) প্রয়োজন?",
     extraTitle: "কখন আপনার টিন (TIN) প্রয়োজন?",
     extraSteps: [
-      { name: "ট্রেড লাইসেন্স", desc: "বাংলাদেশে যেকোনো ট্রেড লাইসেন্স গ্রহণ বা নবায়নের জন্য এটি বাধ্যতামূলক।" },
-      { name: "ব্যাংক অ্যাকাউন্ট", desc: "কর্পোরেট বা উচ্চ-মূল্যের ব্যক্তিগত ব্যাংক অ্যাকাউন্ট খোলার জন্য প্রয়োজন।" },
-      { name: "সম্পত্তি হস্তান্তর", desc: "জমি, ভবন বা ফ্ল্যাট কেনা বা বিক্রির জন্য এটি আবশ্যক।" },
-      { name: "ক্রেডিট কার্ড", desc: "ব্যক্তিগত ক্রেডিট কার্ড ইস্যু করার জন্য ব্যাংকগুলো টিন (TIN) চেয়ে থাকে।" },
-      { name: "আমদানি/রপ্তানি", desc: "IRC/ERC গ্রহণ এবং কাস্টমস ক্লিয়ারেন্সের জন্য এটি অপরিহার্য।" }
+      { name: "ট্রেড লাইসেন্স", desc: "বাংলাদেশে যেকোনো ট্রেড লাইসেন্স গ্রহণ বা নবায়নের জন্য এটি বাধ্যতামূলক।", link: "/services/trade-license" },
+      { name: "ব্যাংক অ্যাকাউন্ট", desc: "কর্পোরেট বা উচ্চ-মূল্যের ব্যক্তিগত ব্যাংক অ্যাকাউন্ট খোলার জন্য প্রয়োজন।" },
+      { name: "সম্পত্তি হস্তান্তর", desc: "জমি, ভবন বা ফ্ল্যাট কেনা বা বিক্রির জন্য এটি আবশ্যক।", link: "/services/land-mutation" },
+      { name: "ক্রেডিট কার্ড", desc: "ব্যক্তিগত ক্রেডিট কার্ড ইস্যু করার জন্য ব্যাংকগুলো টিন (TIN) চেয়ে থাকে।" },
+      { name: "আমদানি/রপ্তানি", desc: "IRC/ERC গ্রহণ এবং কাস্টমস ক্লিয়ারেন্সের জন্য এটি অপরিহার্য।", link: "/services/incorporate-a-private-company" }
     ],
     postTitle: "করদাতার দায়িত্বসমূহ",
     postSteps: [
@@ -167,6 +194,25 @@ const content = {
       { name: "রেকর্ড সংরক্ষণ", desc: "আপনার সকল আর্থিক দলিল, ব্যাংক স্টেটমেন্ট এবং বিনিয়োগের প্রমাণ সংরক্ষণ করুন।" },
       { name: "ঠিকানা হালনাগাদ", desc: "স্থায়ী বা ব্যবসায়িক ঠিকানা পরিবর্তন হলে আপনার টিন প্রোফাইল আপডেট করুন।" },
       { name: "উৎস কর (TDS)", desc: "প্রযোজ্য ক্ষেত্রে, সঠিকভাবে উৎস কর কর্তন এবং জমা নিশ্চিত করুন।" }
+    ],
+    faqTitle: "সাধারণ জিজ্ঞাসা",
+    faqs: [
+      {
+        q: "বাংলাদেশে ই-টিন নিবন্ধন কীভাবে করবো?",
+        a: "secure.incometax.gov.bd-তে যান, আপনার এনআইডি নম্বর ও মোবাইল দিয়ে অ্যাকাউন্ট তৈরি করুন, করদাতার ধরন নির্বাচন করুন, তথ্য পূরণ করুন এবং স্বয়ংক্রিয় এনআইডি যাচাইয়ের পরপরই সার্টিফিকেট ডাউনলোড করুন।"
+      },
+      {
+        q: "অনলাইনে টিন রেজিস্ট্রেশন কীভাবে করবো?",
+        a: "এনবিআর ই-টিন পোর্টালে (secure.incometax.gov.bd) গিয়ে ইউজারনেম ও পাসওয়ার্ড দিয়ে নিবন্ধন করুন। মোবাইল ওটিপি দিয়ে যাচাই করুন, করদাতার বিভাগ বেছে নিন, তথ্য দিন — কোনো ফি বা অফিস ভিজিট ছাড়াই সাথে সাথে সার্টিফিকেট পাবেন।"
+      },
+      {
+        q: "আমার ই-টিন নম্বর কী?",
+        a: "ই-টিন হলো জাতীয় রাজস্ব বোর্ড (NBR) প্রদত্ত একটি ১২ সংখ্যার করদাতা শনাক্তকরণ নম্বর। এটি আপনার টিন সার্টিফিকেটে লেখা থাকে, যা যেকোনো সময় এনবিআর পোর্টালে লগইন করে ডাউনলোড করা যায়।"
+      },
+      {
+        q: "টিন নম্বর যাচাই কীভাবে করবো?",
+        a: "এনবিআর পোর্টালের মাধ্যমে অনলাইনে টিন সার্টিফিকেট যাচাই করা যায়। secure.incometax.gov.bd-তে গিয়ে সার্টিফিকেট ভেরিফিকেশন অপশনে টিন নম্বর ও সার্টিফিকেট ইস্যুর তারিখ দিলে নিবন্ধিত করদাতার তথ্য প্রদর্শিত হবে।"
+      }
     ]
   }
 }
@@ -178,6 +224,7 @@ export default function TINRegistrationPage() {
   const s = content[language]
   const [checkedDocs, setCheckedDocs] = useState<number[]>([])
   const [vaultDocs, setVaultDocs] = useState<string[]>([])
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
@@ -233,9 +280,14 @@ export default function TINRegistrationPage() {
 
             {/* Hero Card */}
             <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-6">
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <p className="text-xs font-medium text-gray-400">{s.dept}</p>
                 <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">{s.title}</h1>
+                <p className="text-sm text-gray-500 leading-relaxed pt-1">
+                  {s.subtitleBefore}
+                  <a href="https://secure.incometax.gov.bd" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline">{s.subtitleLink}</a>
+                  {s.subtitleAfter}
+                </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-gray-100">
                 {s.stats.map((stat, i) => (
@@ -268,15 +320,25 @@ export default function TINRegistrationPage() {
                       <h3 className="font-semibold text-gray-900">{step.title}</h3>
                       <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
                       {step.link !== "#" && (
-                        <a
-                          href={step.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:gap-1.5 transition-all duration-150"
-                        >
-                          {step.action}
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </a>
+                        step.link.startsWith('/') ? (
+                          <Link
+                            href={step.link}
+                            className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:gap-1.5 transition-all duration-150"
+                          >
+                            {step.action}
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </Link>
+                        ) : (
+                          <a
+                            href={step.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:gap-1.5 transition-all duration-150"
+                          >
+                            {step.action}
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </a>
+                        )
                       )}
                     </div>
                   </div>
@@ -287,29 +349,32 @@ export default function TINRegistrationPage() {
             {/* Taxpayer Responsibilities */}
             <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-5">
               <h2 className="text-xl font-semibold text-gray-900">{s.postTitle}</h2>
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 {s.postSteps.map((step, i) => (
-                  <div key={i} className="bg-gray-50 rounded-xl p-4 border-l-2 border-primary space-y-1">
-                    <h4 className="font-semibold text-sm text-gray-900">{step.name}</h4>
-                    <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
+                  <div key={i} className="group bg-white rounded-xl ring-1 ring-black/8 p-4 space-y-2 hover:shadow-lg hover:ring-primary/30 hover:-translate-y-1 transition-all duration-200 cursor-default">
+                    <h4 className="font-semibold text-xs text-gray-900 leading-snug">{step.name}</h4>
+                    <p className="text-[11px] text-gray-400 leading-relaxed">{step.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* When do you need TIN */}
+            {/* FAQ */}
             <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 sm:p-8 space-y-5">
-              <h2 className="text-xl font-semibold text-gray-900">{s.extraTitle}</h2>
-              <div className="space-y-3">
-                {s.extraSteps.map((step, i) => (
-                  <div key={i} className="flex items-start gap-4 p-4 rounded-xl ring-1 ring-black/8 hover:ring-primary/20 transition-all duration-150">
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                      <ShieldCheck className="w-4 h-4 text-primary" />
-                    </div>
-                    <div className="space-y-0.5">
-                      <h4 className="font-semibold text-sm text-gray-900">{step.name}</h4>
-                      <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
-                    </div>
+              <h2 className="text-xl font-semibold text-gray-900">{s.faqTitle}</h2>
+              <div className="divide-y divide-gray-100">
+                {s.faqs.map((faq, i) => (
+                  <div key={i}>
+                    <button
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      className="w-full flex items-center justify-between gap-4 py-4 text-left group"
+                    >
+                      <h3 className="font-semibold text-sm text-gray-900 group-hover:text-primary transition-colors duration-150">{faq.q}</h3>
+                      <ChevronDown className={`w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200 ${openFaq === i ? 'rotate-180 text-primary' : ''}`} />
+                    </button>
+                    {openFaq === i && (
+                      <p className="text-sm text-gray-500 leading-relaxed pb-4">{faq.a}</p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -395,6 +460,26 @@ export default function TINRegistrationPage() {
                   <span className="text-[10px] text-gray-400">Source:</span>
                   <a href="https://secure.incometax.gov.bd/" target="_blank" rel="noopener noreferrer" className="text-[10px] font-medium text-primary hover:underline">incometax.gov.bd</a>
                 </div>
+              </div>
+            </div>
+
+            {/* Why do you need a TIN */}
+            <div className="bg-white rounded-2xl ring-1 ring-black/8 shadow-sm p-6 space-y-4">
+              <h2 className="text-base font-semibold text-gray-900">{s.whyTitle}</h2>
+              <div className="space-y-2.5">
+                {s.extraSteps.map((step, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                    <div>
+                      {step.link ? (
+                        <Link href={step.link} className="text-sm font-semibold text-primary hover:underline">{step.name}</Link>
+                      ) : (
+                        <span className="text-sm font-semibold text-gray-800">{step.name}</span>
+                      )}
+                      <span className="text-sm text-gray-500"> — {step.desc}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
