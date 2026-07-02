@@ -366,9 +366,10 @@ export default function TINRegistrationPage() {
                   <div key={i}>
                     <button
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      aria-expanded={openFaq === i}
                       className="w-full flex items-center justify-between gap-4 py-4 text-left group"
                     >
-                      <h3 className="font-semibold text-sm text-gray-900 group-hover:text-primary transition-colors duration-150">{faq.q}</h3>
+                      <span className="font-semibold text-sm text-gray-900 group-hover:text-primary transition-colors duration-150">{faq.q}</span>
                       <ChevronDown className={`w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200 ${openFaq === i ? 'rotate-180 text-primary' : ''}`} />
                     </button>
                     {openFaq === i && (

@@ -541,7 +541,7 @@ export function LifeEventsSection() {
                     >
                       <Image src={eventConfig.gif} alt={eventConfig.title} width={44} height={44} className="w-11 h-11 object-contain shrink-0" unoptimized loading="lazy" />
                       <div className="space-y-0.5 min-w-0">
-                        <h4 className="font-semibold text-sm text-gray-900 leading-snug">{eventConfig.title}</h4>
+                        <span className="font-semibold text-sm text-gray-900 leading-snug block">{eventConfig.title}</span>
                         <p className="text-xs text-gray-400 leading-snug line-clamp-2">{eventConfig.subtitle}</p>
                       </div>
                     </button>
@@ -556,7 +556,7 @@ export function LifeEventsSection() {
             <div className="bg-red-50 ring-1 ring-red-100 rounded-2xl p-5 flex gap-3 items-start animate-in fade-in slide-in-from-top-2 duration-300">
               <ShieldAlert className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <h4 className="font-semibold text-gray-900">{t.noMatchTitle}</h4>
+                <p className="font-semibold text-gray-900">{t.noMatchTitle}</p>
                 <p className="text-sm text-gray-600 leading-relaxed">{t.noMatchDesc}</p>
               </div>
             </div>

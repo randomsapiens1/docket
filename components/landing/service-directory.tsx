@@ -106,23 +106,27 @@ export function ServiceDirectory({ preview = false }: { preview?: boolean }) {
                           const isLive = sub.status === 'Live'
                           return (
                             <li key={`${itemIdx}-${subIdx}`}>
-                              <a
-                                href={isLive ? sub.href : '#'}
-                                onClick={isLive ? () => trackEvent('click_service', { service_name: sub.name, category: category.title }) : undefined}
-                                className={`group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 ${
-                                  isLive ? 'hover:bg-primary/5 cursor-pointer' : 'pointer-events-none opacity-50'
-                                }`}
-                              >
-                                <div className="flex items-center gap-2.5 min-w-0">
-                                  <ArrowRight className={`w-3.5 h-3.5 shrink-0 transition-transform duration-150 ${isLive ? 'text-primary group-hover:translate-x-0.5' : 'text-gray-300'}`} />
-                                  <span className={`text-sm font-medium truncate ${isLive ? 'text-gray-800 group-hover:text-primary' : 'text-gray-400'} transition-colors duration-150`}>
-                                    {sub.name}
-                                  </span>
-                                </div>
-                                <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full shrink-0 ml-2 ${isLive ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-400'}`}>
-                                  {isLive ? live : soon}
+                              {isLive ? (
+                                <a
+                                  href={sub.href}
+                                  onClick={() => trackEvent('click_service', { service_name: sub.name, category: category.title })}
+                                  className="group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 hover:bg-primary/5 cursor-pointer"
+                                >
+                                  <div className="flex items-center gap-2.5 min-w-0">
+                                    <ArrowRight className="w-3.5 h-3.5 shrink-0 text-primary group-hover:translate-x-0.5 transition-transform duration-150" />
+                                    <span className="text-sm font-medium truncate text-gray-800 group-hover:text-primary transition-colors duration-150">{sub.name}</span>
+                                  </div>
+                                  <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full shrink-0 ml-2 bg-primary/10 text-primary">{live}</span>
+                                </a>
+                              ) : (
+                                <span aria-disabled="true" className="group flex items-center justify-between px-3 py-2.5 rounded-xl opacity-50">
+                                  <div className="flex items-center gap-2.5 min-w-0">
+                                    <ArrowRight className="w-3.5 h-3.5 shrink-0 text-gray-300" />
+                                    <span className="text-sm font-medium truncate text-gray-400">{sub.name}</span>
+                                  </div>
+                                  <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full shrink-0 ml-2 bg-gray-100 text-gray-400">{soon}</span>
                                 </span>
-                              </a>
+                              )}
                             </li>
                           )
                         })
@@ -131,23 +135,27 @@ export function ServiceDirectory({ preview = false }: { preview?: boolean }) {
                       const isLive = item.status === 'Live'
                       return [(
                         <li key={itemIdx}>
-                          <a
-                            href={isLive ? item.href : '#'}
-                            onClick={isLive ? () => trackEvent('click_service', { service_name: item.name, category: category.title }) : undefined}
-                            className={`group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 ${
-                              isLive ? 'hover:bg-primary/5 cursor-pointer' : 'pointer-events-none opacity-50'
-                            }`}
-                          >
-                            <div className="flex items-center gap-2.5 min-w-0">
-                              <ArrowRight className={`w-3.5 h-3.5 shrink-0 transition-transform duration-150 ${isLive ? 'text-primary group-hover:translate-x-0.5' : 'text-gray-300'}`} />
-                              <span className={`text-sm font-medium truncate ${isLive ? 'text-gray-800 group-hover:text-primary' : 'text-gray-400'} transition-colors duration-150`}>
-                                {item.name}
-                              </span>
-                            </div>
-                            <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full shrink-0 ml-2 ${isLive ? 'bg-primary/10 text-primary' : 'bg-gray-100 text-gray-400'}`}>
-                              {isLive ? live : soon}
+                          {isLive ? (
+                            <a
+                              href={item.href}
+                              onClick={() => trackEvent('click_service', { service_name: item.name, category: category.title })}
+                              className="group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 hover:bg-primary/5 cursor-pointer"
+                            >
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <ArrowRight className="w-3.5 h-3.5 shrink-0 text-primary group-hover:translate-x-0.5 transition-transform duration-150" />
+                                <span className="text-sm font-medium truncate text-gray-800 group-hover:text-primary transition-colors duration-150">{item.name}</span>
+                              </div>
+                              <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full shrink-0 ml-2 bg-primary/10 text-primary">{live}</span>
+                            </a>
+                          ) : (
+                            <span aria-disabled="true" className="flex items-center justify-between px-3 py-2.5 rounded-xl opacity-50">
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <ArrowRight className="w-3.5 h-3.5 shrink-0 text-gray-300" />
+                                <span className="text-sm font-medium truncate text-gray-400">{item.name}</span>
+                              </div>
+                              <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full shrink-0 ml-2 bg-gray-100 text-gray-400">{soon}</span>
                             </span>
-                          </a>
+                          )}
                         </li>
                       )]
                     })}

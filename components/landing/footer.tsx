@@ -132,9 +132,9 @@ export function Footer() {
           {/* Link columns */}
           {t.columns.map((col, idx) => (
             <div key={idx} className="space-y-4">
-              <h4 className="text-[10px] font-semibold uppercase tracking-widest text-white/30">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-white/30">
                 {col.title}
-              </h4>
+              </p>
               <ul className="space-y-3">
                 {col.links.map((link, lIdx) => (
                   <li key={lIdx}>

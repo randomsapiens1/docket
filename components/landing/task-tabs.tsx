@@ -280,26 +280,23 @@ export function TaskTabs() {
                               <ul className="space-y-1.5">
                                 {item.subItems!.map((sub, sIdx) => (
                                   <li key={sIdx}>
-                                    <a
-                                      href={sub.status === 'Live' ? sub.href : '#'}
-                                      className={cn(
-                                        "flex items-center justify-between p-2 border border-black transition-all text-xs font-bold bg-white",
-                                        sub.status === 'Live'
-                                          ? "hover:bg-gray-50 hover:border-[#ff0000] active:translate-y-0.5 cursor-pointer"
-                                          : "opacity-60 cursor-not-allowed pointer-events-none"
-                                      )}
-                                    >
-                                      <span className="text-foreground truncate mr-2">{sub.name}</span>
-                                      <div className="flex items-center gap-1.5 shrink-0">
-                                        <span className={cn(
-                                          "text-[7px] font-black uppercase px-1.5 py-0.5 border border-black",
-                                          sub.status === 'Live' ? "bg-black text-white" : "bg-white text-gray-400 border-gray-200"
-                                        )}>
-                                          {sub.status === 'Live' ? t.live : t.soon}
-                                        </span>
-                                        {sub.status === 'Live' && <ArrowRight className="w-3.5 h-3.5 text-[#ff0000]" />}
-                                      </div>
-                                    </a>
+                                    {sub.status === 'Live' ? (
+                                      <a
+                                        href={sub.href}
+                                        className="flex items-center justify-between p-2 border border-black transition-all text-xs font-bold bg-white hover:bg-gray-50 hover:border-[#ff0000] active:translate-y-0.5 cursor-pointer"
+                                      >
+                                        <span className="text-foreground truncate mr-2">{sub.name}</span>
+                                        <div className="flex items-center gap-1.5 shrink-0">
+                                          <span className="text-[7px] font-black uppercase px-1.5 py-0.5 border border-black bg-black text-white">{t.live}</span>
+                                          <ArrowRight className="w-3.5 h-3.5 text-[#ff0000]" />
+                                        </div>
+                                      </a>
+                                    ) : (
+                                      <span aria-disabled="true" className="flex items-center justify-between p-2 border border-black text-xs font-bold bg-white opacity-60">
+                                        <span className="text-foreground truncate mr-2">{sub.name}</span>
+                                        <span className="text-[7px] font-black uppercase px-1.5 py-0.5 border border-gray-200 bg-white text-gray-400">{t.soon}</span>
+                                      </span>
+                                    )}
                                   </li>
                                 ))}
                               </ul>
@@ -311,29 +308,29 @@ export function TaskTabs() {
 
                     return (
                       <li key={i} className="group h-fit">
-                        <a 
-                          href={item.status === 'Live' ? item.href : '#'}
-                          className={cn(
-                            "flex items-center justify-between p-3 border-2 border-black transition-all",
-                            item.status === 'Live' 
-                              ? "bg-white hover:bg-gray-50 cursor-pointer" 
-                              : "bg-gray-50 opacity-50 pointer-events-none"
-                          )}
-                        >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <div className={cn("w-2 h-2 rounded-full shrink-0", item.status === 'Live' ? "bg-green-500" : "bg-gray-300")} />
-                            <span className="font-bold text-sm sm:text-base truncate">{item.name}</span>
-                          </div>
-                          <div className="flex items-center gap-2 shrink-0">
-                            <span className={cn(
-                              "text-[8px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 border border-black",
-                              item.status === 'Live' ? "bg-black text-white" : "bg-white text-gray-400 border-gray-200"
-                            )}>
-                              {item.status === 'Live' ? t.live : t.soon}
-                            </span>
-                            {item.status === 'Live' && <ArrowRight className="w-4 h-4 text-[#ff0000]" />}
-                          </div>
-                        </a>
+                        {item.status === 'Live' ? (
+                          <a
+                            href={item.href}
+                            className="flex items-center justify-between p-3 border-2 border-black transition-all bg-white hover:bg-gray-50 cursor-pointer"
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <div className="w-2 h-2 rounded-full shrink-0 bg-green-500" />
+                              <span className="font-bold text-sm sm:text-base truncate">{item.name}</span>
+                            </div>
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span className="text-[8px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 border border-black bg-black text-white">{t.live}</span>
+                              <ArrowRight className="w-4 h-4 text-[#ff0000]" />
+                            </div>
+                          </a>
+                        ) : (
+                          <span aria-disabled="true" className="flex items-center justify-between p-3 border-2 border-black bg-gray-50 opacity-50">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <div className="w-2 h-2 rounded-full shrink-0 bg-gray-300" />
+                              <span className="font-bold text-sm sm:text-base truncate">{item.name}</span>
+                            </div>
+                            <span className="text-[8px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 border border-gray-200 bg-white text-gray-400">{t.soon}</span>
+                          </span>
+                        )}
                       </li>
                     )
                   })}
