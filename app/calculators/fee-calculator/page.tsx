@@ -4,7 +4,6 @@ import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { FeeCalculator } from '@/components/calculators/fee-calculator'
 
-export const dynamic = 'force-dynamic'
 
 export default function CalculatorPage() {
   return (

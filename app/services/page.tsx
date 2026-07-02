@@ -14,7 +14,6 @@ import {
   Receipt, GraduationCap, Plane, Zap
 } from 'lucide-react'
 
-export const dynamic = 'force-dynamic'
 
 const categoryMeta = [
   { icon: IdCard,        color: 'bg-blue-50 text-blue-600' },
@@ -325,6 +324,7 @@ export default function ServicesPage() {
                       height={56}
                       className="w-14 h-14 shrink-0 object-contain"
                       unoptimized
+                      loading="lazy"
                     />
                     <div className="min-w-0 flex-1 pt-0.5">
                       <div className="flex items-start justify-between gap-2">

@@ -231,7 +231,6 @@ const content = {
   }
 }
 
-export const dynamic = 'force-dynamic'
 
 export default function ServiceDetailPage() {
   const { language } = useLanguage()

@@ -182,7 +182,6 @@ const content = {
   }
 }
 
-export const dynamic = 'force-dynamic'
 
 export default function LandMutationPage() {
   const { language } = useLanguage()

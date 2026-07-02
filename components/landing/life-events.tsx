@@ -539,7 +539,7 @@ export function LifeEventsSection() {
                           : "ring-black/8 bg-white hover:ring-primary/20"
                       )}
                     >
-                      <Image src={eventConfig.gif} alt={eventConfig.title} width={44} height={44} className="w-11 h-11 object-contain shrink-0" unoptimized />
+                      <Image src={eventConfig.gif} alt={eventConfig.title} width={44} height={44} className="w-11 h-11 object-contain shrink-0" unoptimized loading="lazy" />
                       <div className="space-y-0.5 min-w-0">
                         <h4 className="font-semibold text-sm text-gray-900 leading-snug">{eventConfig.title}</h4>
                         <p className="text-xs text-gray-400 leading-snug line-clamp-2">{eventConfig.subtitle}</p>

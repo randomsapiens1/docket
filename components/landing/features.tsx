@@ -114,7 +114,7 @@ export function Features() {
               >
                 {/* Card header */}
                 <div className="p-6 space-y-3 flex-1">
-                  <Image src={item.gif} alt={item.title} width={80} height={80} className="w-20 h-20 object-contain" unoptimized />
+                  <Image src={item.gif} alt={item.title} width={80} height={80} className="w-20 h-20 object-contain" unoptimized loading="lazy" />
                   <div className="space-y-1.5 pb-4 border-b border-gray-100 dark:border-white/8">
                     <h3 className="text-base font-semibold text-gray-900 dark:text-white leading-snug">{item.title}</h3>
                     <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>

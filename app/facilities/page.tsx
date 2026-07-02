@@ -64,7 +64,6 @@ const trans = {
   }
 }
 
-export const dynamic = 'force-dynamic'
 
 export default function FacilitiesPage() {
   const { language } = useLanguage()

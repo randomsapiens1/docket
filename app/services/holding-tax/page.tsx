@@ -153,7 +153,6 @@ const content = {
   }
 }
 
-export const dynamic = 'force-dynamic'
 
 export default function HoldingTaxPage() {
   const { language } = useLanguage()

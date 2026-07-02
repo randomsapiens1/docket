@@ -159,7 +159,6 @@ const content = {
   }
 }
 
-export const dynamic = 'force-dynamic'
 
 export default function TrademarkPatentPage() {
   const { language } = useLanguage()

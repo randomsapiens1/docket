@@ -29,7 +29,6 @@ export const metadata: Metadata = {
   },
 }
 
-export const dynamic = 'force-dynamic'
 
 const jsonLd = {
   '@context': 'https://schema.org',
