@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { auth, db, storage } from '@/lib/firebase'
 import { onAuthStateChanged, User } from 'firebase/auth'
 import {
@@ -8,7 +8,7 @@ import {
   query,
   where,
   orderBy,
-  getDocs,
+  onSnapshot,
   addDoc,
   deleteDoc,
   doc,
@@ -64,31 +64,34 @@ export default function VaultPage() {
   const [user, setUser] = useState<User | null>(null)
   const [selectedType, setSelectedType] = useState('NID')
   const router = useRouter()
-
-  const fetchDocuments = useCallback(async (uid: string) => {
-    const q = query(
-      collection(db, 'documents'),
-      where('user_id', '==', uid),
-      orderBy('created_at', 'desc')
-    )
-    const snapshot = await getDocs(q)
-    setDocuments(
-      snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as Document))
-    )
-    setLoading(false)
-  }, [])
+  const urlCache = useRef<Record<string, string>>({})
+  const docsUnsubRef = useRef<(() => void) | null>(null)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (firebaseUser) => {
       if (!firebaseUser) {
         router.push('/auth')
-      } else {
-        setUser(firebaseUser)
-        fetchDocuments(firebaseUser.uid)
+        return
       }
+      setUser(firebaseUser)
+
+      // Subscribe to documents — fires immediately from cache, then network
+      const q = query(
+        collection(db, 'documents'),
+        where('user_id', '==', firebaseUser.uid),
+        orderBy('created_at', 'desc')
+      )
+      docsUnsubRef.current = onSnapshot(q, (snapshot) => {
+        setDocuments(snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as Document)))
+        setLoading(false)
+      })
     })
-    return unsubscribe
-  }, [router, fetchDocuments])
+
+    return () => {
+      unsubscribeAuth()
+      docsUnsubRef.current?.()
+    }
+  }, [router])
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -123,8 +126,7 @@ export default function VaultPage() {
         content_type: file.type,
         created_at: Timestamp.now(),
       })
-
-      fetchDocuments(user.uid)
+      // onSnapshot updates the list automatically
     } catch (err) {
       alert(err instanceof Error ? err.message : 'An unexpected error occurred')
     } finally {
@@ -146,7 +148,9 @@ export default function VaultPage() {
 
   const handleDownload = async (document: Document) => {
     try {
-      const url = await getDownloadURL(ref(storage, document.file_path))
+      const cached = urlCache.current[document.id]
+      const url = cached ?? await getDownloadURL(ref(storage, document.file_path))
+      if (!cached) urlCache.current[document.id] = url
       const a = window.document.createElement('a')
       a.href = url
       a.download = document.file_name
@@ -182,9 +186,20 @@ export default function VaultPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f3f2f1]">
-        <Loader2 className="w-12 h-12 animate-spin text-[#ff0000]" />
-      </div>
+      <main className="min-h-screen bg-[#f3f2f1] pt-16">
+        <Header />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+          <div className="h-16 bg-white border-[3px] border-black animate-pulse" />
+          <div className="grid lg:grid-cols-3 gap-10">
+            <div className="h-64 bg-white border-[3px] border-black animate-pulse" />
+            <div className="lg:col-span-2 grid sm:grid-cols-2 gap-6">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="h-36 bg-white border-[3px] border-black animate-pulse" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </main>
     )
   }
 
