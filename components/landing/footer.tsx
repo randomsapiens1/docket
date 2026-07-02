@@ -115,7 +115,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2.5 w-fit group">
               <div className="w-8 h-8 bg-[#ff0000] rounded-lg flex items-center justify-center shrink-0">
                 <Image
-                  src="/docket-logo.png"
+                  src="/1.Docket-logo.svg"
                   alt="docket logo"
                   width={18}
                   height={18}

@@ -59,7 +59,7 @@ export function Header() {
     { label: language === 'en' ? 'Services' : 'সেবাসমূহ', href: '/services' },
     { label: language === 'en' ? 'Facilities & Benefits' : 'সুবিধা ও ভাতা', href: '/facilities' },
     { label: language === 'en' ? 'Document Vault' : 'ডকুমেন্ট ভল্ট', href: '/vault' },
-    { label: language === 'en' ? 'Quick Access' : 'দ্রুত অ্যাক্সেস', href: '/tools' },
+    { label: language === 'en' ? 'Quick Tools' : 'দ্রুত অ্যাক্সেস', href: '/tools' },
     { label: language === 'en' ? 'About Us' : 'আমাদের সম্পর্কে', href: '/about' },
   ]
 
@@ -75,7 +75,7 @@ export function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 -ml-1">
-            <Image src="/docket-logo.png" alt="docket" width={32} height={32} priority className="w-7 h-7 object-contain" />
+            <Image src="/1.Docket-logo.svg" alt="docket" width={32} height={32} priority className="w-7 h-7 object-contain" />
             <span className="font-bold text-2xl tracking-tighter text-gray-900">docket</span>
           </Link>
 
@@ -90,7 +90,7 @@ export function Header() {
             </a>
 
             <Link href="/tools" className="text-sm font-medium text-gray-600 hover:text-gray-900 px-3.5 py-2 rounded-xl hover:bg-black/5 transition-all duration-150">
-              {language === 'en' ? 'Quick Access' : 'দ্রুত অ্যাক্সেস'}
+              {language === 'en' ? 'Quick Tools' : 'দ্রুত অ্যাক্সেস'}
             </Link>
 
             <div className="relative" onMouseEnter={openDropdown} onMouseLeave={scheduleClose}>

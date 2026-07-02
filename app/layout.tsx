@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   icons: {
     icon: '/docket-fevicon.svg',
     shortcut: '/docket-fevicon.svg',
-    apple: '/docket-logo.png',
+    apple: '/1.Docket-logo.svg',
   },
   openGraph: {
     type: 'website',
