@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Privacy Policy | Docket',
   description: 'How Docket collects, uses, and protects your personal information.',
+  alternates: { canonical: 'https://docket.bd/privacy-policy' },
 }
 
 export default function PrivacyPolicyPage() {

@@ -8,6 +8,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'About',
   description: 'Docket is making government processes accessible to every Bangladeshi, one verified guide at a time.',
+  alternates: { canonical: 'https://docket.bd/about' },
 }
 
 export default function AboutPage() {

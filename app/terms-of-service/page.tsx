@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Terms of Service | Docket',
   description: 'The terms and conditions governing your use of the Docket platform.',
+  alternates: { canonical: 'https://docket.bd/terms-of-service' },
 }
 
 export default function TermsOfServicePage() {
