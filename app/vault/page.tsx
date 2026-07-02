@@ -1,30 +1,47 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase'
+import { auth, db, storage } from '@/lib/firebase'
+import { onAuthStateChanged, User } from 'firebase/auth'
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+  Timestamp,
+} from 'firebase/firestore'
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage'
 import { Header } from '@/components/landing/header'
 import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
-import { 
-  FileText, 
-  Upload, 
-  Trash2, 
-  Download, 
-  Plus, 
-  ShieldCheck, 
+import {
+  FileText,
+  Upload,
+  Trash2,
+  Download,
+  Plus,
+  ShieldCheck,
   AlertCircle,
   Loader2,
-  FileBadge
+  FileBadge,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { User } from '@supabase/supabase-js'
 
 interface Document {
   id: string
   doc_type: string
   file_name: string
   file_path: string
-  created_at: string
+  created_at: Timestamp
 }
 
 const DOC_TYPES = [
@@ -34,7 +51,7 @@ const DOC_TYPES = [
   { value: 'PASSPORT', label: 'Passport' },
   { value: 'MOA', label: 'MoA / AoA' },
   { value: 'LEASE_AGREEMENT', label: 'Lease Agreement' },
-  { value: 'PHOTO', label: 'Passport Photo' }
+  { value: 'PHOTO', label: 'Passport Photo' },
 ]
 
 export const dynamic = 'force-dynamic'
@@ -46,47 +63,42 @@ export default function VaultPage() {
   const [uploading, setUploading] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [selectedType, setSelectedType] = useState('NID')
-  const supabase = createClient()
   const router = useRouter()
 
-  const fetchDocuments = useCallback(async () => {
-    const { data, error } = await supabase
-      .from('documents')
-      .select('*')
-      .order('created_at', { ascending: false })
-    
-    if (error) {
-      console.error('Error fetching documents:', error)
-    } else {
-      setDocuments(data || [])
-    }
+  const fetchDocuments = useCallback(async (uid: string) => {
+    const q = query(
+      collection(db, 'documents'),
+      where('user_id', '==', uid),
+      orderBy('created_at', 'desc')
+    )
+    const snapshot = await getDocs(q)
+    setDocuments(
+      snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as Document))
+    )
     setLoading(false)
-  }, [supabase])
+  }, [])
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (!firebaseUser) {
         router.push('/auth')
       } else {
-        setUser(session.user)
-        fetchDocuments()
+        setUser(firebaseUser)
+        fetchDocuments(firebaseUser.uid)
       }
-    }
-    checkUser()
-  }, [supabase, router, fetchDocuments])
+    })
+    return unsubscribe
+  }, [router, fetchDocuments])
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file || !user) return
 
-    // Security Check: Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
       alert('File size exceeds 5MB limit.')
       return
     }
 
-    // Security Check: Validate file type
     const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png']
     if (!allowedTypes.includes(file.type)) {
       alert('Invalid file type. Only PDF, JPG, and PNG are allowed.')
@@ -96,77 +108,53 @@ export default function VaultPage() {
     setUploading(true)
     try {
       const fileExt = file.name.split('.').pop()
-      // Security Check: Sanitize file extension
       const safeExt = fileExt?.toLowerCase().match(/^[a-z0-9]+$/) ? fileExt : 'bin'
       const fileName = `${crypto.randomUUID()}.${safeExt}`
-      const filePath = `${user.id}/${fileName}`
+      const filePath = `vault/${user.uid}/${fileName}`
 
-      // 1. Upload to Storage
-      const { error: uploadError } = await supabase.storage
-        .from('vault')
-        .upload(filePath, file)
+      const storageRef = ref(storage, filePath)
+      await uploadBytes(storageRef, file)
 
-      if (uploadError) throw uploadError
+      await addDoc(collection(db, 'documents'), {
+        user_id: user.uid,
+        doc_type: selectedType,
+        file_path: filePath,
+        file_name: file.name,
+        content_type: file.type,
+        created_at: Timestamp.now(),
+      })
 
-      // 2. Insert Metadata
-      const { error: dbError } = await supabase
-        .from('documents')
-        .insert({
-          user_id: user.id,
-          doc_type: selectedType,
-          file_path: filePath,
-          file_name: file.name,
-          content_type: file.type
-        })
-
-      if (dbError) throw dbError
-
-      fetchDocuments()
+      fetchDocuments(user.uid)
     } catch (err) {
-      if (err instanceof Error) {
-        alert(err.message)
-      } else {
-        alert('An unexpected error occurred')
-      }
+      alert(err instanceof Error ? err.message : 'An unexpected error occurred')
     } finally {
       setUploading(false)
     }
   }
 
-  const handleDelete = async (doc: Document) => {
+  const handleDelete = async (document: Document) => {
     if (!confirm('Are you sure you want to delete this document?')) return
 
     try {
-      // 1. Delete from Storage
-      await supabase.storage.from('vault').remove([doc.file_path])
-      // 2. Delete from DB
-      await supabase.from('documents').delete().eq('id', doc.id)
-      
-      fetchDocuments()
+      await deleteObject(ref(storage, document.file_path))
+      await deleteDoc(doc(db, 'documents', document.id))
+      setDocuments((prev) => prev.filter((d) => d.id !== document.id))
     } catch (err) {
-      if (err instanceof Error) {
-        alert(err.message)
-      } else {
-        alert('An unexpected error occurred')
-      }
+      alert(err instanceof Error ? err.message : 'An unexpected error occurred')
     }
   }
 
-  const handleDownload = async (doc: Document) => {
-    const { data, error } = await supabase.storage
-      .from('vault')
-      .download(doc.file_path)
-    
-    if (error) {
-      alert(error.message)
-      return
+  const handleDownload = async (document: Document) => {
+    try {
+      const url = await getDownloadURL(ref(storage, document.file_path))
+      const a = window.document.createElement('a')
+      a.href = url
+      a.download = document.file_name
+      a.target = '_blank'
+      a.click()
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to download file')
     }
-
-    const url = URL.createObjectURL(data)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = doc.file_name
-    a.click()
   }
 
   const t = {
@@ -182,12 +170,12 @@ export default function VaultPage() {
     },
     bn: {
       title: "আমার ডকুমেন্ট ভল্ট",
-      subtitle: "আপনার অফিসিয়াল কাগজপত্র সুরক্ষিতভাবে সংরক্ষণ ও পরিচালনা করুন।",
+      subtitle: "আপনার অফিসিয়াল কাগজপত্র সুরক্ষিতভাবে সংরক্ষণ ও পরিচালনা করুন।",
       uploadTitle: "নতুন ডকুমেন্ট আপলোড করুন",
       docType: "ডকুমেন্টের ধরণ",
       empty: "আপনার ভল্ট খালি। শুরু করতে আপনার প্রথম ডকুমেন্ট আপলোড করুন।",
       uploading: "আপলোড হচ্ছে...",
-      uploaded: "আপলোড করা হয়েছে",
+      uploaded: "আপলোড করা হয়েছে",
       actions: "অ্যাকশন"
     }
   }[language]
@@ -206,7 +194,7 @@ export default function VaultPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="space-y-10">
-          
+
           {/* Page Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b-[3px] border-black pb-8">
             <div className="space-y-2">
@@ -218,7 +206,7 @@ export default function VaultPage() {
                 {t.subtitle}
               </p>
             </div>
-            
+
             <div className="flex items-center gap-4 bg-white border-2 border-black p-4">
               <div className="p-2 bg-green-50 rounded-full">
                 <ShieldCheck className="w-6 h-6 text-green-600" />
@@ -242,7 +230,7 @@ export default function VaultPage() {
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-xs font-black uppercase text-gray-500">{t.docType}</label>
-                    <select 
+                    <select
                       value={selectedType}
                       onChange={(e) => setSelectedType(e.target.value)}
                       className="w-full h-12 px-4 border-2 border-black font-bold focus:bg-gray-50 outline-none appearance-none cursor-pointer rounded-none"
@@ -254,8 +242,8 @@ export default function VaultPage() {
                   </div>
 
                   <div className="relative group">
-                    <input 
-                      type="file" 
+                    <input
+                      type="file"
                       onChange={handleUpload}
                       disabled={uploading}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
@@ -291,22 +279,22 @@ export default function VaultPage() {
                 </div>
               ) : (
                 <div className="grid sm:grid-cols-2 gap-6">
-                  {documents.map((doc) => (
-                    <div key={doc.id} className="bg-white border-[3px] border-black p-6 space-y-4 transition-all">
+                  {documents.map((document) => (
+                    <div key={document.id} className="bg-white border-[3px] border-black p-6 space-y-4 transition-all">
                       <div className="flex items-start justify-between">
                         <div className="p-3 bg-gray-50 border-2 border-black">
                           <FileText className="w-6 h-6 text-[#ff0000]" />
                         </div>
                         <div className="flex gap-2">
-                          <button 
-                            onClick={() => handleDownload(doc)}
+                          <button
+                            onClick={() => handleDownload(document)}
                             className="p-2 hover:bg-gray-100 border border-transparent hover:border-black transition-all"
                             title="Download"
                           >
                             <Download className="w-5 h-5 text-gray-600" />
                           </button>
-                          <button 
-                            onClick={() => handleDelete(doc)}
+                          <button
+                            onClick={() => handleDelete(document)}
                             className="p-2 hover:bg-red-50 border border-transparent hover:border-black transition-all group"
                             title="Delete"
                           >
@@ -317,13 +305,13 @@ export default function VaultPage() {
 
                       <div className="space-y-1">
                         <span className="text-[10px] font-black uppercase bg-black text-white px-2 py-0.5">
-                          {doc.doc_type}
+                          {document.doc_type}
                         </span>
-                        <h3 className="font-black text-black truncate pr-4" title={doc.file_name}>
-                          {doc.file_name}
+                        <h3 className="font-black text-black truncate pr-4" title={document.file_name}>
+                          {document.file_name}
                         </h3>
                         <p className="text-[10px] font-bold text-gray-400 uppercase">
-                          {t.uploaded} {new Date(doc.created_at).toLocaleDateString()}
+                          {t.uploaded} {document.created_at?.toDate().toLocaleDateString()}
                         </p>
                       </div>
                     </div>

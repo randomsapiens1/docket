@@ -7,7 +7,9 @@ import { useLanguage } from '@/lib/language-context'
 import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, ArrowRight, ShieldCheck, Home } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { createClient } from '@/lib/supabase'
+import { auth, db } from '@/lib/firebase'
+import { onAuthStateChanged } from 'firebase/auth'
+import { collection, query, where, getDocs } from 'firebase/firestore'
 
 import { TemplateLibrary } from '@/components/resources/template-library'
 import { templates } from '@/lib/templates'
@@ -158,22 +160,17 @@ export default function HoldingTaxPage() {
   const s = content[language]
   const [checkedDocs, setCheckedDocs] = useState<number[]>([])
   const [vaultDocs, setVaultDocs] = useState<string[]>([])
-  const supabase = createClient()
-
   useEffect(() => {
-    const fetchVault = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        const { data } = await supabase
-          .from('documents')
-          .select('doc_type')
-        if (data) {
-          setVaultDocs(data.map(d => d.doc_type))
-        }
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const q = query(collection(db, 'documents'), where('user_id', '==', firebaseUser.uid))
+        const snapshot = await getDocs(q)
+        setVaultDocs(snapshot.docs.map(d => d.data().doc_type as string))
       }
-    }
-    fetchVault()
-  }, [supabase])
+      unsubscribe()
+    })
+    return unsubscribe
+  }, [])
 
   // Auto-check docs found in vault
   useEffect(() => {

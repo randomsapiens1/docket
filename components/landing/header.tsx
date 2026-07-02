@@ -4,10 +4,10 @@ import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { useLanguage } from "@/lib/language-context"
 import Link from 'next/link'
-import { createClient } from "@/lib/supabase"
+import { auth } from "@/lib/firebase"
+import { onAuthStateChanged, signOut, User } from "firebase/auth"
 import { useRouter } from "next/navigation"
 import { Menu, X, Globe, LogIn, User as UserIcon, LogOut, ChevronRight, ChevronDown, ArrowRight } from "lucide-react"
-import { User } from "@supabase/supabase-js"
 import { serviceCategories } from "@/lib/services"
 import { trackEvent } from "@/lib/analytics"
 
@@ -18,7 +18,6 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [user, setUser] = useState<User | null>(null)
-  const supabase = createClient()
   const router = useRouter()
 
   useEffect(() => {
@@ -33,19 +32,14 @@ export function Header() {
   }, [isMenuOpen])
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setUser(session?.user || null)
-    }
-    getUser()
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null)
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser)
     })
-    return () => { subscription.unsubscribe() }
-  }, [supabase])
+    return unsubscribe
+  }, [])
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
+    await signOut(auth)
     router.push('/')
   }
 

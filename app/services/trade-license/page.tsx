@@ -6,7 +6,9 @@ import { Footer } from '@/components/landing/footer'
 import { useLanguage } from '@/lib/language-context'
 import { CheckCircle2, Circle, Clock, CreditCard, FileText, Layout as LayoutIcon, ArrowLeft, ArrowRight, Smartphone, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase'
+import { auth, db } from '@/lib/firebase'
+import { onAuthStateChanged } from 'firebase/auth'
+import { collection, query, where, getDocs } from 'firebase/firestore'
 
 const content = {
   en: {
@@ -164,22 +166,17 @@ export default function TradeLicensePage() {
   const s = content[language]
   const [checkedDocs, setCheckedDocs] = useState<number[]>([])
   const [vaultDocs, setVaultDocs] = useState<string[]>([])
-  const supabase = createClient()
-
   useEffect(() => {
-    const fetchVault = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        const { data } = await supabase
-          .from('documents')
-          .select('doc_type')
-        if (data) {
-          setVaultDocs(data.map(d => d.doc_type))
-        }
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const q = query(collection(db, 'documents'), where('user_id', '==', firebaseUser.uid))
+        const snapshot = await getDocs(q)
+        setVaultDocs(snapshot.docs.map(d => d.data().doc_type as string))
       }
-    }
-    fetchVault()
-  }, [supabase])
+      unsubscribe()
+    })
+    return unsubscribe
+  }, [])
 
   useEffect(() => {
     const vaultIndices = s.docs

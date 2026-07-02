@@ -90,12 +90,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="font-sans antialiased">
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-C8JM0223HX" strategy="afterInteractive" />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-XQN2J89524" strategy="afterInteractive" />
         <Script id="gtag-init" strategy="afterInteractive">{`
           window.dataLayer = window.dataLayer || [];
           window.gtag = function(){window.dataLayer.push(arguments);}
           window.gtag('js', new Date());
-          window.gtag('config', 'G-C8JM0223HX');
+          window.gtag('config', 'G-XQN2J89524');
         `}</Script>
         <LanguageProvider>
           {children}

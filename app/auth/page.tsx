@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase'
+import { auth } from '@/lib/firebase'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/landing/header'
@@ -19,7 +20,6 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const supabase = createClient()
   const router = useRouter()
 
   const t = {
@@ -31,18 +31,18 @@ export default function AuthPage() {
       description: "Access your secure Document Vault and track your government applications.",
       toggleSignUp: "Don't have an account? Sign up",
       toggleSignIn: "Already have an account? Sign in",
-      successSignUp: "Check your email for the confirmation link!",
+      successSignUp: "Account created! You can now sign in.",
       errorHeader: "Authentication Error"
     },
     bn: {
       signIn: "সাইন ইন",
       signUp: "অ্যাকাউন্ট তৈরি করুন",
       email: "ইমেইল অ্যাড্রেস",
-      password: "পাসওয়ার্ড",
+      password: "পাসওয়ার্ড",
       description: "আপনার সুরক্ষিত ডকুমেন্ট ভল্ট অ্যাক্সেস করুন এবং সরকারি আবেদন ট্র্যাক করুন।",
       toggleSignUp: "অ্যাকাউন্ট নেই? সাইন আপ করুন",
       toggleSignIn: "অ্যাকাউন্ট আছে? সাইন ইন করুন",
-      successSignUp: "নিশ্চিতকরণের জন্য আপনার ইমেইল চেক করুন!",
+      successSignUp: "অ্যাকাউন্ট তৈরি হয়েছে! এখন সাইন ইন করুন।",
       errorHeader: "অথেন্টিকেশন ত্রুটি"
     }
   }[language]
@@ -54,21 +54,11 @@ export default function AuthPage() {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
-          },
-        })
-        if (error) throw error
+        await createUserWithEmailAndPassword(auth, email, password)
         alert(t.successSignUp)
+        setIsSignUp(false)
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
-        if (error) throw error
+        await signInWithEmailAndPassword(auth, email, password)
         router.push('/vault')
       }
     } catch (err) {
@@ -85,7 +75,7 @@ export default function AuthPage() {
   return (
     <main className="min-h-screen bg-[#f3f2f1] pt-16 flex flex-col">
       <Header />
-      
+
       <div className="flex-grow flex items-center justify-center p-4">
         <div className="w-full max-w-md bg-white border-[3px] border-black p-8 space-y-8">
           <div className="space-y-2">
@@ -103,9 +93,9 @@ export default function AuthPage() {
           <form onSubmit={handleAuth} className="space-y-6">
             <div className="space-y-2">
               <label className="text-xs font-black uppercase text-gray-500">{t.email}</label>
-              <Input 
-                type="email" 
-                placeholder="name@example.com" 
+              <Input
+                type="email"
+                placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -114,9 +104,9 @@ export default function AuthPage() {
 
             <div className="space-y-2">
               <label className="text-xs font-black uppercase text-gray-500">{t.password}</label>
-              <Input 
-                type="password" 
-                placeholder="••••••••" 
+              <Input
+                type="password"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -130,8 +120,8 @@ export default function AuthPage() {
               </div>
             )}
 
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={loading}
               className="w-full bg-[#ff0000] hover:bg-[#cc0000] text-white font-black h-12 rounded-none border-b-4 border-black active:border-b-0 active:translate-y-1 transition-all flex items-center justify-center gap-2"
             >
@@ -147,7 +137,7 @@ export default function AuthPage() {
           </form>
 
           <div className="text-center pt-2">
-            <button 
+            <button
               onClick={() => setIsSignUp(!isSignUp)}
               className="text-sm font-bold text-[#ff0000] hover:underline"
             >

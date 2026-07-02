@@ -24,7 +24,9 @@ import {
   User
 } from 'lucide-react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase'
+import { auth, db } from '@/lib/firebase'
+import { onAuthStateChanged } from 'firebase/auth'
+import { collection, query, where, getDocs } from 'firebase/firestore'
 
 interface ProfileData {
   name: string
@@ -613,8 +615,6 @@ export default function ScholarshipAndVisaPage() {
   const [newTaskTitle, setNewTaskTitle] = useState("")
   const [newTaskDeadline, setNewTaskDeadline] = useState("")
 
-  const supabase = createClient()
-
   // Load Saved Data on Mount
   useEffect(() => {
     // Load Profile and Tasks asynchronously to avoid synchronous setState inside useEffect
@@ -643,22 +643,17 @@ export default function ScholarshipAndVisaPage() {
     }, 0)
 
     // Fetch Document Vault Info
-    const checkVault = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        const { data } = await supabase
-          .from('documents')
-          .select('doc_type')
-        if (data) {
-          const types = data.map(d => d.doc_type)
-          setVaultDocs(types)
-        }
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const q = query(collection(db, 'documents'), where('user_id', '==', firebaseUser.uid))
+        const snapshot = await getDocs(q)
+        setVaultDocs(snapshot.docs.map(d => d.data().doc_type as string))
       }
-    }
+      unsubscribe()
+    })
 
-    checkVault()
-    return () => clearTimeout(timer)
-  }, [supabase])
+    return () => { clearTimeout(timer); unsubscribe() }
+  }, [])
 
   // Save Profile Handler
   const handleSaveProfile = (e: React.FormEvent) => {
