@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: 'Business Setup & Company Registration in Bangladesh | Docket',
   description: 'Complete 9-step guide to starting a business in Bangladesh. From RJSC name clearance and incorporation to trade licenses, TIN, and VAT registration.',
   keywords: ['company registration Bangladesh', 'RJSC incorporation', 'trade license Dhaka', 'start business in Bangladesh', 'VAT registration BIN', 'private limited company setup'],
+  alternates: {
+    canonical: 'https://docket.bd/services/incorporate-a-private-company',
+  },
 }
 
 const jsonLd = {
