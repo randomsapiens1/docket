@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { initializeFirestore, persistentLocalCache, getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -13,8 +13,13 @@ const firebaseConfig = {
   measurementId: "G-65EB42MG3F",
 };
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const existingApps = getApps();
+const app = existingApps.length === 0 ? initializeApp(firebaseConfig) : existingApps[0];
 
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+// Enable IndexedDB persistence so onSnapshot returns cached data instantly on revisit.
+// initializeFirestore can only be called once; fall back to getFirestore on hot-reload.
+export const db = existingApps.length === 0
+  ? initializeFirestore(app, { localCache: persistentLocalCache() })
+  : getFirestore(app);
 export const storage = getStorage(app);
